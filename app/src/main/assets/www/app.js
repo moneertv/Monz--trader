@@ -104,6 +104,14 @@
       st.aseFile = file;
       st.aseHistory = {};
       for (const [sym, c] of Object.entries(parsed.companies)) st.aseHistory[sym] = c.series.slice(-260).map(([d, v]) => [d, v.toString()]);
+      // Companies not in the yearly file (it covers ~160): use each company's own history page
+      st.aseExtra = st.aseExtra || [];
+      const needed = [...new Set(held('ASE').concat(st.aseExtra))].filter((sym) => !parsed.companies[sym]);
+      const extraErrs = [];
+      for (const sym of needed) {
+        try { await loadCompany(sym); } catch (e) { extraErrs.push(e.message); }
+      }
+      if (extraErrs.length) st.errors.aseCompany = { msg: extraErrs.join('; '), at: new Date().toISOString() }; else delete st.errors.aseCompany;
       if (market) st.aseMarket = plain(market);
       if (marketError) st.errors.aseMarket = { msg: marketError, at: new Date().toISOString() }; else delete st.errors.aseMarket;
     }]);
@@ -146,6 +154,17 @@
     signalsCache = null; try { recordSignals(computeSignals()); } catch (e) { st.errors.signals = { msg: e.message, at: st.lastRefresh }; }
     save(); busy = false; btn.textContent = '↻ Refresh';
     if (route !== 'add' && route !== 'settings') render();
+  }
+
+  async function loadCompany(sym) {
+    const r = await S.fetchCompanyHistory(sym, 4);
+    st.quotes[assetKey('ASE', r.symbol)] = plain(r.quote);
+    st.aseHistory = st.aseHistory || {};
+    const merged = {};
+    for (const [d, v] of st.aseHistory[r.symbol] || []) merged[d] = v;
+    for (const row of r.rows) merged[row.on] = row.close.toString();
+    st.aseHistory[r.symbol] = Object.keys(merged).sort().slice(-260).map((d) => [d, merged[d]]);
+    return r;
   }
 
   // ------------------------------------------------------------------ views
@@ -238,7 +257,7 @@
 
   let aseFilter = '', aseSymbol = null;
   routes.ase = () => {
-    let html = errorBlock(['ase', 'aseMarket']);
+    let html = errorBlock(['ase', 'aseMarket', 'aseCompany']);
     const mk = st.aseMarket;
     if (mk) {
       html += '<div class="card"><h2>ASE General Index · ' + esc(mk.date) + '</h2><div class="row"><div class="big grow">' + fmt(mk.asegi, 2) + '</div>' +
@@ -255,6 +274,11 @@
     if (!all.length) return html + '<div class="card empty" style="margin-top:12px">Tap Refresh to load the latest ASE closing prices.</div>';
     const f = aseFilter.trim().toUpperCase();
     const rows = all.filter((q) => !f || q.symbol.includes(f) || (q.extra.name || '').toUpperCase().includes(f));
+    const exact = all.some((q) => q.symbol === f);
+    if (f && !exact && /^[A-Z0-9]{2,8}$/.test(f)) {
+      html += '<div class="card" style="margin-top:12px"><div class="sub">The yearly price file covers ' + all.filter((q) => !q.extra.fromCompanyPage).length + ' companies. If ' + esc(f) + ' is listed on the ASE, its own page on exchange.jo has its prices.</div>' +
+        '<button class="btn" style="margin-top:10px;width:100%" data-aselookup="' + esc(f) + '">Look up ' + esc(f) + ' on exchange.jo</button><div id="lookupMsg"></div></div>';
+    }
     html += '<div class="card" style="margin-top:12px"><h2>Closing prices · ' + esc(all[0].extra.fileDate) + ' · ' + all.length + ' companies</h2><table><tr><th>Symbol</th><th class="n">Close</th><th class="n">Chg %</th></tr>' +
       rows.map((q) => '<tr data-asestock="' + esc(q.symbol) + '"><td><b>' + esc(q.symbol) + '</b><div class="sub">' + esc(q.extra.name || '') +
         (q.extra.notTradedSinceFileDate ? ' · <span class="warn">last close ' + esc(q.extra.tradingDate) + '</span>' : '') + '</div></td>' +
@@ -271,6 +295,7 @@
     const ytd = first ? ((lastV / first - 1) * 100) : null;
     return '<div class="card"><h2>' + esc(q.symbol) + ' · ' + esc(q.extra.name || '') + '</h2><div class="row"><div class="big grow">' + fmt(q.price) + ' <span class="sub">JOD</span></div>' +
       '<div class="' + signCls(q.extra.changePct) + '" style="font-weight:600">' + signed(q.extra.changePct, 2, '%') + '</div></div>' +
+      (q.extra.fromCompanyPage ? '<div class="sub">High ' + fmt(q.extra.high) + ' · Low ' + fmt(q.extra.low) + ' · ' + fmt(q.extra.volume, 0) + ' shares · ' + fmt(q.extra.trades, 0) + ' trades · ' + fmt(q.extra.value, 0) + ' JOD</div>' : '') +
       '<div class="sub">Close on ' + esc(q.extra.tradingDate) + (q.extra.prevDate ? ' · previous ' + fmt(q.extra.prevClose) + ' on ' + esc(q.extra.prevDate) : '') + '</div>' +
       (hist.length > 2 ? lineChart(hist.map(([dd, v]) => [dd, Number(v)]), '#3cc48a') + '<div class="sub">' + hist.length + ' trading days since ' + esc(hist[0][0]) + (ytd !== null ? ' · change ' + (ytd >= 0 ? '+' : '') + ytd.toFixed(2) + '%' : '') + '</div>' : '') +
       (q.extra.notTradedSinceFileDate ? '<div class="note" style="margin-top:10px">No closing price since ' + esc(q.extra.tradingDate) + '. This stock trades rarely; the price may not reflect what you could sell for.</div>' : '') +
@@ -382,7 +407,10 @@
       buildLedgerWith(st.txs.concat([tx]));   // validate before saving (e.g. selling more than held)
     } catch (e) { errEl.innerHTML = '<div class="err">' + esc(e.message) + '</div>'; return; }
     st.txs.push(tx); save(); draft = null; signalsCache = null; toast('Saved'); stack = []; go('portfolio', false);
-    if (tx.asset && !st.quotes[tx.asset]) refresh(tx.asset.split(':')[0] === 'GOLD' ? 'gold' : tx.asset.split(':')[0] === 'ASE' ? 'ase' : tx.asset.split(':')[0] === 'CRYPTO' ? 'crypto' : 'us');
+    if (tx.asset && tx.asset.startsWith('ASE:') && !st.quotes[tx.asset]) {
+      const sym = tx.asset.slice(4);
+      loadCompany(sym).then(() => { st.aseExtra = [...new Set((st.aseExtra || []).concat([sym]))]; save(); signalsCache = null; render(); }).catch((err) => toast(err.message));
+    } else if (tx.asset && !st.quotes[tx.asset]) refresh(tx.asset.split(':')[0] === 'GOLD' ? 'gold' : tx.asset.split(':')[0] === 'ASE' ? 'ase' : tx.asset.split(':')[0] === 'CRYPTO' ? 'crypto' : 'us');
   }
   function buildLedgerWith(txs) {
     const saved = st.txs; st.txs = txs;
@@ -537,10 +565,17 @@
     $('#nav').innerHTML = NAV.map(([r, l, p]) => '<button data-nav="' + r + '" class="' + (r === navRoute ? 'on' : '') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="' + p + '"/></svg>' + l + '</button>').join('');
   }
   document.addEventListener('click', (e) => {
-    const el = e.target.closest('[data-nav],[data-go],[data-del],[data-savetx],[data-cancel],[data-addase],[data-asestock],[data-sig],[data-sigf],[data-sigbuy],[data-savekeys],[data-export],[data-import]');
+    const el = e.target.closest('[data-aselookup],[data-nav],[data-go],[data-del],[data-savetx],[data-cancel],[data-addase],[data-asestock],[data-sig],[data-sigf],[data-sigbuy],[data-savekeys],[data-export],[data-import]');
     if (!el) return;
     if (el.dataset.nav) { stack = []; go(el.dataset.nav, false); }
     else if (el.dataset.go) { draft = null; if (el.dataset.market) { draft = null; routes.add(); draft.market = el.dataset.market; } go(el.dataset.go); }
+    else if (el.dataset.aselookup) {
+      const sym = el.dataset.aselookup; el.disabled = true; el.textContent = 'Looking up ' + sym + '…';
+      loadCompany(sym).then(() => {
+        st.aseExtra = [...new Set((st.aseExtra || []).concat([sym]))]; save(); signalsCache = null;
+        aseSymbol = sym; go('aseStock');
+      }).catch((err) => { const m = $('#lookupMsg'); if (m) m.innerHTML = '<div class="err" style="margin-top:10px">' + esc(err.message) + '</div>'; el.disabled = false; el.textContent = 'Look up ' + sym + ' on exchange.jo'; });
+    }
     else if (el.dataset.sigf) { sigFilter = el.dataset.sigf; render(); }
     else if (el.dataset.sig) { sigKey = el.dataset.sig; go('signal'); }
     else if (el.dataset.sigbuy) { const [m, ...rest] = el.dataset.sigbuy.split(':'); draft = null; routes.add(); Object.assign(draft, { market: m, symbol: rest.join(':'), currency: MARKET_CCY[m] }); go('add'); }

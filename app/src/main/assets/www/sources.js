@@ -192,6 +192,58 @@
     throw new SchemaChanged('ASE daily trading data: no header row with Date and ASEGI');
   }
 
+  // Per-company history page (covers every listed company, 20 trading days per page, newest first):
+  //   https://www.exchange.jo/en/company_historical/{SYMBOL}?page=N
+  //   columns: Date (dd/mm/yyyy) | High | Low | Closing | Value Traded | No. of Trans | No. of Shares
+  const stripTags = (h) => h.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
+  function parseCompanyHistorical(html) {
+    const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
+    const name = h1 ? stripTags(h1[1]).replace(/\s*Historical\s*$/i, '') : null;
+    const tables = html.match(/<table[\s\S]*?<\/table>/gi) || [];
+    const t = tables.find((x) => /Closing/i.test(x) && /No\. of Shares/i.test(x));
+    if (!t) return { name, rows: [] };
+    const head = (t.match(/<tr[\s\S]*?<\/tr>/i) || [''])[0];
+    const cols = (head.match(/<t[hd][^>]*>[\s\S]*?<\/t[hd]>/gi) || []).map((c) => stripTags(c).toLowerCase());
+    const idx = (k) => cols.findIndex((c) => c.startsWith(k));
+    const I = { date: idx('date'), high: idx('high'), low: idx('low'), close: idx('closing'), value: idx('value'), trades: idx('no. of trans'), shares: idx('no. of shares') };
+    if (I.date < 0 || I.close < 0) throw new SchemaChanged('ASE company page: Date/Closing columns not found');
+    const rows = [];
+    for (const tr of (t.match(/<tr[\s\S]*?<\/tr>/gi) || []).slice(1)) {
+      const cells = (tr.match(/<td[^>]*>[\s\S]*?<\/td>/gi) || []).map(stripTags);
+      const on = xlDate(cells[I.date]), close = Dec.tryOf(cells[I.close]);
+      if (!on || !close || !close.gt(0)) continue;
+      const g = (k) => (I[k] >= 0 ? Dec.tryOf(cells[I[k]]) : null);
+      rows.push({ on, close, high: g('high'), low: g('low'), value: g('value'), trades: g('trades'), shares: g('shares') });
+    }
+    return { name, rows };
+  }
+  function companyQuote(symbol, name, rows, retrievedAt = now()) {
+    const sorted = rows.slice().sort((a, b) => (a.on < b.on ? -1 : 1));
+    const last = sorted[sorted.length - 1], prev = sorted.length > 1 ? sorted[sorted.length - 2] : null;
+    const change = prev ? last.close.sub(prev.close) : null;
+    return { symbol, price: last.close, currency: 'JOD', source: SOURCE_ASE + ' company page', retrievedAt,
+      marketTs: last.on + 'T00:00:00+03:00', status: 'end_of_day',
+      extra: { name, tradingDate: last.on, fileDate: last.on, prevClose: prev ? prev.close : null, prevDate: prev ? prev.on : null, change,
+        changePct: prev && prev.close.gt(0) ? change.div(prev.close).mul(100) : null, high: last.high, low: last.low,
+        volume: last.shares, value: last.value, trades: last.trades, notTradedSinceFileDate: false, fromCompanyPage: true } };
+  }
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  async function fetchCompanyHistory(symbol, pages = 4) {
+    const sym = String(symbol).trim().toUpperCase();
+    if (!/^[A-Z0-9]{2,8}$/.test(sym)) throw new Error('Not a valid ASE symbol: ' + symbol);
+    let name = null; const rows = [];
+    for (let p = 0; p < pages; p++) {
+      const parsed = parseCompanyHistorical(await getText('https://www.exchange.jo/en/company_historical/' + sym + '?page=' + p));
+      name = name || parsed.name;
+      if (!parsed.rows.length) break;
+      rows.push(...parsed.rows);
+      if (parsed.rows.length < 20) break;
+      await sleep(700);   // be gentle with exchange.jo
+    }
+    if (!rows.length) throw new Error(sym + ' was not found on exchange.jo, or has no trading history');
+    return { symbol: sym, name, rows, quote: companyQuote(sym, name, rows) };
+  }
+
   function discoverXlsx(html) {
     const out = [], re = /href="([^"]+\.xlsx)"/gi;
     let m;
@@ -273,6 +325,6 @@
     return q;
   }
 
-  root.Sources = { SchemaChanged, parseRoya, fetchGold, goldSymbol, xlDate, parseClosingPrices, closingQuotes, parseMarketSummary, discoverXlsx, fetchAse,
+  root.Sources = { SchemaChanged, parseRoya, fetchGold, goldSymbol, xlDate, parseClosingPrices, closingQuotes, parseMarketSummary, discoverXlsx, fetchAse, parseCompanyHistorical, companyQuote, fetchCompanyHistory,
     parseCoinGecko, fetchCrypto, parseCoinHistory, fetchCryptoHistory, fetchStock, parseFrankfurter, fetchFxSeries, checked, nativeAvailable: () => !!root.NativeBridge };
 })(typeof window !== 'undefined' ? window : globalThis);

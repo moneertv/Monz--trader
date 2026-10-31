@@ -134,6 +134,18 @@ test('ase market summary (daily trading data)', () => {
   assert.strictEqual(m.asegiHistory.length, 2);
 });
 
+test('ase company history page', () => {
+  const html = '<h1 class="x">ALIA- THE ROYAL JORDANIAN AIRLINES PLC. Historical</h1><table><thead><tr><th>Date</th><th>High</th><th>Low</th><th>Closing</th><th>Value Traded</th><th>No. of Trans</th><th>No. of Shares</th></tr></thead>' +
+    '<tbody><tr><td>29/10/2026</td><td>0.53</td><td>0.51</td><td>0.53</td><td>1,160</td><td>7</td><td>2,264</td></tr>' +
+    '<tr><td>28/10/2026</td><td>0.53</td><td>0.51</td><td>0.52</td><td>342</td><td>8</td><td>658</td></tr></tbody></table>';
+  const p = S.parseCompanyHistorical(html);
+  assert.strictEqual(p.name, 'ALIA- THE ROYAL JORDANIAN AIRLINES PLC.');
+  assert.strictEqual(p.rows.length, 2); assert.strictEqual(p.rows[0].on, '2026-10-29'); eq(p.rows[0].value, '1160');
+  const q = S.companyQuote('RJAL', p.name, p.rows);
+  eq(q.price, '0.53'); eq(q.extra.change, '0.01'); eq(q.extra.volume, '2264');
+  assert.deepStrictEqual(S.parseCompanyHistorical('<h1>Nothing</h1>').rows, []);
+});
+
 test('stale flag', () => {
   const q = S.parseRoya(ROYA)[0];
   assert.strictEqual(S.checked(q, Date.parse('2026-11-02T00:00:00Z')).status, 'stale');
