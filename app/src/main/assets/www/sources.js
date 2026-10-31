@@ -297,7 +297,13 @@
   // ------------------------------------------------------------------ Finnhub (US stocks/ETFs)
   async function fetchStock(symbol, token) {
     if (!token) throw new Error('Add a free Finnhub API key in Settings to load stock prices');
-    const r = await getJson('https://finnhub.io/api/v1/quote?symbol=' + encodeURIComponent(symbol) + '&token=' + encodeURIComponent(token));
+    let r;
+    try { r = await getJson('https://finnhub.io/api/v1/quote?symbol=' + encodeURIComponent(symbol) + '&token=' + encodeURIComponent(token)); }
+    catch (e) {
+      if (/HTTP 401|HTTP 403/.test(e.message)) throw new Error('Finnhub rejected the API key. Check it in Settings (paste it once, no spaces).');
+      if (/HTTP 429/.test(e.message)) throw new Error('Finnhub rate limit reached; try again in a minute.');
+      throw e;
+    }
     if (!r || typeof r.c !== 'number' || (r.c === 0 && !r.t)) throw new SchemaChanged('Finnhub: no quote for ' + symbol);
     return { symbol, price: Dec.of(r.c), currency: 'USD', source: 'Finnhub', retrievedAt: now(),
       marketTs: r.t ? new Date(r.t * 1000).toISOString() : null, status: 'delayed',
@@ -325,6 +331,13 @@
     return q;
   }
 
-  root.Sources = { SchemaChanged, parseRoya, fetchGold, goldSymbol, xlDate, parseClosingPrices, closingQuotes, parseMarketSummary, discoverXlsx, fetchAse, parseCompanyHistorical, companyQuote, fetchCompanyHistory,
+  /** Clean a pasted API key: trim, drop spaces, and undo an accidental double paste ("abcabc" -> "abc"). */
+  function cleanKey(k) {
+    let s = String(k || '').replace(/\s+/g, '');
+    if (s.length >= 16 && s.length % 2 === 0 && s.slice(0, s.length / 2) === s.slice(s.length / 2)) s = s.slice(0, s.length / 2);
+    return s;
+  }
+
+  root.Sources = { cleanKey, SchemaChanged, parseRoya, fetchGold, goldSymbol, xlDate, parseClosingPrices, closingQuotes, parseMarketSummary, discoverXlsx, fetchAse, parseCompanyHistorical, companyQuote, fetchCompanyHistory,
     parseCoinGecko, fetchCrypto, parseCoinHistory, fetchCryptoHistory, fetchStock, parseFrankfurter, fetchFxSeries, checked, nativeAvailable: () => !!root.NativeBridge };
 })(typeof window !== 'undefined' ? window : globalThis);

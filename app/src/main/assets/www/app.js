@@ -82,9 +82,9 @@
   }
 
   // ------------------------------------------------------------------ refresh
-  let busy = false;
+  let busy = false, pendingRefresh = null;
   async function refresh(which = 'all') {
-    if (busy) return; busy = true;
+    if (busy) { pendingRefresh = which; return; } busy = true;
     const btn = $('#refreshBtn'); btn.innerHTML = '<span class="spin" style="display:inline-block">↻</span> Loading';
     const held = (m) => [...new Set(st.txs.filter((t) => t.asset && t.asset.startsWith(m + ':')).map((t) => t.asset.split(':').slice(1).join(':')))];
     const jobs = [];
@@ -153,6 +153,7 @@
     st.lastRefresh = new Date().toISOString();
     signalsCache = null; try { recordSignals(computeSignals()); } catch (e) { st.errors.signals = { msg: e.message, at: st.lastRefresh }; }
     save(); busy = false; btn.textContent = '↻ Refresh';
+    if (pendingRefresh) { const w = pendingRefresh; pendingRefresh = null; setTimeout(() => refresh(w), 0); }
     if (route !== 'add' && route !== 'settings') render();
   }
 
@@ -165,6 +166,18 @@
     for (const row of r.rows) merged[row.on] = row.close.toString();
     st.aseHistory[r.symbol] = Object.keys(merged).sort().slice(-260).map((d) => [d, merged[d]]);
     return r;
+  }
+
+  function saveKeys(announce) {
+    const f = $('#s_finnhub'), c = $('#s_cg');
+    if (!f || !c) return;
+    const fk = S.cleanKey(f.value), ck = S.cleanKey(c.value);
+    const fixed = fk !== f.value.trim() && f.value.trim() !== '';
+    const changed = fk !== st.settings.finnhubKey || ck !== st.settings.coingeckoKey;
+    f.value = fk; c.value = ck;
+    st.settings.finnhubKey = fk; st.settings.coingeckoKey = ck; save();
+    if (announce || changed) toast(fixed ? 'Key cleaned up (it was pasted twice) and saved — loading prices…' : 'Keys saved — loading prices…');
+    if (changed || announce) { delete st.errors.us; refresh(fk ? 'us' : 'crypto'); }
   }
 
   // ------------------------------------------------------------------ views
@@ -590,7 +603,7 @@
       }
     } else if ('savetx' in el.dataset) saveDraft();
     else if ('cancel' in el.dataset) { draft = null; window.appBack() || go('portfolio', false); }
-    else if ('savekeys' in el.dataset) { st.settings.finnhubKey = $('#s_finnhub').value.trim(); st.settings.coingeckoKey = $('#s_cg').value.trim(); save(); toast('Keys saved'); }
+    else if ('savekeys' in el.dataset) { saveKeys(true); }
     else if ('export' in el.dataset) {
       const data = JSON.stringify({ app: 'monz-trader', version: 1, exported: new Date().toISOString(), txs: st.txs, settings: { methods: st.settings.methods }, watch: st.watch, goldHistory: st.goldHistory });
       st.lastBackup = new Date().toISOString(); save();
@@ -617,6 +630,7 @@
       readDraft();
       if (id === 'f_market') { draft.symbol = draft.market === 'GOLD' ? 'GOLD_21K' : ''; draft.currency = MARKET_CCY[draft.market]; }
       render();
+    } else if (id === 's_finnhub' || id === 's_cg') { saveKeys(false);
     } else if (e.target.dataset.method) { st.settings.methods[e.target.dataset.method] = e.target.value; save(); toast('Cost method updated'); }
     else if (id === 'watchCrypto' || id === 'watchUs') {
       const list = e.target.value.split(',').map((s) => s.trim()).filter(Boolean);

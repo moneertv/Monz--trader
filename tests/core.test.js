@@ -146,6 +146,12 @@ test('ase company history page', () => {
   assert.deepStrictEqual(S.parseCompanyHistorical('<h1>Nothing</h1>').rows, []);
 });
 
+test('api key cleanup', () => {
+  assert.strictEqual(S.cleanKey(' abcdefghij0123456789abcdefghij0123456789 '), 'abcdefghij0123456789');
+  assert.strictEqual(S.cleanKey('abc def'), 'abcdef');
+  assert.strictEqual(S.cleanKey('abcdefghij0123456789'), 'abcdefghij0123456789');
+});
+
 test('stale flag', () => {
   const q = S.parseRoya(ROYA)[0];
   assert.strictEqual(S.checked(q, Date.parse('2026-11-02T00:00:00Z')).status, 'stale');
