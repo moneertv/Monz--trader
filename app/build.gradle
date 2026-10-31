@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
 }
 
+def buildNumber = (System.getenv('GITHUB_RUN_NUMBER') ?: '1').toInteger()
+
 android {
     namespace 'com.monz.trader'
     compileSdk 35
@@ -10,8 +12,8 @@ android {
         applicationId 'com.monz.trader'
         minSdk 24
         targetSdk 35
-        versionCode (System.getenv('GITHUB_RUN_NUMBER') ?: '1').toInteger()
-        versionName "0.1.${System.getenv('GITHUB_RUN_NUMBER') ?: '0'}"
+        versionCode buildNumber
+        versionName "0.1.${buildNumber}"
     }
 
     buildTypes {
