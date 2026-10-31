@@ -158,6 +158,8 @@
     const total = v.totalValueJod;
     const unrealPct = v.totalCostJodPriced.gt(0) ? v.unrealizedJod.div(v.totalCostJodPriced).mul(100) : null;
     let html = errorBlock(['gold', 'ase', 'crypto', 'us', 'fx']);
+    if (st.txs.length && (!st.lastBackup || Date.now() - Date.parse(st.lastBackup) > 7 * 86400000))
+      html += '<div class="note">Your transactions are stored only on this phone. <b>Settings → Share backup</b> keeps a copy safe (for example, send it to yourself on WhatsApp or email).</div>';
     if (!st.lastRefresh) html += '<div class="note">Tap <b>Refresh</b> to load prices from Roya, the Amman Stock Exchange, CoinGecko and the ECB.</div>';
     html += '<div class="card"><h2>Portfolio value</h2><div class="big">' + jod(total) + '</div>' +
       '<div class="sub">Priced holdings only · prices ' + esc(st.lastRefresh ? 'refreshed ' + ago(st.lastRefresh) : 'not loaded yet') + '</div>' +
@@ -419,6 +421,7 @@
     else if ('savekeys' in el.dataset) { st.settings.finnhubKey = $('#s_finnhub').value.trim(); st.settings.coingeckoKey = $('#s_cg').value.trim(); save(); toast('Keys saved'); }
     else if ('export' in el.dataset) {
       const data = JSON.stringify({ app: 'monz-trader', version: 1, exported: new Date().toISOString(), txs: st.txs, settings: { methods: st.settings.methods }, watch: st.watch, goldHistory: st.goldHistory });
+      st.lastBackup = new Date().toISOString(); save();
       if (window.NativeBridge) window.NativeBridge.share('Monz Trader backup ' + today(), data);
       else { $('#s_import').value = data; toast('Backup placed in the box below'); }
     } else if ('import' in el.dataset) {

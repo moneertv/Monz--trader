@@ -3,7 +3,10 @@ package com.monz.trader;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.WindowInsets;
+import android.widget.FrameLayout;
 import android.util.Xml;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
@@ -57,7 +60,30 @@ public class MainActivity extends Activity {
         web.setWebViewClient(new WebViewClient());
         web.setWebChromeClient(new WebChromeClient());
         web.addJavascriptInterface(new Bridge(), "NativeBridge");
-        setContentView(web);
+        // Android 15 draws apps edge-to-edge: pad the content so the status bar, navigation bar
+        // and keyboard never cover it.
+        final FrameLayout root = new FrameLayout(this);
+        root.setBackgroundColor(Color.parseColor("#0B1220"));
+        root.addView(web, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+        root.setOnApplyWindowInsetsListener((v, insets) -> {
+            int top, bottom, left, right;
+            if (Build.VERSION.SDK_INT >= 30) {
+                android.graphics.Insets bars = insets.getInsets(WindowInsets.Type.systemBars() | WindowInsets.Type.displayCutout());
+                android.graphics.Insets ime = insets.getInsets(WindowInsets.Type.ime());
+                top = bars.top; left = bars.left; right = bars.right; bottom = Math.max(bars.bottom, ime.bottom);
+            } else {
+                top = insets.getSystemWindowInsetTop(); bottom = insets.getSystemWindowInsetBottom();
+                left = insets.getSystemWindowInsetLeft(); right = insets.getSystemWindowInsetRight();
+            }
+            v.setPadding(left, top, right, bottom);
+            return insets;
+        });
+        if (Build.VERSION.SDK_INT < 35) {
+            getWindow().setStatusBarColor(Color.parseColor("#0B1220"));
+            getWindow().setNavigationBarColor(Color.parseColor("#121B2E"));
+        }
+        setContentView(root);
+        root.requestApplyInsets();
         web.loadUrl("file:///android_asset/www/index.html");
     }
 
