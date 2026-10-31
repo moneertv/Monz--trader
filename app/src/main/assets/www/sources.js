@@ -102,89 +102,96 @@
   }
 
   // ------------------------------------------------------------------ ASE (exchange.jo)
+  // Verified 31 Oct 2026 by reading the official files:
+  //  * closing_prices_YYYY.xlsx (history_category=65): one sheet, header row
+  //    "Symbol | Code | Name | 2026-01-04 | 2026-01-05 | ..." and one row per company with the
+  //    closing price for each trading day. This is the per-stock price source (end of day).
+  //  * "Daily Trading Data" (history_category=63): market-wide totals, rows newest first:
+  //    Date (Excel serial) | Market Capitalization (JD) | Value Traded (JD) | No. of Shares Traded |
+  //    No. of Transactions | Free Float Index ASEGI | Percentage Change % | ASE20 | ASETR | P/E.
+  //    An Arabic header row sits above the English one.
   const ASE_SITE = 'https://exchange.jo';
+  const ASE_CLOSING_PAGE = ASE_SITE + '/en/history?history_category=65';
   const ASE_DAILY_PAGE = ASE_SITE + '/en/history?history_category=63';
-  const HEADERS = [
-    ['symbol', ['symbol', 'ticker', 'رمز', 'الرمز']],
-    ['code', ['code', 'رقم', 'الرقم']],
-    ['name', ['name', 'company', 'اسم', 'الشركة']],
-    ['date', ['date', 'تاريخ', 'التاريخ']],
-    ['open', ['open', 'افتتاح']],
-    ['high', ['high', 'اعلى', 'أعلى']],
-    ['low', ['low', 'ادنى', 'أدنى']],
-    ['prevClose', ['previous', 'prev', 'سابق']],
-    ['close', ['close', 'closing', 'اغلاق', 'إغلاق']],
-    ['volume', ['volume', 'shares', 'عدد الاسهم', 'الاسهم']],
-    ['value', ['value', 'turnover', 'قيمة', 'حجم التداول']],
-    ['trades', ['trades', 'transactions', 'contracts', 'عقود', 'صفقات']],
-    ['sector', ['sector', 'قطاع', 'القطاع']],
-  ];
-  function mapHeader(row) {
-    const m = {};
-    row.forEach((cell, i) => {
-      const h = String(cell || '').replace(/\s+/g, ' ').trim().toLowerCase();
-      if (!h) return;
-      for (const [field, kws] of HEADERS) {
-        if (field in m) continue;
-        if (kws.some((k) => h.includes(k))) {
-          if (field === 'close' && /(previous|prev|سابق)/.test(h)) continue;
-          m[field] = i; break;
-        }
-      }
-    });
-    return m;
-  }
+  const SOURCE_ASE = 'Amman Stock Exchange (exchange.jo)';
+
   function xlDate(v) {
     if (v === undefined || v === null || v === '') return null;
     const s = String(v).trim();
     if (/^\d{4}-\d{2}-\d{2}/.test(s)) return s.slice(0, 10);
-    let m = s.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})$/);
+    const m = s.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})$/);
     if (m) return m[3] + '-' + m[2].padStart(2, '0') + '-' + m[1].padStart(2, '0');   // d/m/Y (Jordan)
     const n = Number(s);
     if (Number.isFinite(n) && n > 20000 && n < 80000) return new Date(Date.UTC(1899, 11, 30) + Math.round(n) * 86400000).toISOString().slice(0, 10);
     return null;
   }
-  function parseAseWorkbook(book) {
-    const bars = []; let saw = false;
+  const norm = (c) => String(c || '').replace(/\s+/g, ' ').trim().toLowerCase();
+
+  /** Wide closing-prices workbook -> {symbol: {code, name, series: [[date, Dec], ...]}} */
+  function parseClosingPrices(book) {
     for (const sh of book.sheets) {
-      let map = null, sheetDate = xlDate(sh.name);
-      sh.rows.forEach((row, i) => {
-        if (!map) {
-          if (i > 15) return;
-          const m = mapHeader(row);
-          if ('close' in m && ('symbol' in m || 'code' in m)) { map = m; saw = true; }
-          return;
+      for (let h = 0; h < Math.min(sh.rows.length, 15); h++) {
+        const head = sh.rows[h];
+        const sIdx = head.findIndex((c) => ['symbol', 'الرمز', 'رمز'].includes(norm(c)));
+        if (sIdx < 0) continue;
+        const codeIdx = head.findIndex((c) => ['code', 'الرقم', 'رقم'].includes(norm(c)));
+        const nameIdx = head.findIndex((c) => ['name', 'الاسم', 'اسم الشركة'].includes(norm(c)));
+        const dateCols = [];
+        head.forEach((c, i) => { const d = i !== sIdx && i !== codeIdx && i !== nameIdx ? xlDate(c) : null; if (d) dateCols.push([i, d]); });
+        if (dateCols.length < 1) continue;
+        dateCols.sort((a, b) => (a[1] < b[1] ? -1 : 1));
+        const out = {};
+        for (const row of sh.rows.slice(h + 1)) {
+          const sym = String(row[sIdx] || '').trim().toUpperCase();
+          if (!sym) continue;
+          const series = [];
+          for (const [i, d] of dateCols) { const v = Dec.tryOf(row[i]); if (v && v.gt(0)) series.push([d, v]); }
+          out[sym] = { code: codeIdx >= 0 ? String(row[codeIdx] || '').trim() : null, name: nameIdx >= 0 ? String(row[nameIdx] || '').trim() : null, series };
         }
-        const g = (f) => (f in map ? row[map[f]] : undefined);
-        const sym = g('symbol') !== undefined ? g('symbol') : g('code');
-        const close = Dec.tryOf(g('close'));
-        const on = 'date' in map ? xlDate(g('date')) : sheetDate;
-        if (!sym || !close || !on) return;
-        const n = (f) => Dec.tryOf(g(f));
-        bars.push({ symbol: String(sym).trim().toUpperCase(), on, close, open: n('open'), high: n('high'), low: n('low'),
-          volume: n('volume'), value: n('value'), trades: n('trades'), name: g('name') ? String(g('name')).trim() : null,
-          sector: g('sector') ? String(g('sector')).trim() : null });
-      });
+        if (!Object.keys(out).length) throw new SchemaChanged('ASE closing prices: header found but no company rows');
+        return { latestDate: dateCols[dateCols.length - 1][1], companies: out };
+      }
     }
-    if (!saw) throw new SchemaChanged('ASE workbook: no header row with symbol/code and close');
-    if (!bars.length) throw new SchemaChanged('ASE workbook: no rows with symbol, date and close');
-    return bars;
+    throw new SchemaChanged('ASE closing prices: no header row with Symbol and trading-day dates');
   }
-  function aseQuotes(bars, retrievedAt = now()) {
-    const latest = {}, prev = {};
-    for (const b of bars) if (!latest[b.symbol] || b.on > latest[b.symbol].on) latest[b.symbol] = b;
-    for (const b of bars.slice().sort((a, c) => (a.on < c.on ? -1 : 1))) if (b.on < latest[b.symbol].on) prev[b.symbol] = b;
-    return Object.keys(latest).sort().map((sym) => {
-      const b = latest[sym], p = prev[sym];
-      const change = p ? b.close.sub(p.close) : null;
-      const noTrades = (!b.volume || b.volume.isZero()) && (!b.trades || b.trades.isZero());
-      return { symbol: sym, price: b.close, currency: 'JOD', source: 'Amman Stock Exchange (exchange.jo)', retrievedAt,
-        marketTs: b.on + 'T00:00:00+03:00', status: 'end_of_day',
-        extra: { name: b.name, sector: b.sector, prevClose: p ? p.close : null, change,
-          changePct: p && p.close.gt(0) ? change.div(p.close).mul(100) : null, volume: b.volume, value: b.value,
-          trades: b.trades, tradingDate: b.on, noTrades } };
+
+  function closingQuotes(parsed, retrievedAt = now()) {
+    const { latestDate, companies } = parsed;
+    return Object.keys(companies).sort().filter((s) => companies[s].series.length).map((sym) => {
+      const c = companies[sym], ser = c.series, last = ser[ser.length - 1], prev = ser.length > 1 ? ser[ser.length - 2] : null;
+      const change = prev ? last[1].sub(prev[1]) : null;
+      return { symbol: sym, price: last[1], currency: 'JOD', source: SOURCE_ASE, retrievedAt,
+        marketTs: last[0] + 'T00:00:00+03:00', status: 'end_of_day',
+        extra: { name: c.name, code: c.code, tradingDate: last[0], fileDate: latestDate, prevClose: prev ? prev[1] : null, prevDate: prev ? prev[0] : null,
+          change, changePct: prev && prev[1].gt(0) ? change.div(prev[1]).mul(100) : null,
+          // the file carries a price only on days with a closing price; an older last date means no recent trade
+          notTradedSinceFileDate: last[0] < latestDate } };
     });
   }
+
+  /** Market-wide row from the Daily Trading Data workbook (newest row). */
+  function parseMarketSummary(book) {
+    const fields = [['date', ['date']], ['marketCap', ['market capitalization']], ['valueTraded', ['value traded']], ['shares', ['shares traded']],
+      ['trades', ['transactions']], ['asegi', ['asegi', 'free float index asegi']], ['changePct', ['percentage change']], ['ase20', ['ase20']], ['asetr', ['asetr']], ['pe', ['p/e']]];
+    for (const sh of book.sheets) {
+      for (let h = 0; h < Math.min(sh.rows.length, 15); h++) {
+        const head = sh.rows[h].map(norm);
+        if (!head.includes('date') || !head.some((c) => c.includes('asegi') || c.includes('market capitalization'))) continue;
+        const idx = {};
+        for (const [f, kws] of fields) { const i = head.findIndex((c) => kws.some((k) => c === k || c.includes(k))); if (i >= 0) idx[f] = i; }
+        const rows = [];
+        for (const r of sh.rows.slice(h + 1)) { const d = xlDate(r[idx.date]); if (d) rows.push([d, r]); }
+        if (!rows.length) break;
+        rows.sort((a, b) => (a[0] < b[0] ? 1 : -1));
+        const [d, r] = rows[0], g = (f) => (f in idx ? Dec.tryOf(r[idx[f]]) : null);
+        return { date: d, marketCap: g('marketCap'), valueTraded: g('valueTraded'), shares: g('shares'), trades: g('trades'), asegi: g('asegi'),
+          changePct: g('changePct'), ase20: g('ase20'), asetr: g('asetr'), pe: g('pe'), source: SOURCE_ASE,
+          asegiHistory: rows.slice(0, 260).reverse().map(([dd, rr]) => [dd, idx.asegi !== undefined ? Number(rr[idx.asegi]) : null]).filter((x) => Number.isFinite(x[1])) };
+      }
+    }
+    throw new SchemaChanged('ASE daily trading data: no header row with Date and ASEGI');
+  }
+
   function discoverXlsx(html) {
     const out = [], re = /href="([^"]+\.xlsx)"/gi;
     let m;
@@ -192,11 +199,18 @@
     return [...new Set(out)];
   }
   async function fetchAse() {
-    const html = await getText(ASE_DAILY_PAGE);
+    const html = await getText(ASE_CLOSING_PAGE);
     const links = discoverXlsx(html);
-    if (!links.length) throw new SchemaChanged('ASE: no Daily Trading Data file linked on exchange.jo');
-    const book = JSON.parse(await nativeCall('xlsx', links[0]));
-    return { quotes: aseQuotes(parseAseWorkbook(book)), file: links[0] };
+    const year = new Date().getFullYear();
+    const link = links.find((u) => u.includes('closing_prices_' + year)) || links.find((u) => u.includes('closing_prices_' + (year - 1)));
+    if (!link) throw new SchemaChanged('ASE: no closing-prices file for ' + year + ' linked on exchange.jo');
+    const parsed = parseClosingPrices(JSON.parse(await nativeCall('xlsx', link)));
+    let market = null, marketError = null;
+    try {
+      const dl = discoverXlsx(await getText(ASE_DAILY_PAGE));
+      if (dl.length) market = parseMarketSummary(JSON.parse(await nativeCall('xlsx', dl[0])));
+    } catch (e) { marketError = e.message; }
+    return { quotes: closingQuotes(parsed), parsed, file: link, market, marketError };
   }
 
   // ------------------------------------------------------------------ CoinGecko
@@ -247,6 +261,6 @@
     return q;
   }
 
-  root.Sources = { SchemaChanged, parseRoya, fetchGold, goldSymbol, mapHeader, xlDate, parseAseWorkbook, aseQuotes, discoverXlsx, fetchAse,
+  root.Sources = { SchemaChanged, parseRoya, fetchGold, goldSymbol, xlDate, parseClosingPrices, closingQuotes, parseMarketSummary, discoverXlsx, fetchAse,
     parseCoinGecko, fetchCrypto, fetchStock, parseFrankfurter, fetchFxSeries, checked, nativeAvailable: () => !!root.NativeBridge };
 })(typeof window !== 'undefined' ? window : globalThis);

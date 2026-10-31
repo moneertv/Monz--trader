@@ -99,9 +99,13 @@
       }
     }]);
     if (which === 'all' || which === 'ase') jobs.push(['ase', async () => {
-      const { quotes, file } = await S.fetchAse();
+      const { quotes, parsed, file, market, marketError } = await S.fetchAse();
       for (const q of quotes) st.quotes[assetKey('ASE', q.symbol)] = plain(q);
       st.aseFile = file;
+      st.aseHistory = {};
+      for (const [sym, c] of Object.entries(parsed.companies)) st.aseHistory[sym] = c.series.slice(-260).map(([d, v]) => [d, v.toString()]);
+      if (market) st.aseMarket = plain(market);
+      if (marketError) st.errors.aseMarket = { msg: marketError, at: new Date().toISOString() }; else delete st.errors.aseMarket;
     }]);
     if (which === 'all' || which === 'crypto') jobs.push(['crypto', async () => {
       const ids = [...new Set(st.watch.crypto.concat(held('CRYPTO')))];
@@ -211,30 +215,55 @@
   };
   const arrow = (up) => (up === true ? ' <span class="up">▲</span>' : up === false ? ' <span class="down">▼</span>' : '');
 
-  function lineChart(points) {
+  function lineChart(points, color = '#d4a93c') {
     const W = 340, H = 150, P = 6;
     const ys = points.map((p) => p[1]), xs = points.map((p) => Date.parse(p[0]));
     const minY = Math.min(...ys), maxY = Math.max(...ys), minX = Math.min(...xs), maxX = Math.max(...xs);
     const sx = (x) => P + ((x - minX) / (maxX - minX || 1)) * (W - 2 * P), sy = (y) => H - P - ((y - minY) / (maxY - minY || 1)) * (H - 2 * P);
     const path = points.map((p, i) => (i ? 'L' : 'M') + sx(xs[i]).toFixed(1) + ',' + sy(p[1]).toFixed(1)).join(' ');
-    return '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none"><path d="' + path + '" fill="none" stroke="#d4a93c" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>' +
-      '<div class="row sub"><span class="grow">low ' + minY.toFixed(3) + '</span><span>high ' + maxY.toFixed(3) + '</span></div>';
+    return '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none"><path d="' + path + '" fill="none" stroke="' + color + '" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>' +
+      '<div class="row sub"><span class="grow">low ' + minY.toFixed(minY > 100 ? 2 : 3) + '</span><span>high ' + maxY.toFixed(maxY > 100 ? 2 : 3) + '</span></div>';
   }
 
-  let aseFilter = '';
+  let aseFilter = '', aseSymbol = null;
   routes.ase = () => {
-    let html = errorBlock(['ase']);
-    const all = Object.keys(st.quotes).filter((k) => k.startsWith('ASE:')).map((k) => st.quotes[k]);
-    html += '<div class="note">Amman Stock Exchange prices come from the official end-of-day file on exchange.jo. They are not live. Low-liquidity stocks can show a carried price with no trades.</div>';
+    let html = errorBlock(['ase', 'aseMarket']);
+    const mk = st.aseMarket;
+    if (mk) {
+      html += '<div class="card"><h2>ASE General Index · ' + esc(mk.date) + '</h2><div class="row"><div class="big grow">' + fmt(mk.asegi, 2) + '</div>' +
+        '<div class="' + signCls(mk.changePct) + '" style="font-weight:600">' + signed(mk.changePct, 2, '%') + '</div></div>' +
+        (mk.asegiHistory && mk.asegiHistory.length > 2 ? lineChart(mk.asegiHistory, '#3cc48a') : '') +
+        '<div class="grid2" style="margin-top:10px"><div class="kv"><div class="k">Value traded</div><div class="v">' + fmt(mk.valueTraded, 0) + ' JOD</div></div>' +
+        '<div class="kv"><div class="k">Transactions</div><div class="v">' + fmt(mk.trades, 0) + '</div></div>' +
+        '<div class="kv"><div class="k">Market cap</div><div class="v">' + (d(mk.marketCap) ? d(mk.marketCap).div(1000000000).toFixed(2) + ' bn JOD' : '—') + '</div></div>' +
+        '<div class="kv"><div class="k">ASE20 · P/E</div><div class="v">' + fmt(mk.ase20, 2) + ' · ' + fmt(mk.pe, 1) + '</div></div></div>' +
+        '<div class="sub" style="margin-top:8px">Source: Amman Stock Exchange daily trading data (end of day)</div></div>';
+    }
+    const all = Object.keys(st.quotes).filter((k) => k.startsWith('ASE:')).map((k) => st.quotes[k]).filter((q) => q.extra && q.extra.fileDate);
     html += '<input id="aseSearch" placeholder="Search symbol or company" value="' + esc(aseFilter) + '">';
-    if (!all.length) return html + '<div class="card empty" style="margin-top:12px">Tap Refresh to load the latest ASE trading file.</div>';
+    if (!all.length) return html + '<div class="card empty" style="margin-top:12px">Tap Refresh to load the latest ASE closing prices.</div>';
     const f = aseFilter.trim().toUpperCase();
-    const rows = all.filter((q) => !f || q.symbol.includes(f) || (q.extra.name || '').toUpperCase().includes(f)).slice(0, 150);
-    html += '<div class="card" style="margin-top:12px"><h2>Trading date ' + esc(all[0].extra.tradingDate) + ' · ' + all.length + ' securities</h2><table><tr><th>Symbol</th><th class="n">Close</th><th class="n">Chg %</th><th class="n">Volume</th></tr>' +
-      rows.map((q) => '<tr data-addase="' + esc(q.symbol) + '"><td><b>' + esc(q.symbol) + '</b><div class="sub">' + esc(q.extra.name || '') + (q.extra.noTrades ? ' · <span class="warn">no trades</span>' : '') + '</div></td>' +
-        '<td class="n">' + fmt(q.price) + '</td><td class="n ' + signCls(q.extra.changePct) + '">' + signed(q.extra.changePct, 2) + '</td><td class="n">' + fmt(q.extra.volume, 0) + '</td></tr>').join('') +
-      '</table><div class="sub" style="margin-top:8px">Source: Amman Stock Exchange (exchange.jo). Tap a row to record a purchase.</div></div>';
+    const rows = all.filter((q) => !f || q.symbol.includes(f) || (q.extra.name || '').toUpperCase().includes(f));
+    html += '<div class="card" style="margin-top:12px"><h2>Closing prices · ' + esc(all[0].extra.fileDate) + ' · ' + all.length + ' companies</h2><table><tr><th>Symbol</th><th class="n">Close</th><th class="n">Chg %</th></tr>' +
+      rows.map((q) => '<tr data-asestock="' + esc(q.symbol) + '"><td><b>' + esc(q.symbol) + '</b><div class="sub">' + esc(q.extra.name || '') +
+        (q.extra.notTradedSinceFileDate ? ' · <span class="warn">last close ' + esc(q.extra.tradingDate) + '</span>' : '') + '</div></td>' +
+        '<td class="n">' + fmt(q.price) + '</td><td class="n ' + signCls(q.extra.changePct) + '">' + signed(q.extra.changePct, 2) + '</td></tr>').join('') +
+      '</table><div class="sub" style="margin-top:8px">Source: Amman Stock Exchange closing prices file (end of day, not live). Tap a company for its chart.</div></div>';
     return html;
+  };
+
+  routes.aseStock = () => {
+    const q = st.quotes[assetKey('ASE', aseSymbol)];
+    if (!q) return '<div class="empty">Not found.</div>';
+    const hist = (st.aseHistory && st.aseHistory[aseSymbol]) || [];
+    const first = hist.length ? Number(hist[0][1]) : null, lastV = Number(q.price);
+    const ytd = first ? ((lastV / first - 1) * 100) : null;
+    return '<div class="card"><h2>' + esc(q.symbol) + ' · ' + esc(q.extra.name || '') + '</h2><div class="row"><div class="big grow">' + fmt(q.price) + ' <span class="sub">JOD</span></div>' +
+      '<div class="' + signCls(q.extra.changePct) + '" style="font-weight:600">' + signed(q.extra.changePct, 2, '%') + '</div></div>' +
+      '<div class="sub">Close on ' + esc(q.extra.tradingDate) + (q.extra.prevDate ? ' · previous ' + fmt(q.extra.prevClose) + ' on ' + esc(q.extra.prevDate) : '') + '</div>' +
+      (hist.length > 2 ? lineChart(hist.map(([dd, v]) => [dd, Number(v)]), '#3cc48a') + '<div class="sub">' + hist.length + ' trading days since ' + esc(hist[0][0]) + (ytd !== null ? ' · change ' + (ytd >= 0 ? '+' : '') + ytd.toFixed(2) + '%' : '') + '</div>' : '') +
+      (q.extra.notTradedSinceFileDate ? '<div class="note" style="margin-top:10px">No closing price since ' + esc(q.extra.tradingDate) + '. This stock trades rarely; the price may not reflect what you could sell for.</div>' : '') +
+      '</div><button class="btn gold" data-addase="' + esc(q.symbol) + '" style="width:100%">Record a purchase</button>';
   };
 
   routes.markets = () => {
@@ -368,14 +397,15 @@
     ['ase', 'Amman SE', 'M4 19V9m5 10V5m5 14v-7m5 7V8'], ['markets', 'Markets', 'M3 17l6-6 4 4 8-8M15 7h6v6'], ['portfolio', 'Portfolio', 'M4 7h16v12H4zM9 7V5h6v2'], ['settings', 'Settings', 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM4 12h2m12 0h2M12 4v2m0 12v2']];
   function render() {
     $('#view').innerHTML = (routes[route] || routes.home)();
-    const navRoute = route === 'add' ? 'portfolio' : route;
+    const navRoute = route === 'add' ? 'portfolio' : route === 'aseStock' ? 'ase' : route;
     $('#nav').innerHTML = NAV.map(([r, l, p]) => '<button data-nav="' + r + '" class="' + (r === navRoute ? 'on' : '') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="' + p + '"/></svg>' + l + '</button>').join('');
   }
   document.addEventListener('click', (e) => {
-    const el = e.target.closest('[data-nav],[data-go],[data-del],[data-savetx],[data-cancel],[data-addase],[data-savekeys],[data-export],[data-import]');
+    const el = e.target.closest('[data-nav],[data-go],[data-del],[data-savetx],[data-cancel],[data-addase],[data-asestock],[data-savekeys],[data-export],[data-import]');
     if (!el) return;
     if (el.dataset.nav) { stack = []; go(el.dataset.nav, false); }
     else if (el.dataset.go) { draft = null; if (el.dataset.market) { draft = null; routes.add(); draft.market = el.dataset.market; } go(el.dataset.go); }
+    else if (el.dataset.asestock) { aseSymbol = el.dataset.asestock; go('aseStock'); }
     else if (el.dataset.addase) { draft = null; routes.add(); Object.assign(draft, { market: 'ASE', symbol: el.dataset.addase, currency: 'JOD' }); go('add'); }
     else if (el.dataset.del !== undefined) {
       const i = Number(el.dataset.del);

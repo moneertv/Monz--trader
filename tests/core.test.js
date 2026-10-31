@@ -22,6 +22,7 @@ test('decimal basics', () => {
   eq(Dec.of('0.1').add('0.2'), '0.3');
   eq(Dec.of('10').div('4').mul('4'), '10');
   eq(Dec.of('10').mulDiv('3', '3'), '10');
+  eq(Dec.of('5.5E-2'), '0.055');
   assert.strictEqual(Dec.of('1234.5678').toFixed(2), '1,234.57');
   assert.strictEqual(Dec.of('-0.0005').toFixed(3), '-0.001');
 });
@@ -100,20 +101,37 @@ test('roya parse', () => {
   assert.throws(() => S.parseRoya({ data: [{ price24: 1 }] }), S.SchemaChanged);
 });
 
-test('ase workbook parse', () => {
-  const book = { sheets: [{ name: 'Sheet1', rows: [
-    ['Amman Stock Exchange'], [],
-    ['Date', 'Symbol', 'Company Name', 'Previous Close', 'Closing Price', 'No. of Shares', 'Value Traded', 'No. of Transactions'],
-    ['46323', 'ARBK', 'ARAB BANK', '5.1', '5.10', '12000', '61200', '40'],
-    ['29/10/2026', 'ARBK', 'ARAB BANK', '5.1', '5.20', '15000', '78000', '51'],
-    ['2026-10-29', 'JOPH', 'JORDAN PHOSPHATE', '30', '30', '0', '0', '0'],
+// Shapes copied from the real exchange.jo files (31 Oct 2026)
+test('ase closing prices (wide file)', () => {
+  const book = { sheets: [{ name: 'Worksheet', rows: [
+    ['Symbol', 'Code', 'Name', '2026-10-27', '2026-10-28', '2026-10-29'],
+    ['ARBK', '113023', 'ARAB BANK', '7.27', '7.28', '7.39'],
+    ['JOWM', '141014', 'THE JORDAN WORSTED MILLS', '2.85', '2.84', ''],
+    ['XXXX', '1', 'NO PRICES', '', '', ''],
   ] }] };
-  const bars = S.parseAseWorkbook(book);
-  assert.strictEqual(bars[0].on, '2026-10-28');
-  const q = Object.fromEntries(S.aseQuotes(bars).map((x) => [x.symbol, x]));
-  eq(q.ARBK.price, '5.2'); eq(q.ARBK.extra.change, '0.1');
-  assert.strictEqual(q.JOPH.extra.noTrades, true);
-  assert.throws(() => S.parseAseWorkbook({ sheets: [{ name: 'x', rows: [['a', 'b']] }] }), S.SchemaChanged);
+  const parsed = S.parseClosingPrices(book);
+  assert.strictEqual(parsed.latestDate, '2026-10-29');
+  const q = Object.fromEntries(S.closingQuotes(parsed).map((x) => [x.symbol, x]));
+  eq(q.ARBK.price, '7.39'); eq(q.ARBK.extra.change, '0.11'); assert.strictEqual(q.ARBK.extra.name, 'ARAB BANK');
+  assert.strictEqual(q.ARBK.extra.notTradedSinceFileDate, false);
+  eq(q.JOWM.price, '2.84'); assert.strictEqual(q.JOWM.extra.notTradedSinceFileDate, true);
+  assert.ok(!q.XXXX);
+  assert.throws(() => S.parseClosingPrices({ sheets: [{ name: 'x', rows: [['a', 'b']] }] }), S.SchemaChanged);
+});
+
+test('ase market summary (daily trading data)', () => {
+  const book = { sheets: [{ name: 'Sheet1', rows: [
+    [], [],
+    ['', 'التاريخ', 'القيمة السوقية (دينار)', 'حجم التداول (دينار)'],
+    ['', 'Date', 'Market Capitalization (JD)', 'Value Traded (JD)', 'No. of Shares Traded', 'No. of Transactions', 'Free Float Index ASEGI', 'Percentage Change %', 'Free Float Index ASE20', 'Total Return Index ASETR', 'P/E'],
+    ['', '46324', '28919398466.059998', '14928580', '5122203', '5386', '4117.33', '5.9296846331240917E-2', '2222.4699999999998', '3074.89', '11.377305171651717'],
+    ['', '46323', '28852000098.449997', '15818019', '5118835', '4982', '4114.8900000000003', '-0.92981598696042367', '2221.4', '3073.41', '11.349646665930965'],
+  ] }] };
+  const m = S.parseMarketSummary(book);
+  assert.strictEqual(m.date, '2026-10-29');
+  eq(m.asegi, '4117.33'); eq(m.trades, '5386');
+  assert.strictEqual(m.changePct.toFixed(4), '0.0593');
+  assert.strictEqual(m.asegiHistory.length, 2);
 });
 
 test('stale flag', () => {

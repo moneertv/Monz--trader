@@ -11,6 +11,11 @@
     if (x instanceof Dec) return x.v;
     if (x === null || x === undefined || x === '') throw new Error('Empty number');
     let s = typeof x === 'number' ? (Number.isFinite(x) ? (Math.abs(x) < 1e21 ? x.toFixed(SCALE) : String(x)) : 'NaN') : String(x).trim().replace(/,/g, '');
+    if (/^[-+]?(\d+\.?\d*|\.\d+)[eE][-+]?\d+$/.test(s)) {      // Excel writes small numbers as 5.92E-2
+      const n = Number(s);
+      if (!Number.isFinite(n) || Math.abs(n) >= 1e21) throw new Error('Invalid number: ' + x);
+      s = n.toFixed(SCALE);
+    }
     if (!/^[-+]?\d*\.?\d*$/.test(s) || s === '' || s === '.' || s === '-' || s === '+') throw new Error('Invalid number: ' + x);
     let neg = s[0] === '-';
     if (s[0] === '-' || s[0] === '+') s = s.slice(1);

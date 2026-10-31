@@ -176,6 +176,8 @@ public class MainActivity extends Activity {
         return col - 1;
     }
 
+    private static final int MAX_ROWS = 1500;
+
     private static JSONArray readSheet(byte[] xml, List<String> shared) throws Exception {
         JSONArray rows = new JSONArray();
         XmlPullParser p = Xml.newPullParser();
@@ -208,6 +210,7 @@ public class MainActivity extends Activity {
                 } else if (n.equals("row") && row != null) {
                     rows.put(new JSONArray(row));
                     row = null;
+                    if (rows.length() >= MAX_ROWS) break;   // daily file has ~6,600 history rows; newest come first
                 }
             }
         }
