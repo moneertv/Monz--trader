@@ -230,6 +230,18 @@
     return parseCoinGecko(await getJson(url, apiKey ? { 'x-cg-demo-api-key': apiKey } : {}));
   }
 
+  /** Daily closes for one coin (CoinGecko market_chart, one point per UTC day). */
+  function parseCoinHistory(payload) {
+    if (!payload || !Array.isArray(payload.prices)) throw new SchemaChanged('CoinGecko market_chart: prices missing');
+    const byDay = {};
+    for (const [ms, p] of payload.prices) if (Number.isFinite(ms) && Number.isFinite(p)) byDay[new Date(ms).toISOString().slice(0, 10)] = p;
+    return Object.keys(byDay).sort().map((d) => [d, byDay[d]]);
+  }
+  async function fetchCryptoHistory(id, apiKey) {
+    const url = 'https://api.coingecko.com/api/v3/coins/' + encodeURIComponent(id) + '/market_chart?vs_currency=usd&days=365&interval=daily';
+    return parseCoinHistory(await getJson(url, apiKey ? { 'x-cg-demo-api-key': apiKey } : {}));
+  }
+
   // ------------------------------------------------------------------ Finnhub (US stocks/ETFs)
   async function fetchStock(symbol, token) {
     if (!token) throw new Error('Add a free Finnhub API key in Settings to load stock prices');
@@ -262,5 +274,5 @@
   }
 
   root.Sources = { SchemaChanged, parseRoya, fetchGold, goldSymbol, xlDate, parseClosingPrices, closingQuotes, parseMarketSummary, discoverXlsx, fetchAse,
-    parseCoinGecko, fetchCrypto, fetchStock, parseFrankfurter, fetchFxSeries, checked, nativeAvailable: () => !!root.NativeBridge };
+    parseCoinGecko, fetchCrypto, parseCoinHistory, fetchCryptoHistory, fetchStock, parseFrankfurter, fetchFxSeries, checked, nativeAvailable: () => !!root.NativeBridge };
 })(typeof window !== 'undefined' ? window : globalThis);

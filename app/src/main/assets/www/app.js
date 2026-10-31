@@ -111,6 +111,14 @@
       const ids = [...new Set(st.watch.crypto.concat(held('CRYPTO')))];
       if (!ids.length) return;
       for (const q of await S.fetchCrypto(ids, st.settings.coingeckoKey)) st.quotes[assetKey('CRYPTO', q.symbol)] = plain(q);
+      // daily history for signals, at most once a day per coin
+      st.cryptoHistory = st.cryptoHistory || {};
+      for (const id of ids.slice(0, 12)) {
+        const h = st.cryptoHistory[id];
+        if (h && h.fetched === today()) continue;
+        try { st.cryptoHistory[id] = { fetched: today(), series: await S.fetchCryptoHistory(id, st.settings.coingeckoKey) }; }
+        catch (e) { if (!h) throw new Error('history for ' + id + ': ' + e.message); }
+      }
     }]);
     if (which === 'all' || which === 'us') jobs.push(['us', async () => {
       const syms = [...new Set(st.watch.us.concat(held('US')))];
@@ -135,6 +143,7 @@
       try { await fn(); delete st.errors[name]; } catch (e) { st.errors[name] = { msg: e.message, at: new Date().toISOString() }; }
     }));
     st.lastRefresh = new Date().toISOString();
+    signalsCache = null; try { recordSignals(computeSignals()); } catch (e) { st.errors.signals = { msg: e.message, at: st.lastRefresh }; }
     save(); busy = false; btn.textContent = '↻ Refresh';
     if (route !== 'add' && route !== 'settings') render();
   }
@@ -372,13 +381,138 @@
       }
       buildLedgerWith(st.txs.concat([tx]));   // validate before saving (e.g. selling more than held)
     } catch (e) { errEl.innerHTML = '<div class="err">' + esc(e.message) + '</div>'; return; }
-    st.txs.push(tx); save(); draft = null; toast('Saved'); stack = []; go('portfolio', false);
+    st.txs.push(tx); save(); draft = null; signalsCache = null; toast('Saved'); stack = []; go('portfolio', false);
     if (tx.asset && !st.quotes[tx.asset]) refresh(tx.asset.split(':')[0] === 'GOLD' ? 'gold' : tx.asset.split(':')[0] === 'ASE' ? 'ase' : tx.asset.split(':')[0] === 'CRYPTO' ? 'crypto' : 'us');
   }
   function buildLedgerWith(txs) {
     const saved = st.txs; st.txs = txs;
     try { buildLedger(); } finally { st.txs = saved; }
   }
+
+  // ------------------------------------------------------------------ signals
+  let signalsCache = null, sigFilter = 'all', sigKey = null;
+  function computeSignals() {
+    if (signalsCache) return signalsCache;
+    const G = window.Signals, out = [];
+    let alloc = {};
+    try { const { v } = portfolio(); if (v) for (const r of v.rows) if (r.allocation) alloc[r.asset] = r.allocation.toNumber(); } catch (e) { alloc = {}; }
+    // Amman SE: daily closes from the official file
+    const fileDays = new Set();
+    for (const h of Object.values(st.aseHistory || {})) for (const [d] of h) fileDays.add(d);
+    const allDays = [...fileDays].sort();
+    for (const [sym, h] of Object.entries(st.aseHistory || {})) {
+      const key = assetKey('ASE', sym), q = st.quotes[key];
+      const lastDay = h.length ? h[h.length - 1][0] : null;
+      const staleDays = lastDay ? allDays.filter((d) => d > lastDay).length : 0;
+      out.push(G.analyze({ key, name: sym + (q && q.extra && q.extra.name ? ' · ' + q.extra.name : ''), market: 'ASE', currency: 'JOD',
+        series: h.map(([d, v]) => [d, Number(v)]), staleDays, portfolioWeightPct: alloc[key] || 0 }));
+    }
+    // Crypto: CoinGecko daily closes (USD)
+    for (const [id, h] of Object.entries(st.cryptoHistory || {})) {
+      const key = assetKey('CRYPTO', id);
+      out.push(G.analyze({ key, name: id, market: 'CRYPTO', currency: 'USD', series: h.series, portfolioWeightPct: alloc[key] || 0 }));
+    }
+    // Gold 21K: last saved bulletin of each day (shop-buys price)
+    const gd = {};
+    for (const g of st.goldHistory) if (g.prices.GOLD_21K && g.prices.GOLD_21K.bid) gd[iso(new Date(Date.parse(g.ts) + 3 * 3600000))] = Number(g.prices.GOLD_21K.bid);
+    const gkey = assetKey('GOLD', 'GOLD_21K');
+    out.push(G.analyze({ key: gkey, name: 'Gold 21K (shop buys)', market: 'GOLD', currency: 'JOD', series: Object.keys(gd).sort().map((d) => [d, gd[d]]), portfolioWeightPct: alloc[gkey] || 0 }));
+    signalsCache = out;
+    return out;
+  }
+  function recordSignals(list) {
+    st.sigHistory = st.sigHistory || [];
+    const lastFor = {};
+    for (const h of st.sigHistory) lastFor[h.key] = h;
+    for (const a of list) {
+      if (a.insufficient) continue;
+      const prev = lastFor[a.key];
+      if (prev && prev.asOf === a.asOf) continue;          // one record per trading day
+      st.sigHistory.push({ key: a.key, action: a.action, score: a.score, price: a.price, asOf: a.asOf, at: new Date().toISOString() });
+    }
+    if (st.sigHistory.length > 5000) st.sigHistory = st.sigHistory.slice(-5000);
+  }
+  const pillCls = (act) => (/BUY|ACCUM/.test(act) ? 'buy' : /SELL|REDUCE/.test(act) ? 'sell' : 'hold');
+  const pdp = (x) => (Math.abs(x) >= 1000 ? 2 : Math.abs(x) >= 10 ? 2 : 3);
+  const num = (x, dpx) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : x.toFixed(dpx === undefined ? pdp(x) : dpx));
+
+  routes.signals = () => {
+    const all = computeSignals();
+    const ok = all.filter((a) => !a.insufficient);
+    const heldKeys = new Set(st.txs.filter((t) => t.asset).map((t) => t.asset));
+    const filters = [['all', 'All'], ['held', 'My holdings'], ['ASE', 'Amman SE'], ['CRYPTO', 'Crypto'], ['GOLD', 'Gold']];
+    let list = ok.filter((a) => sigFilter === 'all' || (sigFilter === 'held' ? heldKeys.has(a.key) : a.market === sigFilter));
+    list.sort((a, b) => b.score - a.score || b.confidence - a.confidence);
+    let html = errorBlock(['signals']);
+    html += '<div class="note">Rules-based signals from price history only (trend, momentum, RSI, volatility, liquidity). Company financials and news are not included. This is a screening tool, not financial advice — check before you trade.</div>';
+    html += '<div class="seg">' + filters.map(([k, l]) => '<button data-sigf="' + k + '" class="' + (sigFilter === k ? 'on' : '') + '">' + l + '</button>').join('') + '</div>';
+    if (!ok.length) html += '<div class="card empty">No signals yet. Tap Refresh to load price history.</div>';
+    else {
+      const counts = {}; for (const a of ok) counts[pillCls(a.action)] = (counts[pillCls(a.action)] || 0) + 1;
+      html += '<div class="card"><h2>' + list.length + ' signals · sorted by score</h2>' + (list.length ? list.map((a) =>
+        '<div class="list-item" data-sig="' + esc(a.key) + '"><div class="row"><div class="grow"><b>' + esc(a.name) + '</b>' +
+        '<div class="sub">' + esc(MARKETS[a.market]) + ' · ' + num(a.price) + ' ' + esc(a.currency) + ' · ' + esc(a.asOf) + (heldKeys.has(a.key) ? ' · <span class="up">held</span>' : '') + '</div></div>' +
+        '<div style="text-align:right"><span class="pill ' + pillCls(a.action) + '">' + esc(a.action) + '</span><div class="sub">score ' + a.score + ' · conf. ' + a.confidence + '%</div></div></div></div>').join('')
+        : '<div class="empty">Nothing in this group.</div>') + '</div>';
+    }
+    const waiting = all.filter((a) => a.insufficient && (sigFilter === 'all' || a.market === sigFilter));
+    if (waiting.length) html += '<div class="card"><h2>Not enough history yet</h2>' + waiting.slice(0, 20).map((a) => '<div class="list-item"><b>' + esc(a.name || a.key) + '</b><div class="sub">' + esc(a.insufficient) + (a.market === 'GOLD' ? ' Gold history builds from the bulletins this app saves each day.' : '') + '</div></div>').join('') + '</div>';
+    if (!st.settings.finnhubKey || sigFilter === 'all') html += '<div class="sub" style="margin:0 4px 12px">US stocks: the free Finnhub plan has no price history, so no signals are produced for them.</div>';
+    html += trackRecordCard();
+    return html;
+  };
+
+  function trackRecordCard() {
+    const hist = st.sigHistory || [];
+    if (!hist.length) return '';
+    const now = {}; for (const [k, q] of Object.entries(st.quotes)) now[k] = Number(q.price);
+    const cutoff = Date.now() - 20 * 86400000;
+    const old = hist.filter((h) => Date.parse(h.at) < cutoff);
+    const ev = window.Signals.evaluate(old, now).filter((x) => x.correct !== null && x.correct !== undefined);
+    const hit = ev.filter((x) => x.correct).length;
+    return '<div class="card"><h2>Track record</h2><div class="sub">' + hist.length + ' signals saved since ' + esc(hist[0].asOf) + '. ' +
+      (ev.length ? 'Of ' + ev.length + ' buy/sell signals older than 20 days, ' + hit + ' (' + (hit / ev.length * 100).toFixed(0) + '%) moved in the signalled direction so far.' :
+        'Results appear once signals are at least 20 days old.') + '</div></div>';
+  }
+
+  routes.signal = () => {
+    const a = computeSignals().find((x) => x.key === sigKey);
+    if (!a || a.insufficient) return '<div class="empty">No signal for this asset.</div>';
+    const L = a.levels, c = a.currency, I = a.indicators;
+    const fname = { trend: 'Trend', momentum: 'Momentum', meanReversion: 'Overbought / oversold', risk: 'Risk (volatility)', liquidity: 'Liquidity', portfolio: 'Portfolio fit' };
+    let html = '<div class="card"><div class="row"><div class="grow"><h2 style="margin:0">' + esc(MARKETS[a.market]) + ' · ' + esc(a.asOf) + '</h2><div style="font-size:18px;font-weight:700;margin-top:4px">' + esc(a.name) + '</div></div>' +
+      '<span class="pill ' + pillCls(a.action) + '" style="font-size:13px">' + esc(a.action) + '</span></div>' +
+      '<div class="grid2" style="margin-top:12px"><div class="kv"><div class="k">Price</div><div class="v">' + num(a.price) + ' ' + esc(c) + '</div></div>' +
+      '<div class="kv"><div class="k">Score · confidence</div><div class="v">' + a.score + ' · ' + a.confidence + '%</div></div></div>' +
+      '<p style="margin:12px 0 0">' + esc(a.thesis) + '</p></div>';
+    // levels
+    html += '<div class="card"><h2>Levels (' + esc(L.horizon) + ')</h2><table>' +
+      (L.entryLow !== null ? '<tr><td>Entry range</td><td class="n">' + num(L.entryLow) + ' – ' + num(L.entryHigh) + '</td></tr>' : '') +
+      '<tr><td>' + (/SELL|REDUCE/.test(a.action) ? 'Downside target' : /BUY|ACCUM/.test(a.action) ? 'Target' : 'Resistance') + '</td><td class="n">' + num(L.target) + '</td></tr>' +
+      '<tr><td>' + (/SELL|REDUCE/.test(a.action) ? 'Invalidation level' : /BUY|ACCUM/.test(a.action) ? 'Stop-loss' : 'Support') + '</td><td class="n">' + num(L.stop) + '</td></tr>' +
+      (L.riskReward !== null ? '<tr><td>Reward / risk</td><td class="n">' + num(L.riskReward, 2) + '</td></tr>' : '') +
+      '</table><div class="sub" style="margin-top:6px">Prices in ' + esc(c) + '. Levels come from recent volatility and the 60-day range of daily closes.</div></div>';
+    // factors
+    html += '<div class="card"><h2>How the score is built</h2>' + Object.keys(a.factors).map((k) => {
+      const v = a.factors[k], w = a.weights[k], ctb = a.contributions[k];
+      const left = v >= 0 ? 50 : 50 + v / 2, width = Math.abs(v) / 2;
+      return '<div class="list-item"><div class="row"><b class="grow">' + esc(fname[k] || k) + '</b><span class="sub">score ' + Math.round(v) + ' × weight ' + w + ' → ' + (ctb >= 0 ? '+' : '') + ctb.toFixed(1) + '</span></div>' +
+        '<div class="fbar"><i style="left:' + left + '%;width:' + width + '%;background:' + (v >= 0 ? 'var(--up)' : 'var(--down)') + '"></i></div>' +
+        '<div class="sub" style="margin-top:4px">' + esc((a.why[k] || []).join(' · ')) + '</div></div>';
+    }).join('') + Object.entries(a.unavailable).map(([k, why]) => '<div class="list-item"><div class="row"><b class="grow muted">' + esc({ fundamental: 'Fundamentals', valuation: 'Valuation', macro: 'Macro environment' }[k]) + '</b><span class="sub">not used</span></div><div class="sub">' + esc(why) + '</div></div>').join('') + '</div>';
+    // indicators
+    const rows = [['RSI (14)', num(I.rsi14, 1)], ['20 / 50 / 200-day average', [I.sma20, I.sma50, I.sma200].map((x) => num(x)).join(' / ')], ['MACD / signal', num(I.macd, 4) + ' / ' + num(I.macdSignal, 4)],
+      ['Bollinger band (20, 2)', num(I.bbLower) + ' – ' + num(I.bbUpper)], ['60-day low / high', num(I.support) + ' / ' + num(I.resistance)], ['Change 20 / 60 days', num(I.change20, 1) + '% / ' + num(I.change60, 1) + '%'],
+      ['Volatility (annualised)', num(I.volAnnualPct, 0) + '%'], ['Max drawdown', num(I.maxDrawdownPct, 0) + '%'], ['Days with no price change (60)', num(I.flatDaysPct, 0) + '%'], ['History used', I.points + ' daily closes']];
+    html += '<div class="card"><h2>Indicators</h2><table>' + rows.map(([k, v]) => '<tr><td>' + esc(k) + '</td><td class="n">' + esc(v) + '</td></tr>').join('') + '</table></div>';
+    html += '<div class="card"><h2>Key risks</h2>' + a.risks.map((r) => '<div class="list-item">' + esc(r) + '</div>').join('') + '</div>';
+    html += '<div class="card"><h2>What would change this view</h2>' + a.invalidation.map((r) => '<div class="list-item">' + esc(r) + '</div>').join('') + '</div>';
+    html += '<div class="card"><h2>News & catalysts</h2><div class="sub">No news source is connected yet, so news is not part of this signal.</div></div>';
+    const past = (st.sigHistory || []).filter((h) => h.key === a.key).slice(-8).reverse();
+    if (past.length) html += '<div class="card"><h2>Signal history</h2><table>' + past.map((h) => '<tr><td>' + esc(h.asOf) + '</td><td><span class="pill ' + pillCls(h.action) + '">' + esc(h.action) + '</span></td><td class="n">' + num(h.price) + '</td></tr>').join('') + '</table></div>';
+    if (a.market !== 'GOLD') html += '<button class="btn gold" style="width:100%" data-sigbuy="' + esc(a.key) + '">Record a transaction</button>';
+    return html;
+  };
 
   routes.settings = () => {
     const m = st.settings.methods;
@@ -396,17 +530,20 @@
 
   // ------------------------------------------------------------------ render + events
   const NAV = [['home', 'Home', 'M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z'], ['gold', 'Gold', 'M4 18h16l-3-8H7zM8 10l2-5h4l2 5'],
-    ['ase', 'Amman SE', 'M4 19V9m5 10V5m5 14v-7m5 7V8'], ['markets', 'Markets', 'M3 17l6-6 4 4 8-8M15 7h6v6'], ['portfolio', 'Portfolio', 'M4 7h16v12H4zM9 7V5h6v2'], ['settings', 'Settings', 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM4 12h2m12 0h2M12 4v2m0 12v2']];
+    ['ase', 'Amman SE', 'M4 19V9m5 10V5m5 14v-7m5 7V8'], ['markets', 'Markets', 'M3 17l6-6 4 4 8-8M15 7h6v6'], ['signals', 'Signals', 'M12 3v4M12 17v4M3 12h4M17 12h4M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0-8 0'], ['portfolio', 'Portfolio', 'M4 7h16v12H4zM9 7V5h6v2']];
   function render() {
     $('#view').innerHTML = (routes[route] || routes.home)();
-    const navRoute = route === 'add' ? 'portfolio' : route === 'aseStock' ? 'ase' : route;
+    const navRoute = route === 'add' ? 'portfolio' : route === 'aseStock' ? 'ase' : route === 'signal' ? 'signals' : route;
     $('#nav').innerHTML = NAV.map(([r, l, p]) => '<button data-nav="' + r + '" class="' + (r === navRoute ? 'on' : '') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="' + p + '"/></svg>' + l + '</button>').join('');
   }
   document.addEventListener('click', (e) => {
-    const el = e.target.closest('[data-nav],[data-go],[data-del],[data-savetx],[data-cancel],[data-addase],[data-asestock],[data-savekeys],[data-export],[data-import]');
+    const el = e.target.closest('[data-nav],[data-go],[data-del],[data-savetx],[data-cancel],[data-addase],[data-asestock],[data-sig],[data-sigf],[data-sigbuy],[data-savekeys],[data-export],[data-import]');
     if (!el) return;
     if (el.dataset.nav) { stack = []; go(el.dataset.nav, false); }
     else if (el.dataset.go) { draft = null; if (el.dataset.market) { draft = null; routes.add(); draft.market = el.dataset.market; } go(el.dataset.go); }
+    else if (el.dataset.sigf) { sigFilter = el.dataset.sigf; render(); }
+    else if (el.dataset.sig) { sigKey = el.dataset.sig; go('signal'); }
+    else if (el.dataset.sigbuy) { const [m, ...rest] = el.dataset.sigbuy.split(':'); draft = null; routes.add(); Object.assign(draft, { market: m, symbol: rest.join(':'), currency: MARKET_CCY[m] }); go('add'); }
     else if (el.dataset.asestock) { aseSymbol = el.dataset.asestock; go('aseStock'); }
     else if (el.dataset.addase) { draft = null; routes.add(); Object.assign(draft, { market: 'ASE', symbol: el.dataset.addase, currency: 'JOD' }); go('add'); }
     else if (el.dataset.del !== undefined) {

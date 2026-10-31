@@ -15,6 +15,12 @@ Every push to `main` builds the app on GitHub. Open the repo's **Releases** page
 - **Portfolio:** buys, sells, transfers between your accounts, dividends, splits, deposits.
   FIFO or average cost per market. Value and profit in JOD and in each asset's own currency.
   Gold valued at the shop-buys price. Money-weighted return (XIRR).
+- **Signals:** rules-based BUY…SELL signals for Amman SE stocks, crypto and (once enough
+  history is saved) 21K gold. Each shows score, confidence, entry range, target, stop-loss,
+  reward/risk, horizon, the factors behind it (trend, momentum, RSI, volatility, liquidity,
+  portfolio fit), risks and what would invalidate it. Signals are saved daily and a track record
+  shows how they played out. Fundamentals, valuation, macro and news are shown as *not used*
+  until a data source exists for them. Methodology: `app/src/main/assets/www/signals.js`.
 - Every price shows its source and age; old prices are marked *stale*, missing prices are
   never replaced with your purchase cost.
 - Backup/restore through Android's share sheet.
@@ -22,8 +28,8 @@ Every push to `main` builds the app on GitHub. Open the repo's **Releases** page
 ## Project layout
 - `app/src/main/java/.../MainActivity.java` — WebView host + network/Excel bridge
 - `app/src/main/assets/www/` — app (`core.js` engine, `sources.js` data, `app.js` screens)
-- `tests/core.test.js` — engine tests (`node --test tests/core.test.js`)
+- `tests/` — engine and signal tests (`node --test tests/core.test.js tests/signals.test.js`)
 - `docs/technical-plan.md` — data-source research and roadmap
 
-Not yet included: recommendations engine, risk analytics, optimizer, alerts (see roadmap).
+Not yet included: fundamentals/news in signals, risk analytics, optimizer, alerts (see roadmap).
 Data is for personal use; this app does not give investment advice or place trades.
