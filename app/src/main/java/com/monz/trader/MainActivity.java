@@ -57,7 +57,17 @@ public class MainActivity extends Activity {
         s.setDatabaseEnabled(true);
         s.setAllowFileAccess(false);
         s.setAllowContentAccess(false);
-        web.setWebViewClient(new WebViewClient());
+        web.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, android.webkit.WebResourceRequest req) {
+                String u = req.getUrl().toString();
+                if (u.startsWith("http://") || u.startsWith("https://")) {   // source links open in the browser
+                    try { startActivity(new Intent(Intent.ACTION_VIEW, android.net.Uri.parse(u))); } catch (Exception ignored) { }
+                    return true;
+                }
+                return false;
+            }
+        });
         web.setWebChromeClient(new WebChromeClient());
         web.addJavascriptInterface(new Bridge(), "NativeBridge");
         // Android 15 draws apps edge-to-edge: pad the content so the status bar, navigation bar

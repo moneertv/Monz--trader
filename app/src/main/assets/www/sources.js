@@ -338,6 +338,13 @@
     return s;
   }
 
-  root.Sources = { cleanKey, SchemaChanged, parseRoya, fetchGold, goldSymbol, xlDate, parseClosingPrices, closingQuotes, parseMarketSummary, discoverXlsx, fetchAse, parseCompanyHistorical, companyQuote, fetchCompanyHistory,
+  const RESEARCH_URL = 'https://raw.githubusercontent.com/moneertv/Monz--trader/main/data/research/latest.json';
+  async function fetchResearch() {
+    const doc = await getJson(RESEARCH_URL + '?t=' + Date.now(), { 'Cache-Control': 'no-cache' });
+    if (!doc || doc.schema !== 1 || !Array.isArray(doc.assets)) throw new SchemaChanged('Research file has an unexpected format');
+    return doc;
+  }
+
+  root.Sources = { cleanKey, fetchResearch, RESEARCH_URL, SchemaChanged, parseRoya, fetchGold, goldSymbol, xlDate, parseClosingPrices, closingQuotes, parseMarketSummary, discoverXlsx, fetchAse, parseCompanyHistorical, companyQuote, fetchCompanyHistory,
     parseCoinGecko, fetchCrypto, parseCoinHistory, fetchCryptoHistory, fetchStock, parseFrankfurter, fetchFxSeries, checked, nativeAvailable: () => !!root.NativeBridge };
 })(typeof window !== 'undefined' ? window : globalThis);

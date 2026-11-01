@@ -151,6 +151,10 @@
       }
       if (errs.length) throw new Error(errs.join('; '));
     }]);
+    if (which === 'all') jobs.push(['research', async () => {
+      try { st.research = await S.fetchResearch(); }
+      catch (e) { if (/HTTP 404/.test(e.message)) { st.research = null; return; } throw e; }   // no research published yet
+    }]);
     jobs.push(['fx', async () => {
       const first = st.txs.reduce((m, t) => (t.on < m ? t.on : m), today());
       const from = new Date(Date.parse(first) - 10 * 86400000).toISOString().slice(0, 10);
@@ -243,8 +247,21 @@
     const key = assetKeyStr.startsWith('GOLD:') ? GOLD_GLOBAL_KEY : assetKeyStr;
     return list.find((x) => x.key === key) || null;
   }
+  /** Research entry for an asset if the published research is recent (≤ 4 days). */
+  function researchFor(assetKeyStr) {
+    const doc = st.research;
+    if (!doc || !doc.assets) return null;
+    const key = assetKeyStr.startsWith('GOLD:') ? GOLD_GLOBAL_KEY : assetKeyStr;
+    const r = doc.assets.find((x) => x.key === key);
+    if (!r) return null;
+    const ageDays = (Date.now() - Date.parse(doc.generated_at)) / 86400000;
+    return { ...r, generatedAt: doc.generated_at, ageDays, stale: ageDays > 4 };
+  }
   function signalBadge(assetKeyStr) {
     const m = assetKeyStr.split(':')[0];
+    const rr = researchFor(assetKeyStr);
+    if (rr && rr.recommendation && !rr.stale)
+      return '<span class="pill ' + pillCls(rr.recommendation.action) + '" data-research="' + esc(rr.key) + '" style="margin-top:4px;display:inline-block">' + esc(rr.recommendation.action) + ' ★</span>';
     const a = signalFor(assetKeyStr);
     if (a && !a.insufficient) return '<span class="pill ' + pillCls(a.action) + '" data-sig="' + esc(a.key) + '" style="margin-top:4px;display:inline-block">' + esc(a.action) + '</span>';
     const why = m === 'US' ? 'no history (free plan)' : a && a.insufficient ? 'not enough history' : 'refresh for signal';
@@ -513,6 +530,15 @@
     list.sort((a, b) => b.score - a.score || b.confidence - a.confidence);
     let html = errorBlock(['signals']);
     html += '<div class="note">Rules-based signals from price history only (trend, momentum, RSI, volatility, liquidity). Company financials and news are not included. This is a screening tool, not financial advice — check before you trade.</div>';
+    const rs = st.research && st.research.assets ? st.research.assets.filter((x) => x.recommendation) : [];
+    if (rs.length && (sigFilter === 'all' || sigFilter === 'held')) {
+      const age = (Date.now() - Date.parse(st.research.generated_at)) / 86400000;
+      html += '<div class="card"><h2>Researched recommendations · ' + esc(localTime(st.research.generated_at)) + (age > 4 ? ' · <span class="warn">old</span>' : '') + '</h2>' +
+        rs.filter((x) => sigFilter === 'all' || x.held).map((x) => '<div class="list-item" data-research="' + esc(x.key) + '"><div class="row"><div class="grow"><b>' + esc(x.name) + '</b><div class="sub">' +
+          (x.held ? '<span class="up">held</span> · ' : '') + (x.price ? num(x.price.value) + ' ' + esc(x.currency) + ' · ' : '') + (x.news ? x.news.length : 0) + ' news · ' + (x.fundamentals ? x.fundamentals.length : 0) + ' facts</div></div>' +
+          '<span class="pill ' + pillCls(x.recommendation.action) + '">' + esc(x.recommendation.action) + ' ★</span></div></div>').join('') +
+        '<div class="sub" style="margin-top:6px">★ = from the scheduled research run (price model + cited news and fundamentals).</div></div>';
+    }
     html += '<div class="seg">' + filters.map(([k, l]) => '<button data-sigf="' + k + '" class="' + (sigFilter === k ? 'on' : '') + '">' + l + '</button>').join('') + '</div>';
     if (!ok.length) html += '<div class="card empty">No signals yet. Tap Refresh to load price history.</div>';
     else {
@@ -588,6 +614,39 @@
     return html;
   };
 
+  let researchKey = null;
+  const link = (it) => (it.url ? '<a href="' + esc(it.url) + '" style="color:var(--accent)">' + esc(it.source || 'source') + '</a>' : esc(it.source || ''));
+  routes.research = () => {
+    const r = researchFor(researchKey);
+    if (!r) return '<div class="empty">No research for this asset yet.</div>';
+    const rec = r.recommendation, L = rec && rec.levels, c = r.currency || '';
+    let html = '<div class="card"><div class="row"><div class="grow"><h2 style="margin:0">Research · ' + esc(localTime(r.generatedAt)) + '</h2><div style="font-size:18px;font-weight:700;margin-top:4px">' + esc(r.name) + '</div></div>' +
+      (rec ? '<span class="pill ' + pillCls(rec.action) + '" style="font-size:13px">' + esc(rec.action) + '</span>' : '') + '</div>';
+    if (r.stale) html += '<div class="note" style="margin-top:10px">This research is ' + Math.round(r.ageDays) + ' days old. The scheduled run may have failed; check the task.</div>';
+    if (r.price) html += '<div class="sub" style="margin-top:8px">Price ' + num(r.price.value) + ' ' + esc(c) + ' on ' + esc(r.price.as_of) + ' · ' + link(r.price) + ' · ' + r.price.points + ' daily closes</div>';
+    if (rec) {
+      html += '<p style="margin:12px 0 0">' + esc(rec.thesis) + '</p>';
+      if (rec.changed_reason) html += '<div class="note" style="margin-top:10px">The price model said <b>' + esc(rec.technical_action) + '</b>; the review moved it one step to <b>' + esc(rec.action) + '</b>: ' + esc(rec.changed_reason) + '</div>';
+      html += '<div class="grid2" style="margin-top:12px"><div class="kv"><div class="k">Confidence</div><div class="v">' + rec.confidence + '%</div></div><div class="kv"><div class="k">Horizon</div><div class="v">' + esc(L.horizon) + '</div></div></div>';
+    }
+    html += '</div>';
+    if (L) html += '<div class="card"><h2>Levels</h2><table>' + (L.entryLow !== null && L.entryLow !== undefined ? '<tr><td>Entry range</td><td class="n">' + num(L.entryLow) + ' – ' + num(L.entryHigh) + '</td></tr>' : '') +
+      '<tr><td>Target</td><td class="n">' + num(L.target) + '</td></tr><tr><td>Stop / invalidation</td><td class="n">' + num(L.stop) + '</td></tr>' +
+      (L.riskReward !== null && L.riskReward !== undefined ? '<tr><td>Reward / risk</td><td class="n">' + num(L.riskReward, 2) + '</td></tr>' : '') + '</table><div class="sub" style="margin-top:6px">Levels come from the rules-based price model, not from the review.</div></div>';
+    const facts = (title, items, fmtItem) => (items && items.length ? '<div class="card"><h2>' + title + '</h2>' + items.map((it) => '<div class="list-item">' + fmtItem(it) + '</div>').join('') + '</div>' : '');
+    html += facts('Fundamentals', r.fundamentals, (it) => '<div class="row"><span class="grow">' + esc(it.label) + '</span><b>' + esc(it.value) + '</b></div><div class="sub">' + esc(it.as_of || '') + ' · ' + link(it) + '</div>');
+    html += facts('Analyst views', r.analysts, (it) => '<div class="row"><span class="grow">' + esc(it.label) + '</span><b>' + esc(it.value) + '</b></div><div class="sub">' + esc(it.as_of || '') + ' · ' + link(it) + '</div>');
+    html += facts('News & catalysts', r.news, (it) => '<b>' + esc(it.headline) + '</b><div class="sub">' + esc(it.date || '') + ' · ' + link(it) + (it.impact ? ' · <span class="' + (it.impact === 'positive' ? 'up' : it.impact === 'negative' ? 'down' : '') + '">' + esc(it.impact) + '</span>' : '') + '</div>');
+    if (rec) {
+      html += '<div class="card"><h2>Key risks</h2>' + rec.risks.map((x) => '<div class="list-item">' + esc(x) + '</div>').join('') + '</div>';
+      html += '<div class="card"><h2>What would change this view</h2>' + rec.invalidation.map((x) => '<div class="list-item">' + esc(x) + '</div>').join('') + '</div>';
+    }
+    if (r.data_gaps && r.data_gaps.length) html += '<div class="card"><h2>Data not available</h2>' + r.data_gaps.map((x) => '<div class="list-item muted">' + esc(x) + '</div>').join('') + '</div>';
+    html += '<div class="sub" style="margin:0 4px 12px">Built by the scheduled research run from the cited public sources plus the app\'s price model. Not financial advice.</div>';
+    if (signalFor(r.key) && !signalFor(r.key).insufficient) html += '<button class="btn ghost" style="width:100%" data-sig="' + esc(r.key) + '">Open today\'s price-model signal</button>';
+    return html;
+  };
+
   routes.settings = () => {
     const m = st.settings.methods;
     const sel = (mk) => '<select data-method="' + mk + '">' + ['FIFO', 'AVERAGE'].map((x) => '<option' + (m[mk] === x ? ' selected' : '') + '>' + x + '</option>').join('') + '</select>';
@@ -607,15 +666,16 @@
     ['ase', 'Amman SE', 'M4 19V9m5 10V5m5 14v-7m5 7V8'], ['markets', 'Markets', 'M3 17l6-6 4 4 8-8M15 7h6v6'], ['signals', 'Signals', 'M12 3v4M12 17v4M3 12h4M17 12h4M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0-8 0'], ['portfolio', 'Portfolio', 'M4 7h16v12H4zM9 7V5h6v2']];
   function render() {
     $('#view').innerHTML = (routes[route] || routes.home)();
-    const navRoute = route === 'add' ? 'portfolio' : route === 'aseStock' ? 'ase' : route === 'signal' ? 'signals' : route;
+    const navRoute = route === 'add' ? 'portfolio' : route === 'aseStock' ? 'ase' : (route === 'signal' || route === 'research') ? 'signals' : route;
     $('#nav').innerHTML = NAV.map(([r, l, p]) => '<button data-nav="' + r + '" class="' + (r === navRoute ? 'on' : '') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="' + p + '"/></svg>' + l + '</button>').join('');
   }
   document.addEventListener('click', (e) => {
-    const el = e.target.closest('[data-aselookup],[data-nav],[data-go],[data-del],[data-savetx],[data-cancel],[data-addase],[data-asestock],[data-sig],[data-sigf],[data-sigbuy],[data-savekeys],[data-export],[data-import]');
+    const el = e.target.closest('[data-research],[data-aselookup],[data-nav],[data-go],[data-del],[data-savetx],[data-cancel],[data-addase],[data-asestock],[data-sig],[data-sigf],[data-sigbuy],[data-savekeys],[data-export],[data-import]');
     if (!el) return;
     if (el.dataset.nav) { stack = []; go(el.dataset.nav, false); }
     else if (el.dataset.go) { draft = null; if (el.dataset.market) { draft = null; routes.add(); draft.market = el.dataset.market; } go(el.dataset.go); }
-    else if (el.dataset.aselookup) {
+    if (el.dataset.research) { researchKey = el.dataset.research; go('research'); return; }
+    if (el.dataset.aselookup) {
       const sym = el.dataset.aselookup; el.disabled = true; el.textContent = 'Looking up ' + sym + '…';
       loadCompany(sym).then(() => {
         st.aseExtra = [...new Set((st.aseExtra || []).concat([sym]))]; save(); signalsCache = null;
