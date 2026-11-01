@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths-ignore:
       - 'data/**'          # daily research updates don't need a new APK
+      - 'docs/**'
+      - '**.md'
   workflow_dispatch:
 
 permissions:
