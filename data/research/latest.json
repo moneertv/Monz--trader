@@ -1,0 +1,489 @@
+{
+  "schema": 1,
+  "generated_at": "2026-11-01T08:40:39.724Z",
+  "generator": "Monz Trader scheduled research (trader-skill)",
+  "disclaimer": "Research summary built from cited public sources and a rules-based price model. Not financial advice.",
+  "assets": [
+    {
+      "key": "ASE:RJAL",
+      "name": "Royal Jordanian Airlines",
+      "market": "ASE",
+      "held": true,
+      "data_gaps": [
+        "Q3 2026 results not yet found",
+        "P/E, P/B, debt and dividend data not retrieved (ASE company page unavailable)",
+        "No analyst coverage found",
+        "Latest close is 29 Oct (ASE trades Sun–Thu)"
+      ],
+      "currency": "JOD",
+      "price": {
+        "value": 0.53,
+        "as_of": "2026-10-29",
+        "source": "Amman Stock Exchange",
+        "url": "https://www.exchange.jo/en/company_historical/RJAL",
+        "points": 100
+      },
+      "technical": {
+        "action": "HOLD",
+        "score": 3,
+        "confidence": 41,
+        "levels": {
+          "entryLow": null,
+          "entryHigh": null,
+          "target": 0.57,
+          "stop": 0.49,
+          "riskReward": null,
+          "horizon": "3–6 weeks"
+        },
+        "indicators": {
+          "price": 0.53,
+          "sma20": 0.5305,
+          "sma50": 0.5252000000000002,
+          "sma200": null,
+          "rsi14": 51.12641508238828,
+          "macd": 0.00046525383577300516,
+          "macdSignal": 0.001065195199561851,
+          "macdHist": -0.0005999413637888459,
+          "bbUpper": 0.538380689256524,
+          "bbLower": 0.5226193107434759,
+          "bbPctB": 0.4682768864673818,
+          "change20": 0,
+          "change60": 6.000000000000005,
+          "volAnnualPct": 24.962380529830735,
+          "support": 0.49,
+          "resistance": 0.57,
+          "maxDrawdownPct": -8.771929824561397,
+          "flatDaysPct": 65,
+          "points": 100
+        },
+        "factors": {
+          "trend": 31.147458890219426,
+          "momentum": -2.9999999999999893,
+          "meanReversion": 0,
+          "risk": 0.1128584105077941,
+          "liquidity": -70,
+          "portfolio": 30
+        },
+        "contributions": {
+          "trend": 9.344237667065828,
+          "momentum": -0.7499999999999973,
+          "meanReversion": 0,
+          "risk": 0.016928761576169116,
+          "liquidity": -7,
+          "portfolio": 1.5
+        },
+        "why": {
+          "trend": [
+            "price above 50-day average by 0.9%",
+            "20-day average above 50-day",
+            "50-day average rising"
+          ],
+          "momentum": [
+            "20-day change +0.0%",
+            "60-day change +6.0%",
+            "MACD below its signal line"
+          ],
+          "meanReversion": [
+            "RSI 51: neutral"
+          ],
+          "risk": [
+            "annualised volatility 25%",
+            "max drawdown -9% over the period"
+          ],
+          "liquidity": [
+            "65% of the last 60 sessions closed unchanged"
+          ],
+          "portfolio": [
+            "not in your portfolio yet (adds diversification)"
+          ]
+        },
+        "thesis": "The trend is supportive: price above 50-day average by 0.9%. Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 25% a year; recent range 0.490–0.570 JOD.",
+        "risks": [
+          "thin trading: the shown price may not be achievable for larger orders",
+          "no company financials are included in this score",
+          "signals use past prices only; they do not predict the future"
+        ],
+        "invalidation": [
+          "a close above 0.570 (breakout) or below 0.490 (breakdown)"
+        ]
+      },
+      "fundamentals": [
+        {
+          "label": "Net profit H1 2026",
+          "value": "JOD 1.4m (vs JOD 12.7m in H1 2025)",
+          "as_of": "2026-06-30",
+          "source": "Jordan News",
+          "url": "https://www.jordannews.jo/Section-113/All/Royal-Jordanian-Reports-a-Net-Profit-of-JOD-1-4-million-in-the-First-Half-of-2026-Despite-Ongoing-Regional-Challenges-53679"
+        },
+        {
+          "label": "Revenue growth H1 2026",
+          "value": "+JOD 86m (+23% y/y)",
+          "as_of": "2026-06-30",
+          "source": "Jordan News",
+          "url": "https://www.jordannews.jo/Section-113/All/Royal-Jordanian-Reports-a-Net-Profit-of-JOD-1-4-million-in-the-First-Half-of-2026-Despite-Ongoing-Regional-Challenges-53679"
+        },
+        {
+          "label": "Cost pressure H1 2026",
+          "value": "Operating costs +JOD 69.5m (fuel +JOD 33m); financing costs +JOD 18m",
+          "as_of": "2026-06-30",
+          "source": "Jordan News",
+          "url": "https://www.jordannews.jo/Section-113/All/Royal-Jordanian-Reports-a-Net-Profit-of-JOD-1-4-million-in-the-First-Half-of-2026-Despite-Ongoing-Regional-Challenges-53679"
+        },
+        {
+          "label": "Operations H1 2026",
+          "value": "1.984m passengers (+5%), load factor 71.8% (-8.6 pts), cargo 21,460 t (+36%)",
+          "as_of": "2026-06-30",
+          "source": "Jordan News",
+          "url": "https://www.jordannews.jo/Section-113/All/Royal-Jordanian-Reports-a-Net-Profit-of-JOD-1-4-million-in-the-First-Half-of-2026-Despite-Ongoing-Regional-Challenges-53679"
+        },
+        {
+          "label": "Management outlook",
+          "value": "Performance remains below 2026 budget targets; government continues to cover part of fuel cost increase",
+          "as_of": "2026-07-30",
+          "source": "Jordan News",
+          "url": "https://www.jordannews.jo/Section-113/All/Royal-Jordanian-Reports-a-Net-Profit-of-JOD-1-4-million-in-the-First-Half-of-2026-Despite-Ongoing-Regional-Challenges-53679"
+        }
+      ],
+      "news": [
+        {
+          "date": "2026-10-15",
+          "headline": "Royal Jordanian hit by reluctance of travellers to visit Jordan since Iran war; traffic fell 40% in March, airline shifting to higher-yield routes (CEO)",
+          "source": "FlightGlobal",
+          "url": "https://www.flightglobal.com/airlines/2026/10/royal-jordanian-hit-by-reluctance-of-travellers-to-visit-jordan-since-iran-war-chief-executive/",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-10-15",
+          "headline": "RJ attends IATA Wings of Change Europe 2026 in Brussels",
+          "source": "Royal Jordanian",
+          "url": "https://www.rj.com/en/meet-rj/our-media-center/news/2026/october/15/iata-wings",
+          "impact": "neutral"
+        }
+      ],
+      "analysts": [],
+      "recommendation": {
+        "action": "HOLD",
+        "technical_action": "HOLD",
+        "changed_reason": null,
+        "confidence": 41,
+        "thesis": "The price model reads HOLD: the share has drifted up about 6% over 60 sessions but has sat at 0.52–0.54 JOD for a month, with most sessions closing unchanged on very thin volume. Fundamentals are mixed: revenue grew 23% in H1 2026 but profit fell to JOD 1.4m on higher fuel and lease-financing costs, and management says results are below budget. The CEO says regional conflict still deters visitors, so there is no clear catalyst until Q3 results.",
+        "levels": {
+          "entryLow": null,
+          "entryHigh": null,
+          "target": 0.57,
+          "stop": 0.49,
+          "riskReward": null,
+          "horizon": "3–6 weeks"
+        },
+        "risks": [
+          "Very low liquidity: small trades can move the price",
+          "Regional conflict and airspace closures hitting tourism demand",
+          "Fuel price and interest costs on aircraft leases",
+          "thin trading: the shown price may not be achievable for larger orders",
+          "no company financials are included in this score",
+          "signals use past prices only; they do not predict the future"
+        ],
+        "invalidation": [
+          "a close above 0.570 (breakout) or below 0.490 (breakdown)"
+        ]
+      }
+    },
+    {
+      "key": "US:HLAL",
+      "name": "Wahed FTSE USA Shariah ETF",
+      "market": "US",
+      "held": true,
+      "data_gaps": [
+        "Needs at least 60 daily prices; has 55.",
+        "Only 55 daily closes available (stooq, Nasdaq and Yahoo blocked); price model not run",
+        "No analyst coverage for the ETF"
+      ],
+      "currency": "USD",
+      "price": {
+        "value": 71.52,
+        "as_of": "2026-10-30",
+        "source": "StockAnalysis.com",
+        "url": "https://stockanalysis.com/etf/hlal/history/",
+        "points": 55
+      },
+      "fundamentals": [
+        {
+          "label": "Expense ratio",
+          "value": "0.50%",
+          "as_of": "2026-10-26",
+          "source": "Wahed",
+          "url": "https://www.wahed.com/hlal"
+        },
+        {
+          "label": "Index / Sharia screening",
+          "value": "FTSE Shariah USA Index; screening by Yasaar Limited",
+          "as_of": "2026-10-26",
+          "source": "Wahed",
+          "url": "https://www.wahed.com/hlal"
+        },
+        {
+          "label": "Holdings / AUM",
+          "value": "202 holdings; $962.67M assets",
+          "as_of": "2026-10-26",
+          "source": "StockAnalysis.com",
+          "url": "https://stockanalysis.com/etf/hlal/"
+        },
+        {
+          "label": "P/E",
+          "value": "27.49",
+          "as_of": "2026-10-26",
+          "source": "StockAnalysis.com",
+          "url": "https://stockanalysis.com/etf/hlal/"
+        },
+        {
+          "label": "Top holdings",
+          "value": "AAPL 12.83%, NVDA 12.49%, MSFT 9.94%, GOOGL 4.85%, GOOG 3.92%",
+          "as_of": "2026-10-26",
+          "source": "StockAnalysis.com",
+          "url": "https://stockanalysis.com/etf/hlal/"
+        },
+        {
+          "label": "Last dividend",
+          "value": "$0.096 (ex-date 24 Sep 2026); yield 0.37%",
+          "as_of": "2026-09-24",
+          "source": "StockAnalysis.com",
+          "url": "https://stockanalysis.com/etf/hlal/"
+        }
+      ],
+      "news": [
+        {
+          "date": "2026-10-30",
+          "headline": "Nasdaq -2.86%, S&P 500 -1.82% on AI-spending doubts; Intel -28.6% on weak guidance, chip index -7.2%",
+          "source": "StockTitan",
+          "url": "https://www.stocktitan.net/articles/stock-market-today-live-october-30-2026",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-10-29",
+          "headline": "Fed holds at 3.75–4.00% (10–2 vote); markets price ~83% chance of a December hike; PCE inflation 3.6%",
+          "source": "BullionVault",
+          "url": "https://www.bullionvault.com/gold-news/gold-price-news/gold-fed-silver-11-month-low-102920261",
+          "impact": "negative"
+        }
+      ],
+      "analysts": []
+    },
+    {
+      "key": "GOLD:GLOBAL",
+      "name": "Gold (global, JOD per gram 24K)",
+      "market": "GOLD",
+      "held": true,
+      "data_gaps": [
+        "Needs at least 60 daily prices; has 30.",
+        "CoinGecko (PAX Gold) blocked; used GoldPriceData Jordan 24K JOD/gram instead, only 30 days available",
+        "No central-bank buying or gold ETF flow data found for October"
+      ],
+      "currency": "JOD",
+      "price": {
+        "value": 88.34,
+        "as_of": "2026-11-01",
+        "source": "GoldPriceData.com (Jordan, 24K per gram)",
+        "url": "https://www.goldpricedata.com/en/gold-rates/jordan/24K/",
+        "points": 30
+      },
+      "fundamentals": [],
+      "news": [
+        {
+          "date": "2026-11-01",
+          "headline": "Gold fell 6.6% in October to $3,884/oz, about 31% below January's peak above $5,500; 10-yr yield fell to 4.94%",
+          "source": "ShareTrader",
+          "url": "https://sharetrader.com.au/news/2026-11-01-gold-price-falls-6-percent-in-october-2026-as-us-treasury-yields-retreat",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-10-29",
+          "headline": "Gold slips as Fed holds rates but hike odds for December rise to 83%; silver at 11-month low",
+          "source": "BullionVault",
+          "url": "https://www.bullionvault.com/gold-news/gold-price-news/gold-fed-silver-11-month-low-102920261",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-10-14",
+          "headline": "US CPI rose 0.6% in September, annual inflation 3.7%; gold fell 1.3% on the release",
+          "source": "ShareTrader",
+          "url": "https://sharetrader.com.au/news/2026-11-01-gold-price-falls-6-percent-in-october-2026-as-us-treasury-yields-retreat",
+          "impact": "negative"
+        }
+      ],
+      "analysts": []
+    },
+    {
+      "key": "US:SPUS",
+      "name": "SP Funds S&P 500 Sharia Industry Exclusions ETF",
+      "market": "US",
+      "held": false,
+      "data_gaps": [
+        "Needs at least 60 daily prices; has 50.",
+        "Only 50 daily closes available; price model not run"
+      ],
+      "currency": "USD",
+      "price": {
+        "value": 58.42,
+        "as_of": "2026-10-30",
+        "source": "StockAnalysis.com",
+        "url": "https://stockanalysis.com/etf/spus/history/",
+        "points": 50
+      },
+      "fundamentals": [
+        {
+          "label": "Expense ratio",
+          "value": "0.45%",
+          "as_of": "2026-10-27",
+          "source": "StockAnalysis.com",
+          "url": "https://stockanalysis.com/etf/spus/"
+        },
+        {
+          "label": "Holdings / AUM",
+          "value": "219 holdings; $3.32B assets",
+          "as_of": "2026-10-27",
+          "source": "StockAnalysis.com",
+          "url": "https://stockanalysis.com/etf/spus/"
+        },
+        {
+          "label": "P/E",
+          "value": "29.75 (forward 21.19)",
+          "as_of": "2026-10-27",
+          "source": "StockAnalysis.com",
+          "url": "https://stockanalysis.com/etf/spus/"
+        },
+        {
+          "label": "Top holdings",
+          "value": "NVDA 13.32%, AAPL 13.18%, MSFT 10.04%, GOOGL 4.93%, AVGO 3.99%",
+          "as_of": "2026-10-27",
+          "source": "StockAnalysis.com",
+          "url": "https://stockanalysis.com/etf/spus/"
+        }
+      ],
+      "news": [
+        {
+          "date": "2026-10-30",
+          "headline": "Nasdaq -2.86%, S&P 500 -1.82% on AI-spending doubts; chip index -7.2%",
+          "source": "StockTitan",
+          "url": "https://www.stocktitan.net/articles/stock-market-today-live-october-30-2026",
+          "impact": "negative"
+        }
+      ],
+      "analysts": []
+    },
+    {
+      "key": "CRYPTO:bitcoin",
+      "name": "Bitcoin",
+      "market": "CRYPTO",
+      "held": false,
+      "data_gaps": [
+        "Needs at least 60 daily prices; has 30.",
+        "CoinGecko blocked; only 30 days from CoinCodex; price model not run"
+      ],
+      "currency": "USD",
+      "price": {
+        "value": 77314,
+        "as_of": "2026-10-30",
+        "source": "CoinCodex",
+        "url": "https://coincodex.com/crypto/bitcoin/historical-data/",
+        "points": 30
+      },
+      "fundamentals": [],
+      "news": [
+        {
+          "date": "2026-10-31",
+          "headline": "Binance breach: ~18,270 BTC ($1.47bn) stolen, total impact estimated at $6.3bn; withdrawals to restart in phases from 1 Nov",
+          "source": "The Cryptonomist",
+          "url": "https://en.cryptonomist.ch/2026/10/31/bitcoin-price-drop-binance-breach/",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-10-30",
+          "headline": "US spot Bitcoin ETFs saw ~$643m net outflows on 30 Oct",
+          "source": "The Cryptonomist",
+          "url": "https://en.cryptonomist.ch/2026/10/31/bitcoin-price-drop-binance-breach/",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-10-10",
+          "headline": "Bitcoin ETFs post $678.9m weekly outflows",
+          "source": "CryptoTicker",
+          "url": "https://cryptoticker.io/en/crypto-etf-outflows-october-2026-bitcoin-ethereum/",
+          "impact": "negative"
+        }
+      ],
+      "analysts": []
+    },
+    {
+      "key": "CRYPTO:ethereum",
+      "name": "Ethereum",
+      "market": "CRYPTO",
+      "held": false,
+      "data_gaps": [
+        "Needs at least 60 daily prices; has 30.",
+        "CoinGecko blocked; only 30 days from CoinCodex; price model not run"
+      ],
+      "currency": "USD",
+      "price": {
+        "value": 2252.73,
+        "as_of": "2026-10-31",
+        "source": "CoinCodex",
+        "url": "https://coincodex.com/crypto/ethereum/historical-data/",
+        "points": 30
+      },
+      "fundamentals": [],
+      "news": [
+        {
+          "date": "2026-10-10",
+          "headline": "Ether ETFs post $542.2m weekly outflows, nine straight outflow sessions",
+          "source": "CryptoTicker",
+          "url": "https://cryptoticker.io/en/crypto-etf-outflows-october-2026-bitcoin-ethereum/",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-10-31",
+          "headline": "Binance breach drags crypto market; $1.53bn leveraged liquidations",
+          "source": "The Cryptonomist",
+          "url": "https://en.cryptonomist.ch/2026/10/31/bitcoin-price-drop-binance-breach/",
+          "impact": "negative"
+        }
+      ],
+      "analysts": []
+    },
+    {
+      "key": "CRYPTO:solana",
+      "name": "Solana",
+      "market": "CRYPTO",
+      "held": false,
+      "data_gaps": [
+        "Needs at least 60 daily prices; has 30.",
+        "CoinGecko blocked; only 30 days from CoinCodex; price model not run"
+      ],
+      "currency": "USD",
+      "price": {
+        "value": 95.39,
+        "as_of": "2026-10-31",
+        "source": "CoinCodex",
+        "url": "https://coincodex.com/crypto/solana/historical-data/",
+        "points": 30
+      },
+      "fundamentals": [],
+      "news": [
+        {
+          "date": "2026-10-10",
+          "headline": "Solana ETFs see $25m outflows over five straight sessions",
+          "source": "CryptoTicker",
+          "url": "https://cryptoticker.io/en/crypto-etf-outflows-october-2026-bitcoin-ethereum/",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-10-31",
+          "headline": "Binance breach drags crypto market; $1.53bn leveraged liquidations",
+          "source": "The Cryptonomist",
+          "url": "https://en.cryptonomist.ch/2026/10/31/bitcoin-price-drop-binance-breach/",
+          "impact": "negative"
+        }
+      ],
+      "analysts": []
+    }
+  ]
+}
