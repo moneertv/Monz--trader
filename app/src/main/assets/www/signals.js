@@ -52,7 +52,7 @@
 
   // ------------------------------------------------------------------ configuration
   const DEFAULT_WEIGHTS = { trend: 30, momentum: 25, meanReversion: 15, risk: 15, liquidity: 10, portfolio: 5, fundamental: 0, valuation: 0, macro: 0 };
-  const PERIODS_PER_YEAR = { ASE: 250, CRYPTO: 365, GOLD: 300, US: 252 };
+  const PERIODS_PER_YEAR = { ASE: 250, CRYPTO: 365, GOLD: 365, US: 252 };
   const MIN_POINTS = 60;
   const HORIZON = 20;   // trading periods (~1 month)
 

@@ -9,6 +9,10 @@
   const MARKETS = { GOLD: 'Jordan gold', ASE: 'Amman SE', US: 'Stocks/ETFs', CRYPTO: 'Crypto' };
   const MARKET_CCY = { GOLD: 'JOD', ASE: 'JOD', US: 'USD', CRYPTO: 'USD' };
   const COLORS = { GOLD: '#d4a93c', ASE: '#3cc48a', US: '#5b8def', CRYPTO: '#b36bef' };
+  // Coins always analysed in Signals, in addition to your watch list and holdings (CoinGecko ids)
+  const CRYPTO_UNIVERSE = ['bitcoin', 'ethereum', 'solana', 'binancecoin', 'ripple', 'cardano', 'dogecoin', 'tron', 'chainlink', 'avalanche-2', 'toncoin', 'polkadot'];
+  const OUNCE_G = 31.1034768;
+  const GOLD_GLOBAL_KEY = 'GOLD:GLOBAL';
   const GOLD_SYMBOLS = ['GOLD_24K', 'GOLD_21K', 'GOLD_18K', 'GOLD_14K', 'GOLD_LIRA_RASHADI', 'GOLD_LIRA_ENGLISH'];
   const GOLD_LABEL = { GOLD_24K: '24K', GOLD_22K: '22K', GOLD_21K: '21K', GOLD_18K: '18K', GOLD_14K: '14K', GOLD_LIRA_RASHADI: 'Rashadi lira', GOLD_LIRA_ENGLISH: 'English lira' };
 
@@ -121,12 +125,21 @@
       for (const q of await S.fetchCrypto(ids, st.settings.coingeckoKey)) st.quotes[assetKey('CRYPTO', q.symbol)] = plain(q);
       // daily history for signals, at most once a day per coin
       st.cryptoHistory = st.cryptoHistory || {};
-      for (const id of ids.slice(0, 12)) {
+      const universe = [...new Set(ids.concat(CRYPTO_UNIVERSE))].slice(0, 16);
+      const failed = [];
+      for (const id of universe) {
         const h = st.cryptoHistory[id];
         if (h && h.fetched === today()) continue;
         try { st.cryptoHistory[id] = { fetched: today(), series: await S.fetchCryptoHistory(id, st.settings.coingeckoKey) }; }
-        catch (e) { if (!h) throw new Error('history for ' + id + ': ' + e.message); }
+        catch (e) { if (!h) failed.push(id); }
+        await new Promise((r) => setTimeout(r, st.settings.coingeckoKey ? 300 : 2500));   // stay under CoinGecko's free rate limit
       }
+      // Global gold: PAX Gold (PAXG) — each token is backed by one fine troy ounce of London gold, so it tracks spot gold.
+      if (!st.goldGlobal || st.goldGlobal.fetched !== today()) {
+        try { st.goldGlobal = { fetched: today(), series: await S.fetchCryptoHistory('pax-gold', st.settings.coingeckoKey) }; }
+        catch (e) { if (!st.goldGlobal) failed.push('global gold'); }
+      }
+      if (failed.length) throw new Error('could not load history for ' + failed.join(', ') + ' (CoinGecko rate limit; it retries on the next refresh — a free CoinGecko key in Settings helps)');
     }]);
     if (which === 'all' || which === 'us') jobs.push(['us', async () => {
       const syms = [...new Set(st.watch.us.concat(held('US')))];
@@ -225,6 +238,18 @@
     if (m === 'ASE') { const q = st.quotes[key]; return s + (q && q.extra && q.extra.name ? ' · ' + q.extra.name : ''); }
     return s;
   }
+  function signalFor(assetKeyStr) {
+    let list; try { list = computeSignals(); } catch (e) { return null; }
+    const key = assetKeyStr.startsWith('GOLD:') ? GOLD_GLOBAL_KEY : assetKeyStr;
+    return list.find((x) => x.key === key) || null;
+  }
+  function signalBadge(assetKeyStr) {
+    const m = assetKeyStr.split(':')[0];
+    const a = signalFor(assetKeyStr);
+    if (a && !a.insufficient) return '<span class="pill ' + pillCls(a.action) + '" data-sig="' + esc(a.key) + '" style="margin-top:4px;display:inline-block">' + esc(a.action) + '</span>';
+    const why = m === 'US' ? 'no history (free plan)' : a && a.insufficient ? 'not enough history' : 'refresh for signal';
+    return '<span class="pill hold" style="margin-top:4px;display:inline-block;font-weight:500">' + esc(why) + '</span>';
+  }
   function holdingRow(r) {
     const m = r.asset.split(':')[0], q = st.quotes[r.asset];
     const unit = m === 'GOLD' ? (r.asset.includes('LIRA') ? ' pcs' : ' g') : '';
@@ -232,7 +257,7 @@
       '<div class="sub">' + esc(r.quantity.toString()) + unit + ' · avg ' + fmt(r.avgCost, m === 'CRYPTO' ? 4 : 3) + ' ' + esc(r.currency) + (q ? ' · ' + statusTag(q) : '') + '</div></div>' +
       '<div style="text-align:right"><div>' + (r.valueJod ? jod(r.valueJod) : '<span class="muted">no price</span>') + '</div>' +
       '<div class="sub ' + signCls(r.unrealizedJod) + '">' + (r.retJod ? signed(r.unrealizedJod, 3) + ' (' + signed(r.retJod, 2, '%') + ')' : '') + '</div>' +
-      (r.currency !== 'JOD' && r.retNative ? '<div class="sub">in ' + esc(r.currency) + ': ' + signed(r.retNative, 2, '%') + '</div>' : '') + '</div></div></div>';
+      (r.currency !== 'JOD' && r.retNative ? '<div class="sub">in ' + esc(r.currency) + ': ' + signed(r.retNative, 2, '%') + '</div>' : '') + signalBadge(r.asset) + '</div></div></div>';
   }
 
   routes.gold = () => {
@@ -453,11 +478,12 @@
       const key = assetKey('CRYPTO', id);
       out.push(G.analyze({ key, name: id, market: 'CRYPTO', currency: 'USD', series: h.series, portfolioWeightPct: alloc[key] || 0 }));
     }
-    // Gold 21K: last saved bulletin of each day (shop-buys price)
-    const gd = {};
-    for (const g of st.goldHistory) if (g.prices.GOLD_21K && g.prices.GOLD_21K.bid) gd[iso(new Date(Date.parse(g.ts) + 3 * 3600000))] = Number(g.prices.GOLD_21K.bid);
-    const gkey = assetKey('GOLD', 'GOLD_21K');
-    out.push(G.analyze({ key: gkey, name: 'Gold 21K (shop buys)', market: 'GOLD', currency: 'JOD', series: Object.keys(gd).sort().map((d) => [d, gd[d]]), portfolioWeightPct: alloc[gkey] || 0 }));
+    // Gold: global price (PAXG, USD per troy ounce) converted to JOD per gram of 24K at the CBJ peg
+    let goldWeight = 0; for (const [k, w] of Object.entries(alloc)) if (k.startsWith('GOLD:')) goldWeight += w;
+    const gs = (st.goldGlobal && st.goldGlobal.series) || [];
+    const usdJod = 0.709;
+    out.push(G.analyze({ key: GOLD_GLOBAL_KEY, name: 'Gold (global price, per gram 24K)', market: 'GOLD', currency: 'JOD',
+      series: gs.map(([dd, v]) => [dd, (v * usdJod) / OUNCE_G]), portfolioWeightPct: goldWeight }));
     signalsCache = out;
     return out;
   }
@@ -482,6 +508,7 @@
     const ok = all.filter((a) => !a.insufficient);
     const heldKeys = new Set(st.txs.filter((t) => t.asset).map((t) => t.asset));
     const filters = [['all', 'All'], ['held', 'My holdings'], ['ASE', 'Amman SE'], ['CRYPTO', 'Crypto'], ['GOLD', 'Gold']];
+    if ([...heldKeys].some((k) => k.startsWith('GOLD:'))) heldKeys.add(GOLD_GLOBAL_KEY);
     let list = ok.filter((a) => sigFilter === 'all' || (sigFilter === 'held' ? heldKeys.has(a.key) : a.market === sigFilter));
     list.sort((a, b) => b.score - a.score || b.confidence - a.confidence);
     let html = errorBlock(['signals']);
@@ -497,7 +524,7 @@
         : '<div class="empty">Nothing in this group.</div>') + '</div>';
     }
     const waiting = all.filter((a) => a.insufficient && (sigFilter === 'all' || a.market === sigFilter));
-    if (waiting.length) html += '<div class="card"><h2>Not enough history yet</h2>' + waiting.slice(0, 20).map((a) => '<div class="list-item"><b>' + esc(a.name || a.key) + '</b><div class="sub">' + esc(a.insufficient) + (a.market === 'GOLD' ? ' Gold history builds from the bulletins this app saves each day.' : '') + '</div></div>').join('') + '</div>';
+    if (waiting.length) html += '<div class="card"><h2>Not enough history yet</h2>' + waiting.slice(0, 20).map((a) => '<div class="list-item"><b>' + esc(a.name || a.key) + '</b><div class="sub">' + esc(a.insufficient) + (a.market === 'GOLD' ? ' Tap Refresh to load a year of global gold prices.' : '') + '</div></div>').join('') + '</div>';
     if (!st.settings.finnhubKey || sigFilter === 'all') html += '<div class="sub" style="margin:0 4px 12px">US stocks: the free Finnhub plan has no price history, so no signals are produced for them.</div>';
     html += trackRecordCard();
     return html;
@@ -551,7 +578,13 @@
     html += '<div class="card"><h2>News & catalysts</h2><div class="sub">No news source is connected yet, so news is not part of this signal.</div></div>';
     const past = (st.sigHistory || []).filter((h) => h.key === a.key).slice(-8).reverse();
     if (past.length) html += '<div class="card"><h2>Signal history</h2><table>' + past.map((h) => '<tr><td>' + esc(h.asOf) + '</td><td><span class="pill ' + pillCls(h.action) + '">' + esc(h.action) + '</span></td><td class="n">' + num(h.price) + '</td></tr>').join('') + '</table></div>';
-    if (a.market !== 'GOLD') html += '<button class="btn gold" style="width:100%" data-sigbuy="' + esc(a.key) + '">Record a transaction</button>';
+    if (a.market === 'GOLD') {
+      const g21 = st.quotes['GOLD:GOLD_21K'];
+      html += '<div class="note">Based on the <b>global</b> gold price: PAX Gold (PAXG, each token backed by one troy ounce of London gold) in USD per ounce, converted to JOD per gram of 24K at 0.709 JOD/USD. ' +
+        'Jordanian shop prices follow it but add a premium, and 21K is about 87.5% of 24K (≈ ' + num(a.price * 0.875) + ' JOD per gram at this price)' +
+        (g21 && g21.extra ? '; today shops buy 21K at ' + fmt(g21.extra.bid) + ' and sell at ' + fmt(g21.extra.ask) + ' JOD' : '') + '. Source: CoinGecko.</div>';
+      html += '<button class="btn gold" style="width:100%" data-go="add" data-market="GOLD">Record a gold transaction</button>';
+    } else html += '<button class="btn gold" style="width:100%" data-sigbuy="' + esc(a.key) + '">Record a transaction</button>';
     return html;
   };
 
