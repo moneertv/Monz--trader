@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-01T08:40:39.724Z",
+  "generated_at": "2026-11-02T13:02:16.844Z",
   "generator": "Monz Trader scheduled research (trader-skill)",
   "disclaimer": "Research summary built from cited public sources and a rules-based price model. Not financial advice.",
   "assets": [
@@ -11,22 +11,22 @@
       "held": true,
       "data_gaps": [
         "Q3 2026 results not yet found",
-        "P/E, P/B, debt and dividend data not retrieved (ASE company page unavailable)",
-        "No analyst coverage found",
-        "Latest close is 29 Oct (ASE trades Sun–Thu)"
+        "No analyst coverage",
+        "No company-specific news found in the last 30 days",
+        "ASE pagination returned stale pages: price series has a gap from 5 Aug to 3 Sep 2026 (80 real closes, not contiguous)"
       ],
       "currency": "JOD",
       "price": {
         "value": 0.53,
-        "as_of": "2026-10-29",
+        "as_of": "2026-11-02",
         "source": "Amman Stock Exchange",
-        "url": "https://www.exchange.jo/en/company_historical/RJAL",
-        "points": 100
+        "url": "https://ase.com.jo/en/company_historical/RJAL",
+        "points": 80
       },
       "technical": {
         "action": "HOLD",
-        "score": 3,
-        "confidence": 41,
+        "score": 0,
+        "confidence": 20,
         "levels": {
           "entryLow": null,
           "entryHigh": null,
@@ -37,67 +37,67 @@
         },
         "indicators": {
           "price": 0.53,
-          "sma20": 0.5305,
-          "sma50": 0.5252000000000002,
+          "sma20": 0.53,
+          "sma50": 0.5250000000000002,
           "sma200": null,
-          "rsi14": 51.12641508238828,
-          "macd": 0.00046525383577300516,
-          "macdSignal": 0.001065195199561851,
-          "macdHist": -0.0005999413637888459,
-          "bbUpper": 0.538380689256524,
-          "bbLower": 0.5226193107434759,
-          "bbPctB": 0.4682768864673818,
+          "rsi14": 51.19700768504337,
+          "macd": 0.0005903726473684978,
+          "macdSignal": 0.0010176178219088532,
+          "macdHist": -0.0004272451745403554,
+          "bbUpper": 0.5364888568452305,
+          "bbLower": 0.5235111431547695,
+          "bbPctB": 0.49999999999999817,
           "change20": 0,
-          "change60": 6.000000000000005,
-          "volAnnualPct": 24.962380529830735,
+          "change60": 3.9215686274509887,
+          "volAnnualPct": 28.328609764664897,
           "support": 0.49,
           "resistance": 0.57,
           "maxDrawdownPct": -8.771929824561397,
-          "flatDaysPct": 65,
-          "points": 100
+          "flatDaysPct": 60,
+          "points": 80
         },
         "factors": {
-          "trend": 31.147458890219426,
-          "momentum": -2.9999999999999893,
+          "trend": 26.827157795023126,
+          "momentum": -7.156862745098023,
           "meanReversion": 0,
-          "risk": 0.1128584105077941,
-          "liquidity": -70,
+          "risk": -9.98582929399469,
+          "liquidity": -60,
           "portfolio": 30
         },
         "contributions": {
-          "trend": 9.344237667065828,
-          "momentum": -0.7499999999999973,
+          "trend": 8.048147338506938,
+          "momentum": -1.7892156862745057,
           "meanReversion": 0,
-          "risk": 0.016928761576169116,
-          "liquidity": -7,
+          "risk": -1.4978743940992034,
+          "liquidity": -6,
           "portfolio": 1.5
         },
         "why": {
           "trend": [
-            "price above 50-day average by 0.9%",
+            "price above 50-day average by 1.0%",
             "20-day average above 50-day",
             "50-day average rising"
           ],
           "momentum": [
             "20-day change +0.0%",
-            "60-day change +6.0%",
+            "60-day change +3.9%",
             "MACD below its signal line"
           ],
           "meanReversion": [
             "RSI 51: neutral"
           ],
           "risk": [
-            "annualised volatility 25%",
+            "annualised volatility 28%",
             "max drawdown -9% over the period"
           ],
           "liquidity": [
-            "65% of the last 60 sessions closed unchanged"
+            "60% of the last 60 sessions closed unchanged"
           ],
           "portfolio": [
             "not in your portfolio yet (adds diversification)"
           ]
         },
-        "thesis": "The trend is supportive: price above 50-day average by 0.9%. Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 25% a year; recent range 0.490–0.570 JOD.",
+        "thesis": "The trend is supportive: price above 50-day average by 1.0%. Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 28% a year; recent range 0.490–0.570 JOD.",
         "risks": [
           "thin trading: the shown price may not be achievable for larger orders",
           "no company financials are included in this score",
@@ -109,55 +109,41 @@
       },
       "fundamentals": [
         {
+          "label": "P/E (ASE performance indicators)",
+          "value": "18.54",
+          "as_of": "2026-11-02",
+          "source": "Amman Stock Exchange",
+          "url": "https://ase.com.jo/en/company_historical/RJAL"
+        },
+        {
           "label": "Net profit H1 2026",
-          "value": "JOD 1.4m (vs JOD 12.7m in H1 2025)",
+          "value": "JOD 1.4m (H1 2025: JOD 12.7m); revenue up JOD 86m (+23%)",
           "as_of": "2026-06-30",
           "source": "Jordan News",
           "url": "https://www.jordannews.jo/Section-113/All/Royal-Jordanian-Reports-a-Net-Profit-of-JOD-1-4-million-in-the-First-Half-of-2026-Despite-Ongoing-Regional-Challenges-53679"
         },
         {
-          "label": "Revenue growth H1 2026",
-          "value": "+JOD 86m (+23% y/y)",
+          "label": "H1 2026 cost pressure",
+          "value": "Fuel costs +JOD 33m (+37%), financing costs +JOD 18m; load factor 71.8% (-8.6 pts)",
           "as_of": "2026-06-30",
           "source": "Jordan News",
           "url": "https://www.jordannews.jo/Section-113/All/Royal-Jordanian-Reports-a-Net-Profit-of-JOD-1-4-million-in-the-First-Half-of-2026-Despite-Ongoing-Regional-Challenges-53679"
         },
         {
-          "label": "Cost pressure H1 2026",
-          "value": "Operating costs +JOD 69.5m (fuel +JOD 33m); financing costs +JOD 18m",
-          "as_of": "2026-06-30",
-          "source": "Jordan News",
-          "url": "https://www.jordannews.jo/Section-113/All/Royal-Jordanian-Reports-a-Net-Profit-of-JOD-1-4-million-in-the-First-Half-of-2026-Despite-Ongoing-Regional-Challenges-53679"
-        },
-        {
-          "label": "Operations H1 2026",
-          "value": "1.984m passengers (+5%), load factor 71.8% (-8.6 pts), cargo 21,460 t (+36%)",
-          "as_of": "2026-06-30",
-          "source": "Jordan News",
-          "url": "https://www.jordannews.jo/Section-113/All/Royal-Jordanian-Reports-a-Net-Profit-of-JOD-1-4-million-in-the-First-Half-of-2026-Despite-Ongoing-Regional-Challenges-53679"
-        },
-        {
-          "label": "Management outlook",
-          "value": "Performance remains below 2026 budget targets; government continues to cover part of fuel cost increase",
-          "as_of": "2026-07-30",
-          "source": "Jordan News",
-          "url": "https://www.jordannews.jo/Section-113/All/Royal-Jordanian-Reports-a-Net-Profit-of-JOD-1-4-million-in-the-First-Half-of-2026-Despite-Ongoing-Regional-Challenges-53679"
+          "label": "FY2025 results",
+          "value": "Net profit JD 21.5m incl. non-recurring capital gains (2024: loss JD 3.5m); operating revenue JD 829m (+11%)",
+          "as_of": "2025-12-31",
+          "source": "Petra",
+          "url": "https://petra.gov.jo/en/news/rj-posts-jd215m-net-profit"
         }
       ],
       "news": [
         {
-          "date": "2026-10-15",
-          "headline": "Royal Jordanian hit by reluctance of travellers to visit Jordan since Iran war; traffic fell 40% in March, airline shifting to higher-yield routes (CEO)",
-          "source": "FlightGlobal",
-          "url": "https://www.flightglobal.com/airlines/2026/10/royal-jordanian-hit-by-reluctance-of-travellers-to-visit-jordan-since-iran-war-chief-executive/",
+          "date": "2026-11-02",
+          "headline": "Brent closed at $117.64 after a tanker attack in the Strait of Hormuz, up over 13% in October (higher jet-fuel cost risk for airlines)",
+          "source": "Mitrade",
+          "url": "https://www.mitrade.com/insights/commodity-analysis/gold/gold-selloff-liquidation-oil-spikes-fed-hike",
           "impact": "negative"
-        },
-        {
-          "date": "2026-10-15",
-          "headline": "RJ attends IATA Wings of Change Europe 2026 in Brussels",
-          "source": "Royal Jordanian",
-          "url": "https://www.rj.com/en/meet-rj/our-media-center/news/2026/october/15/iata-wings",
-          "impact": "neutral"
         }
       ],
       "analysts": [],
@@ -165,8 +151,8 @@
         "action": "HOLD",
         "technical_action": "HOLD",
         "changed_reason": null,
-        "confidence": 41,
-        "thesis": "The price model reads HOLD: the share has drifted up about 6% over 60 sessions but has sat at 0.52–0.54 JOD for a month, with most sessions closing unchanged on very thin volume. Fundamentals are mixed: revenue grew 23% in H1 2026 but profit fell to JOD 1.4m on higher fuel and lease-financing costs, and management says results are below budget. The CEO says regional conflict still deters visitors, so there is no clear catalyst until Q3 results.",
+        "confidence": 20,
+        "thesis": "The price model reads HOLD: RJAL has traded in a tight 0.52–0.54 band for two months, sitting right on its 20-day average with neutral momentum and very thin volume. Fundamentally, H1 2026 profit collapsed to JOD 1.4m from 12.7m as fuel and lease-financing costs outran 23% revenue growth, and oil spiking to around $117 Brent adds pressure into Q3. Nothing in the price action argues for adding; wait for Q3 results.",
         "levels": {
           "entryLow": null,
           "entryHigh": null,
@@ -176,9 +162,9 @@
           "horizon": "3–6 weeks"
         },
         "risks": [
-          "Very low liquidity: small trades can move the price",
-          "Regional conflict and airspace closures hitting tourism demand",
-          "Fuel price and interest costs on aircraft leases",
+          "Jet-fuel costs after the Hormuz oil spike",
+          "Very thin trading — exits can move the price",
+          "Regional conflict hitting demand",
           "thin trading: the shown price may not be achievable for larger orders",
           "no company financials are included in this score",
           "signals use past prices only; they do not predict the future"
@@ -194,8 +180,9 @@
       "market": "US",
       "held": true,
       "data_gaps": [
-        "Needs at least 60 daily prices; has 55.",
-        "Only 55 daily closes available (stooq, Nasdaq and Yahoo blocked); price model not run",
+        "Needs at least 60 daily prices; has 52.",
+        "Only 52 daily closes (stooq/Nasdaq unavailable; StockAnalysis history page 1 only); price model not run",
+        "Closes for 27–29 Oct missing; 26 Oct from StockAnalysis overview, 30 Oct from WallStreetNumbers (https://wallstreetnumbers.com/etfs/hlal/price)",
         "No analyst coverage for the ETF"
       ],
       "currency": "USD",
@@ -204,65 +191,65 @@
         "as_of": "2026-10-30",
         "source": "StockAnalysis.com",
         "url": "https://stockanalysis.com/etf/hlal/history/",
-        "points": 55
+        "points": 52
       },
       "fundamentals": [
         {
           "label": "Expense ratio",
           "value": "0.50%",
           "as_of": "2026-10-26",
-          "source": "Wahed",
-          "url": "https://www.wahed.com/hlal"
-        },
-        {
-          "label": "Index / Sharia screening",
-          "value": "FTSE Shariah USA Index; screening by Yasaar Limited",
-          "as_of": "2026-10-26",
-          "source": "Wahed",
-          "url": "https://www.wahed.com/hlal"
+          "source": "StockAnalysis.com",
+          "url": "https://stockanalysis.com/etf/hlal"
         },
         {
           "label": "Holdings / AUM",
           "value": "202 holdings; $962.67M assets",
           "as_of": "2026-10-26",
           "source": "StockAnalysis.com",
-          "url": "https://stockanalysis.com/etf/hlal/"
+          "url": "https://stockanalysis.com/etf/hlal"
         },
         {
           "label": "P/E",
-          "value": "27.49",
+          "value": "27.49 (forward 20.32)",
           "as_of": "2026-10-26",
           "source": "StockAnalysis.com",
-          "url": "https://stockanalysis.com/etf/hlal/"
+          "url": "https://stockanalysis.com/etf/hlal"
         },
         {
           "label": "Top holdings",
           "value": "AAPL 12.83%, NVDA 12.49%, MSFT 9.94%, GOOGL 4.85%, GOOG 3.92%",
           "as_of": "2026-10-26",
           "source": "StockAnalysis.com",
-          "url": "https://stockanalysis.com/etf/hlal/"
+          "url": "https://stockanalysis.com/etf/hlal"
         },
         {
           "label": "Last dividend",
           "value": "$0.096 (ex-date 24 Sep 2026); yield 0.37%",
           "as_of": "2026-09-24",
           "source": "StockAnalysis.com",
-          "url": "https://stockanalysis.com/etf/hlal/"
+          "url": "https://stockanalysis.com/etf/hlal"
         }
       ],
       "news": [
         {
           "date": "2026-10-30",
-          "headline": "Nasdaq -2.86%, S&P 500 -1.82% on AI-spending doubts; Intel -28.6% on weak guidance, chip index -7.2%",
-          "source": "StockTitan",
-          "url": "https://www.stocktitan.net/articles/stock-market-today-live-october-30-2026",
+          "headline": "Nasdaq 100 -3.5%, S&P 500 -1.8% on AI-spending and tech-valuation worries; worst session since June",
+          "source": "Saxo",
+          "url": "https://home.saxo/en-ch/content/articles/macro/market-quick-take---markets-find-calm-after-friday-turmoil----2-november-2026-02112026",
           "impact": "negative"
         },
         {
-          "date": "2026-10-29",
-          "headline": "Fed holds at 3.75–4.00% (10–2 vote); markets price ~83% chance of a December hike; PCE inflation 3.6%",
-          "source": "BullionVault",
-          "url": "https://www.bullionvault.com/gold-news/gold-price-news/gold-fed-silver-11-month-low-102920261",
+          "date": "2026-11-02",
+          "headline": "Week ahead: Apple reports after Monday close, US midterms Tuesday, payrolls Friday",
+          "source": "Saxo",
+          "url": "https://home.saxo/en-ch/content/articles/macro/market-quick-take---markets-find-calm-after-friday-turmoil----2-november-2026-02112026",
+          "impact": "neutral"
+        },
+        {
+          "date": "2026-11-02",
+          "headline": "Fed held at 3.75–4.00% with two votes to hike; markets price a December hike",
+          "source": "Mitrade",
+          "url": "https://www.mitrade.com/insights/commodity-analysis/gold/gold-selloff-liquidation-oil-spikes-fed-hike",
           "impact": "negative"
         }
       ],
@@ -274,43 +261,161 @@
       "market": "GOLD",
       "held": true,
       "data_gaps": [
-        "Needs at least 60 daily prices; has 30.",
-        "CoinGecko (PAX Gold) blocked; used GoldPriceData Jordan 24K JOD/gram instead, only 30 days available",
-        "No central-bank buying or gold ETF flow data found for October"
+        "CoinGecko unavailable; used PAX Gold daily closes from Coinranking, which miss some days and are noisier than spot gold",
+        "No central-bank buying or gold ETF flow data found for the last 30 days",
+        "JOD conversion uses fixed 0.709 USD peg"
       ],
       "currency": "JOD",
       "price": {
-        "value": 88.34,
+        "value": 89.672,
         "as_of": "2026-11-01",
-        "source": "GoldPriceData.com (Jordan, 24K per gram)",
-        "url": "https://www.goldpricedata.com/en/gold-rates/jordan/24K/",
-        "points": 30
+        "source": "Coinranking (PAX Gold, converted USD/oz x 0.709 / 31.1034768)",
+        "url": "https://coinranking.com/coin/qVnYYDDgYSRk+paxosgold-paxg/historical-data?unit=days",
+        "points": 98
+      },
+      "technical": {
+        "action": "SELL",
+        "score": -37,
+        "confidence": 82,
+        "levels": {
+          "entryLow": null,
+          "entryHigh": null,
+          "target": 82.7888032557145,
+          "stop": 96.5551967442855,
+          "riskReward": 1,
+          "horizon": "3–6 weeks"
+        },
+        "indicators": {
+          "price": 89.672,
+          "sma20": 92.68675,
+          "sma50": 95.16261999999995,
+          "sma200": null,
+          "rsi14": 38.786924774574416,
+          "macd": -1.6426308265544662,
+          "macdSignal": -1.3612005108376588,
+          "macdHist": -0.28143031571680743,
+          "bbUpper": 97.45919489367431,
+          "bbLower": 87.9143051063257,
+          "bbPctB": 0.18415036033250565,
+          "change20": -5.892724086181755,
+          "change60": -10.988465585356666,
+          "volAnnualPct": 34.94561977759253,
+          "support": 88.481,
+          "resistance": 101.981,
+          "maxDrawdownPct": -16.557271921386672,
+          "flatDaysPct": 0,
+          "points": 98
+        },
+        "factors": {
+          "trend": -73.42678651514828,
+          "momentum": -60.54782751544035,
+          "meanReversion": 0,
+          "risk": -29.8368593327776,
+          "liquidity": 30,
+          "portfolio": 30
+        },
+        "contributions": {
+          "trend": -22.028035954544485,
+          "momentum": -15.136956878860087,
+          "meanReversion": 0,
+          "risk": -4.4755288999166405,
+          "liquidity": 3,
+          "portfolio": 1.5
+        },
+        "why": {
+          "trend": [
+            "price below 50-day average by 5.8%",
+            "20-day average below 50-day",
+            "50-day average falling"
+          ],
+          "momentum": [
+            "20-day change -5.9%",
+            "60-day change -11.0%",
+            "MACD below its signal line"
+          ],
+          "meanReversion": [
+            "RSI 39: neutral"
+          ],
+          "risk": [
+            "annualised volatility 35%",
+            "max drawdown -17% over the period"
+          ],
+          "liquidity": [
+            "liquid market"
+          ],
+          "portfolio": [
+            "not in your portfolio yet (adds diversification)"
+          ]
+        },
+        "thesis": "The trend is negative: price below 50-day average by 5.8%. Also, 20-day change -5.9%. Volatility is 35% a year; recent range 88.48–101.98 JOD.",
+        "risks": [
+          "high volatility (35% a year): position size accordingly",
+          "signals use past prices only; they do not predict the future"
+        ],
+        "invalidation": [
+          "a close above 96.56 JOD",
+          "price recovering above the 50-day average (95.16)"
+        ]
       },
       "fundamentals": [],
       "news": [
         {
-          "date": "2026-11-01",
-          "headline": "Gold fell 6.6% in October to $3,884/oz, about 31% below January's peak above $5,500; 10-yr yield fell to 4.94%",
-          "source": "ShareTrader",
-          "url": "https://sharetrader.com.au/news/2026-11-01-gold-price-falls-6-percent-in-october-2026-as-us-treasury-yields-retreat",
+          "date": "2026-11-02",
+          "headline": "Gold opens at its lowest point in over a year ahead of US midterms; Dec futures ~$3,890–3,914/oz",
+          "source": "BizToc / Yahoo Finance",
+          "url": "https://biztoc.com/x/719cf844e7adce83",
           "impact": "negative"
         },
         {
-          "date": "2026-10-29",
-          "headline": "Gold slips as Fed holds rates but hike odds for December rise to 83%; silver at 11-month low",
-          "source": "BullionVault",
-          "url": "https://www.bullionvault.com/gold-news/gold-price-news/gold-fed-silver-11-month-low-102920261",
-          "impact": "negative"
+          "date": "2026-11-02",
+          "headline": "Gold rebounds 1% to $3,915 after breaking below $3,970 on Friday; October down 6.8%",
+          "source": "Saxo",
+          "url": "https://home.saxo/en-ch/content/articles/macro/market-quick-take---markets-find-calm-after-friday-turmoil----2-november-2026-02112026",
+          "impact": "neutral"
         },
         {
-          "date": "2026-10-14",
-          "headline": "US CPI rose 0.6% in September, annual inflation 3.7%; gold fell 1.3% on the release",
-          "source": "ShareTrader",
-          "url": "https://sharetrader.com.au/news/2026-11-01-gold-price-falls-6-percent-in-october-2026-as-us-treasury-yields-retreat",
+          "date": "2026-11-02",
+          "headline": "Equity margin calls forced gold liquidation; markets price a December Fed hike, raising the cost of holding gold",
+          "source": "Mitrade",
+          "url": "https://www.mitrade.com/insights/commodity-analysis/gold/gold-selloff-liquidation-oil-spikes-fed-hike",
           "impact": "negative"
         }
       ],
-      "analysts": []
+      "analysts": [
+        {
+          "label": "Saxo view",
+          "value": "Structural support for gold remains intact, but sentiment and positioning need to stabilise first",
+          "as_of": "2026-11-02",
+          "source": "Saxo",
+          "url": "https://home.saxo/en-ch/content/articles/macro/market-quick-take---markets-find-calm-after-friday-turmoil----2-november-2026-02112026"
+        }
+      ],
+      "recommendation": {
+        "action": "SELL",
+        "technical_action": "SELL",
+        "changed_reason": null,
+        "confidence": 82,
+        "thesis": "The model says SELL: gold in JOD per gram is about 11% lower than 60 days ago, below both its 20- and 50-day averages, with falling momentum. The news backs the trend: gold hit a one-year low as markets priced a December Fed hike and investors sold gold to cover equity losses. Against that, Saxo still sees structural support, and short-term readings are oversold, so a bounce is possible; the stop level marks where the downtrend would be invalidated.",
+        "levels": {
+          "entryLow": null,
+          "entryHigh": null,
+          "target": 82.7888032557145,
+          "stop": 96.5551967442855,
+          "riskReward": 1,
+          "horizon": "3–6 weeks"
+        },
+        "risks": [
+          "December Fed hike would add pressure",
+          "Sharp oversold rebounds can reverse a sell quickly",
+          "Price proxy (PAX Gold on Coinranking) has outliers; one obviously wrong 2 Oct close ($4,964) was dropped",
+          "high volatility (35% a year): position size accordingly",
+          "signals use past prices only; they do not predict the future"
+        ],
+        "invalidation": [
+          "a close above 96.56 JOD",
+          "price recovering above the 50-day average (95.16)"
+        ]
+      }
     },
     {
       "key": "US:SPUS",
@@ -319,12 +424,13 @@
       "held": false,
       "data_gaps": [
         "Needs at least 60 daily prices; has 50.",
-        "Only 50 daily closes available; price model not run"
+        "Only 50 daily closes ending 23 Oct; price model not run",
+        "No analyst coverage for the ETF"
       ],
       "currency": "USD",
       "price": {
-        "value": 58.42,
-        "as_of": "2026-10-30",
+        "value": 58.66,
+        "as_of": "2026-10-23",
         "source": "StockAnalysis.com",
         "url": "https://stockanalysis.com/etf/spus/history/",
         "points": 50
@@ -335,36 +441,43 @@
           "value": "0.45%",
           "as_of": "2026-10-27",
           "source": "StockAnalysis.com",
-          "url": "https://stockanalysis.com/etf/spus/"
+          "url": "https://stockanalysis.com/etf/spus"
         },
         {
           "label": "Holdings / AUM",
           "value": "219 holdings; $3.32B assets",
           "as_of": "2026-10-27",
           "source": "StockAnalysis.com",
-          "url": "https://stockanalysis.com/etf/spus/"
+          "url": "https://stockanalysis.com/etf/spus"
         },
         {
           "label": "P/E",
           "value": "29.75 (forward 21.19)",
           "as_of": "2026-10-27",
           "source": "StockAnalysis.com",
-          "url": "https://stockanalysis.com/etf/spus/"
+          "url": "https://stockanalysis.com/etf/spus"
         },
         {
           "label": "Top holdings",
           "value": "NVDA 13.32%, AAPL 13.18%, MSFT 10.04%, GOOGL 4.93%, AVGO 3.99%",
           "as_of": "2026-10-27",
           "source": "StockAnalysis.com",
-          "url": "https://stockanalysis.com/etf/spus/"
+          "url": "https://stockanalysis.com/etf/spus"
+        },
+        {
+          "label": "Last dividend",
+          "value": "$0.026 monthly (ex-date 28 Sep 2026); yield 0.51%",
+          "as_of": "2026-09-28",
+          "source": "StockAnalysis.com",
+          "url": "https://stockanalysis.com/etf/spus"
         }
       ],
       "news": [
         {
           "date": "2026-10-30",
-          "headline": "Nasdaq -2.86%, S&P 500 -1.82% on AI-spending doubts; chip index -7.2%",
-          "source": "StockTitan",
-          "url": "https://www.stocktitan.net/articles/stock-market-today-live-october-30-2026",
+          "headline": "Nasdaq 100 -3.5% on AI-spending worries; ASML -6.1% as concern spread to chipmakers",
+          "source": "Saxo",
+          "url": "https://home.saxo/en-ch/content/articles/macro/market-quick-take---markets-find-calm-after-friday-turmoil----2-november-2026-02112026",
           "impact": "negative"
         }
       ],
@@ -376,42 +489,142 @@
       "market": "CRYPTO",
       "held": false,
       "data_gaps": [
-        "Needs at least 60 daily prices; has 30.",
-        "CoinGecko blocked; only 30 days from CoinCodex; price model not run"
+        "CoinGecko unavailable; daily closes from Coinranking",
+        "No on-chain data collected"
       ],
       "currency": "USD",
       "price": {
-        "value": 77314,
-        "as_of": "2026-10-30",
-        "source": "CoinCodex",
-        "url": "https://coincodex.com/crypto/bitcoin/historical-data/",
-        "points": 30
+        "value": 78336.95,
+        "as_of": "2026-11-01",
+        "source": "Coinranking",
+        "url": "https://coinranking.com/coin/Qwsogvtv82FCd+bitcoin-btc/historical-data?unit=days",
+        "points": 99
+      },
+      "technical": {
+        "action": "HOLD",
+        "score": -10,
+        "confidence": 75,
+        "levels": {
+          "entryLow": null,
+          "entryHigh": null,
+          "target": 86601.59,
+          "stop": 75649.3,
+          "riskReward": null,
+          "horizon": "2–4 weeks"
+        },
+        "indicators": {
+          "price": 78336.95,
+          "sma20": 80922.69349999996,
+          "sma50": 81976.428,
+          "sma200": null,
+          "rsi14": 39.474037183752195,
+          "macd": -1100.8536737115646,
+          "macdSignal": -646.573523860971,
+          "macdHist": -454.2801498505936,
+          "bbUpper": 84662.87192224148,
+          "bbLower": 77182.51507775845,
+          "bbPctB": 0.15432885706421529,
+          "change20": -4.29598736081207,
+          "change60": 1.3095355719723978,
+          "volAnnualPct": 38.13696963141981,
+          "support": 75649.3,
+          "resistance": 86601.59,
+          "maxDrawdownPct": -10.716212023358928,
+          "flatDaysPct": 0,
+          "points": 99
+        },
+        "factors": {
+          "trend": -48.64191495562628,
+          "momentum": -29.564878299303487,
+          "meanReversion": 0,
+          "risk": 32.79454555287029,
+          "liquidity": 60,
+          "portfolio": 30
+        },
+        "contributions": {
+          "trend": -14.592574486687884,
+          "momentum": -7.391219574825872,
+          "meanReversion": 0,
+          "risk": 4.919181832930543,
+          "liquidity": 6,
+          "portfolio": 1.5
+        },
+        "why": {
+          "trend": [
+            "price below 50-day average by 4.4%",
+            "20-day average below 50-day",
+            "50-day average rising"
+          ],
+          "momentum": [
+            "20-day change -4.3%",
+            "60-day change +1.3%",
+            "MACD below its signal line"
+          ],
+          "meanReversion": [
+            "RSI 39: neutral"
+          ],
+          "risk": [
+            "annualised volatility 38%",
+            "max drawdown -11% over the period"
+          ],
+          "liquidity": [
+            "trades around the clock on many exchanges"
+          ],
+          "portfolio": [
+            "not in your portfolio yet (adds diversification)"
+          ]
+        },
+        "thesis": "The trend is negative: price below 50-day average by 4.4%. Also, 20-day change -4.3%. Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 38% a year; recent range 75649–86602 USD.",
+        "risks": [
+          "crypto can fall sharply in hours; levels are based on daily closes",
+          "signals use past prices only; they do not predict the future"
+        ],
+        "invalidation": [
+          "a close above 86602 (breakout) or below 75649 (breakdown)"
+        ]
       },
       "fundamentals": [],
       "news": [
         {
-          "date": "2026-10-31",
-          "headline": "Binance breach: ~18,270 BTC ($1.47bn) stolen, total impact estimated at $6.3bn; withdrawals to restart in phases from 1 Nov",
-          "source": "The Cryptonomist",
-          "url": "https://en.cryptonomist.ch/2026/10/31/bitcoin-price-drop-binance-breach/",
-          "impact": "negative"
-        },
-        {
           "date": "2026-10-30",
-          "headline": "US spot Bitcoin ETFs saw ~$643m net outflows on 30 Oct",
-          "source": "The Cryptonomist",
-          "url": "https://en.cryptonomist.ch/2026/10/31/bitcoin-price-drop-binance-breach/",
+          "headline": "US bitcoin ETFs saw about $643m outflows, the largest since June; crypto equities (Coinbase -11%) fell harder than tokens",
+          "source": "Saxo",
+          "url": "https://home.saxo/en-ch/content/articles/macro/market-quick-take---markets-find-calm-after-friday-turmoil----2-november-2026-02112026",
           "impact": "negative"
         },
         {
-          "date": "2026-10-10",
-          "headline": "Bitcoin ETFs post $678.9m weekly outflows",
-          "source": "CryptoTicker",
-          "url": "https://cryptoticker.io/en/crypto-etf-outflows-october-2026-bitcoin-ethereum/",
-          "impact": "negative"
+          "date": "2026-11-02",
+          "headline": "Binance restoring withdrawals after hack; MSCI index decision due 11 Nov",
+          "source": "Saxo",
+          "url": "https://home.saxo/en-ch/content/articles/macro/market-quick-take---markets-find-calm-after-friday-turmoil----2-november-2026-02112026",
+          "impact": "neutral"
         }
       ],
-      "analysts": []
+      "analysts": [],
+      "recommendation": {
+        "action": "HOLD",
+        "technical_action": "HOLD",
+        "changed_reason": null,
+        "confidence": 75,
+        "thesis": "The model says HOLD: bitcoin is just below its 20- and 50-day averages, down about 4% over 20 days but roughly flat over 60. ETF outflows and the Binance hack weigh on sentiment, while Binance restoring withdrawals removes one overhang.",
+        "levels": {
+          "entryLow": null,
+          "entryHigh": null,
+          "target": 86601.59,
+          "stop": 75649.3,
+          "riskReward": null,
+          "horizon": "2–4 weeks"
+        },
+        "risks": [
+          "Continued ETF outflows",
+          "Risk-off moves in tech spill into crypto",
+          "crypto can fall sharply in hours; levels are based on daily closes",
+          "signals use past prices only; they do not predict the future"
+        ],
+        "invalidation": [
+          "a close above 86602 (breakout) or below 75649 (breakdown)"
+        ]
+      }
     },
     {
       "key": "CRYPTO:ethereum",
@@ -419,35 +632,135 @@
       "market": "CRYPTO",
       "held": false,
       "data_gaps": [
-        "Needs at least 60 daily prices; has 30.",
-        "CoinGecko blocked; only 30 days from CoinCodex; price model not run"
+        "CoinGecko unavailable; daily closes from Coinranking"
       ],
       "currency": "USD",
       "price": {
-        "value": 2252.73,
-        "as_of": "2026-10-31",
-        "source": "CoinCodex",
-        "url": "https://coincodex.com/crypto/ethereum/historical-data/",
-        "points": 30
+        "value": 2275.96,
+        "as_of": "2026-11-01",
+        "source": "Coinranking",
+        "url": "https://coinranking.com/coin/razxDUgYGNAdQ+ethereum-eth/historical-data?unit=days",
+        "points": 99
+      },
+      "technical": {
+        "action": "REDUCE",
+        "score": -25,
+        "confidence": 79,
+        "levels": {
+          "entryLow": null,
+          "entryHigh": null,
+          "target": 2014.3118122700712,
+          "stop": 2537.608187729929,
+          "riskReward": 1,
+          "horizon": "2–4 weeks"
+        },
+        "indicators": {
+          "price": 2275.96,
+          "sma20": 2372.714,
+          "sma50": 2517.3539999999994,
+          "sma200": null,
+          "rsi14": 35.03662529196306,
+          "macd": -69.92260659250724,
+          "macdSignal": -61.04995039006359,
+          "macdHist": -8.872656202443643,
+          "bbUpper": 2521.21461044,
+          "bbLower": 2224.21338956,
+          "bbPctB": 0.17423029537278453,
+          "change20": -7.022460434828792,
+          "change60": -4.873441000434675,
+          "volAnnualPct": 52.379614222305015,
+          "support": 2244.49,
+          "resistance": 2774.98,
+          "maxDrawdownPct": -19.116894536176844,
+          "flatDaysPct": 0,
+          "points": 99
+        },
+        "factors": {
+          "trend": -68.67913417202294,
+          "momentum": -52.83672374018452,
+          "meanReversion": 0,
+          "risk": 11.430578666542477,
+          "liquidity": 60,
+          "portfolio": 30
+        },
+        "contributions": {
+          "trend": -20.603740251606883,
+          "momentum": -13.20918093504613,
+          "meanReversion": 0,
+          "risk": 1.7145867999813715,
+          "liquidity": 6,
+          "portfolio": 1.5
+        },
+        "why": {
+          "trend": [
+            "price below 50-day average by 9.6%",
+            "20-day average below 50-day",
+            "50-day average falling"
+          ],
+          "momentum": [
+            "20-day change -7.0%",
+            "60-day change -4.9%",
+            "MACD below its signal line"
+          ],
+          "meanReversion": [
+            "RSI 35: neutral"
+          ],
+          "risk": [
+            "annualised volatility 52%",
+            "max drawdown -19% over the period"
+          ],
+          "liquidity": [
+            "trades around the clock on many exchanges"
+          ],
+          "portfolio": [
+            "not in your portfolio yet (adds diversification)"
+          ]
+        },
+        "thesis": "The trend is negative: price below 50-day average by 9.6%. Also, 20-day change -7.0%. Volatility is 52% a year; recent range 2244–2775 USD.",
+        "risks": [
+          "crypto can fall sharply in hours; levels are based on daily closes",
+          "signals use past prices only; they do not predict the future"
+        ],
+        "invalidation": [
+          "a close above 2538 USD",
+          "price recovering above the 50-day average (2517)"
+        ]
       },
       "fundamentals": [],
       "news": [
         {
-          "date": "2026-10-10",
-          "headline": "Ether ETFs post $542.2m weekly outflows, nine straight outflow sessions",
-          "source": "CryptoTicker",
-          "url": "https://cryptoticker.io/en/crypto-etf-outflows-october-2026-bitcoin-ethereum/",
-          "impact": "negative"
-        },
-        {
-          "date": "2026-10-31",
-          "headline": "Binance breach drags crypto market; $1.53bn leveraged liquidations",
-          "source": "The Cryptonomist",
-          "url": "https://en.cryptonomist.ch/2026/10/31/bitcoin-price-drop-binance-breach/",
+          "date": "2026-10-30",
+          "headline": "US ether ETFs saw about $156m outflows",
+          "source": "Saxo",
+          "url": "https://home.saxo/en-ch/content/articles/macro/market-quick-take---markets-find-calm-after-friday-turmoil----2-november-2026-02112026",
           "impact": "negative"
         }
       ],
-      "analysts": []
+      "analysts": [],
+      "recommendation": {
+        "action": "REDUCE",
+        "technical_action": "REDUCE",
+        "changed_reason": null,
+        "confidence": 79,
+        "thesis": "The model says REDUCE: ether is about 7% lower over 20 days and below both its 20- and 50-day averages, with weak momentum. ETF outflows confirm soft demand.",
+        "levels": {
+          "entryLow": null,
+          "entryHigh": null,
+          "target": 2014.3118122700712,
+          "stop": 2537.608187729929,
+          "riskReward": 1,
+          "horizon": "2–4 weeks"
+        },
+        "risks": [
+          "ETF outflows continue",
+          "crypto can fall sharply in hours; levels are based on daily closes",
+          "signals use past prices only; they do not predict the future"
+        ],
+        "invalidation": [
+          "a close above 2538 USD",
+          "price recovering above the 50-day average (2517)"
+        ]
+      }
     },
     {
       "key": "CRYPTO:solana",
@@ -455,35 +768,138 @@
       "market": "CRYPTO",
       "held": false,
       "data_gaps": [
-        "Needs at least 60 daily prices; has 30.",
-        "CoinGecko blocked; only 30 days from CoinCodex; price model not run"
+        "CoinGecko unavailable; daily closes from Coinranking",
+        "No Solana-specific news sourced this run"
       ],
       "currency": "USD",
       "price": {
-        "value": 95.39,
-        "as_of": "2026-10-31",
-        "source": "CoinCodex",
-        "url": "https://coincodex.com/crypto/solana/historical-data/",
-        "points": 30
+        "value": 94.51,
+        "as_of": "2026-11-01",
+        "source": "Coinranking",
+        "url": "https://coinranking.com/coin/zNZHO_Sjf+solana-sol/historical-data?unit=days",
+        "points": 99
+      },
+      "technical": {
+        "action": "REDUCE",
+        "score": -27,
+        "confidence": 56,
+        "levels": {
+          "entryLow": null,
+          "entryHigh": null,
+          "target": 82.69334030002798,
+          "stop": 106.32665969997203,
+          "riskReward": 1,
+          "horizon": "2–4 weeks"
+        },
+        "indicators": {
+          "price": 94.51,
+          "sma20": 102.19,
+          "sma50": 109.0618,
+          "sma200": null,
+          "rsi14": 28.79813687601279,
+          "macd": -3.688353203620835,
+          "macdSignal": -2.9016586532250934,
+          "macdHist": -0.7866945503957417,
+          "bbUpper": 109.90342779969143,
+          "bbLower": 94.47657220030857,
+          "bbPctB": 0.0021668576253980943,
+          "change20": -10.5781057810578,
+          "change60": -5.489999999999995,
+          "volAnnualPct": 55.840158359262084,
+          "support": 95.44,
+          "resistance": 122.09,
+          "maxDrawdownPct": -22.589892702105008,
+          "flatDaysPct": 0,
+          "points": 99
+        },
+        "factors": {
+          "trend": -60.95904319896157,
+          "momentum": -80.97999999999999,
+          "meanReversion": 23.605589371961628,
+          "risk": 6.239762461106874,
+          "liquidity": 60,
+          "portfolio": 30
+        },
+        "contributions": {
+          "trend": -18.28771295968847,
+          "momentum": -20.244999999999997,
+          "meanReversion": 3.5408384057942444,
+          "risk": 0.9359643691660311,
+          "liquidity": 6,
+          "portfolio": 1.5
+        },
+        "why": {
+          "trend": [
+            "price below 50-day average by 13.3%",
+            "20-day average below 50-day",
+            "50-day average falling"
+          ],
+          "momentum": [
+            "20-day change -10.6%",
+            "60-day change -5.5%",
+            "MACD below its signal line",
+            "closed below its 60-day low (breakdown)"
+          ],
+          "meanReversion": [
+            "RSI 29: oversold"
+          ],
+          "risk": [
+            "annualised volatility 56%",
+            "max drawdown -23% over the period"
+          ],
+          "liquidity": [
+            "trades around the clock on many exchanges"
+          ],
+          "portfolio": [
+            "not in your portfolio yet (adds diversification)"
+          ]
+        },
+        "thesis": "The momentum is negative: 20-day change -10.6%. Also, price below 50-day average by 13.3%. Volatility is 56% a year; recent range 95.44–122.09 USD.",
+        "risks": [
+          "crypto can fall sharply in hours; levels are based on daily closes",
+          "signals use past prices only; they do not predict the future"
+        ],
+        "invalidation": [
+          "a close above 106.33 USD",
+          "price recovering above the 50-day average (109.06)"
+        ]
       },
       "fundamentals": [],
       "news": [
         {
-          "date": "2026-10-10",
-          "headline": "Solana ETFs see $25m outflows over five straight sessions",
-          "source": "CryptoTicker",
-          "url": "https://cryptoticker.io/en/crypto-etf-outflows-october-2026-bitcoin-ethereum/",
-          "impact": "negative"
-        },
-        {
-          "date": "2026-10-31",
-          "headline": "Binance breach drags crypto market; $1.53bn leveraged liquidations",
-          "source": "The Cryptonomist",
-          "url": "https://en.cryptonomist.ch/2026/10/31/bitcoin-price-drop-binance-breach/",
+          "date": "2026-11-02",
+          "headline": "Crypto equities and ETFs hit by risk-off selling; Binance restoring withdrawals after hack",
+          "source": "Saxo",
+          "url": "https://home.saxo/en-ch/content/articles/macro/market-quick-take---markets-find-calm-after-friday-turmoil----2-november-2026-02112026",
           "impact": "negative"
         }
       ],
-      "analysts": []
+      "analysts": [],
+      "recommendation": {
+        "action": "REDUCE",
+        "technical_action": "REDUCE",
+        "changed_reason": null,
+        "confidence": 56,
+        "thesis": "The model says REDUCE: solana is down about 11% over 20 days, well below its 20- and 50-day averages; RSI near 29 means it is oversold, so a bounce is possible but the trend is down.",
+        "levels": {
+          "entryLow": null,
+          "entryHigh": null,
+          "target": 82.69334030002798,
+          "stop": 106.32665969997203,
+          "riskReward": 1,
+          "horizon": "2–4 weeks"
+        },
+        "risks": [
+          "High volatility",
+          "Broad crypto risk-off",
+          "crypto can fall sharply in hours; levels are based on daily closes",
+          "signals use past prices only; they do not predict the future"
+        ],
+        "invalidation": [
+          "a close above 106.33 USD",
+          "price recovering above the 50-day average (109.06)"
+        ]
+      }
     }
   ]
 }
