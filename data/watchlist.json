@@ -1,13 +1,48 @@
 {
   "_note": "Symbols the scheduled research covers. Symbols only — never quantities or purchase prices (this repo is public).",
   "holdings": [
-    { "key": "ASE:JOPH", "name": "Jordan Phosphate Mines", "market": "ASE" },
-    { "key": "ASE:RJAL", "name": "ALIA - The Royal Jordanian Airlines", "market": "ASE" },
-    { "key": "GOLD:GLOBAL", "name": "Gold (global, JOD per gram 24K)", "market": "GOLD" },
-    { "key": "US:ASML", "name": "ASML Holding", "market": "US" },
-    { "key": "US:HLAL", "name": "Wahed FTSE USA Shariah ETF", "market": "US" },
-    { "key": "US:SPUS", "name": "SP Funds S&P 500 Sharia Industry Exclusions ETF", "market": "US" },
-    { "key": "US:XOM", "name": "Exxon Mobil", "market": "US" }
+    {
+      "key": "ASE:JOPH",
+      "name": "Jordan Phosphate Mines",
+      "market": "ASE"
+    },
+    {
+      "key": "ASE:RJAL",
+      "name": "ALIA - The Royal Jordanian Airlines",
+      "market": "ASE"
+    },
+    {
+      "key": "GOLD:GLOBAL",
+      "name": "Gold (global, JOD per gram 24K)",
+      "market": "GOLD"
+    },
+    {
+      "key": "US:ASML",
+      "name": "ASML Holding",
+      "market": "US"
+    },
+    {
+      "key": "US:HLAL",
+      "name": "Wahed FTSE USA Shariah ETF",
+      "market": "US"
+    },
+    {
+      "key": "US:SPUS",
+      "name": "SP Funds S&P 500 Sharia Industry Exclusions ETF",
+      "market": "US"
+    },
+    {
+      "key": "US:XOM",
+      "name": "Exxon Mobil",
+      "market": "US"
+    }
   ],
-  "watch": []
+  "watch": [],
+  "strategies": {
+    "_note": "Signal strategy per market used by the research (trend | balanced | dip). Set from the app's strategy test.",
+    "ASE": "trend",
+    "GOLD": "trend",
+    "US": "trend",
+    "CRYPTO": "trend"
+  }
 }

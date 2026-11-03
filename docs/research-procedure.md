@@ -21,13 +21,13 @@ Produces `data/research/latest.json` in the GitHub repo **moneertv/Monz--trader*
 Attach and clone `moneertv/Monz--trader` with push access (add_repo, then the clone command it gives). Work in the clone. Read `data/watchlist.json`: `holdings` (the user's assets) and `watch` (extra assets). Holdings are the priority; if time runs short, finish holdings first.
 
 ### 2. Collect price history -> `work/prices.json`
-Use **WebFetch** (the shell usually cannot reach these sites; do not try curl). Aim for at least 80 daily closes; the model needs 60.
+Use **WebFetch** (the shell usually cannot reach these sites; do not try curl). Aim for **250 daily closes** for US, crypto and gold (about a year: the app backtests strategies on this history), and at least 100 for ASE (pages 0..4). The model needs 60 minimum.
 
 | Market | Source |
 |---|---|
 | `ASE:<SYM>` | `https://www.exchange.jo/en/company_historical/<SYM>?page=0..4` (20 trading days per page, newest first; columns Date dd/mm/yyyy, High, Low, Closing, Value Traded, No. of Trans, No. of Shares). Ask WebFetch to return the table rows verbatim as CSV. Currency JOD. |
 | `US:<SYM>` | Try `https://stooq.com/q/d/l/?s=<sym>.us&i=d` (CSV). If unavailable, the Nasdaq historical page for the symbol. Currency USD. |
-| `CRYPTO:<id>` | `https://api.coingecko.com/api/v3/coins/<id>/market_chart?vs_currency=usd&days=180&interval=daily`. One close per UTC day. Currency USD. |
+| `CRYPTO:<id>` | `https://api.coingecko.com/api/v3/coins/<id>/market_chart?vs_currency=usd&days=365&interval=daily`. One close per UTC day. Currency USD. |
 | `GOLD:GLOBAL` | CoinGecko id `pax-gold` as above (USD per troy ounce), then convert each close to **JOD per gram of 24K** = usd x 0.709 / 31.1034768. Currency JOD. |
 
 Format (dates ascending, one close per day, numbers not strings):
@@ -55,7 +55,7 @@ Every fundamentals/analysts/news item needs `source` and `url`:
 ```bash
 node scripts/research/build.mjs work/prices.json work/qual.json data/watchlist.json data/research/latest.json
 ```
-It prints each asset's model action. If you want to adjust one, add `review.action` + `review.reason` and rerun. If it reports validation errors, fix the inputs (re-fetch, remove the unsourced item) and rerun. Never edit `latest.json` by hand. Also run `node --test tests/research.test.js`.
+It uses the strategy per market from `data/watchlist.json` (`strategies`: trend, balanced or dip) and publishes each asset's price series so the app can show signals and backtests. It prints each asset's model action. If you want to adjust one, add `review.action` + `review.reason` and rerun. If it reports validation errors, fix the inputs (re-fetch, remove the unsourced item) and rerun. Never edit `latest.json` by hand. Also run `node --test tests/research.test.js`.
 
 ### 5. Publish
 Commit only `data/research/latest.json` (do not commit `work/`). Message: `Research update YYYY-MM-DD`. Fetch and rebase on `origin/main` first, then push to `main`. Pushes under `data/` do not rebuild the APK.

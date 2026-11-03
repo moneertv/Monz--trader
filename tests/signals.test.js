@@ -62,3 +62,22 @@ test('evaluate past signals', () => {
   const r = G.evaluate([{ key: 'a', action: 'BUY', price: 10 }, { key: 'b', action: 'SELL', price: 10 }, { key: 'c', action: 'HOLD', price: 10 }], { a: 11, b: 11, c: 9 });
   assert.deepStrictEqual(r.map((x) => x.correct), [true, false, null]);
 });
+
+test('strategies: a dip in an uptrend is a buy for dip-buying, not for trend', () => {
+  // long uptrend, then a sharp 8-day pullback
+  const p = Array.from({ length: 220 }, (_, i) => 5 * (1 + 0.003 * i) * (1 + noise(i)));
+  for (let k = 0; k < 8; k++) p[212 + k] = p[211] * (1 - 0.012 * (k + 1));
+  const s = mk(p);
+  const dip = G.analyze({ key: 'k', market: 'ASE', series: s, strategy: 'dip' });
+  const trend = G.analyze({ key: 'k', market: 'ASE', series: s, strategy: 'trend' });
+  assert.strictEqual(dip.strategy, 'dip');
+  assert.ok(dip.score > trend.score, 'dip ' + dip.score + ' vs trend ' + trend.score);
+  assert.ok(['BUY', 'STRONG BUY', 'ACCUMULATE'].includes(dip.action), dip.action);
+});
+
+test('strategies: dip-buying refuses a broken downtrend', () => {
+  const p = Array.from({ length: 220 }, (_, i) => 5 * (1 - 0.003 * i) * (1 + noise(i)));
+  for (let k = 0; k < 8; k++) p[212 + k] = p[211] * (1 - 0.012 * (k + 1));
+  const a = G.analyze({ key: 'k', market: 'ASE', series: mk(p), strategy: 'dip' });
+  assert.ok(!['BUY', 'STRONG BUY', 'ACCUMULATE'].includes(a.action), a.action + ' ' + a.score);
+});

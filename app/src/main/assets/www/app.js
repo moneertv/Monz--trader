@@ -171,6 +171,7 @@
     signalsCache = null; try { recordSignals(computeSignals()); } catch (e) { st.errors.signals = { msg: e.message, at: st.lastRefresh }; }
     save(); busy = false; btn.textContent = '↻ Refresh';
     if (pendingRefresh) { const w = pendingRefresh; pendingRefresh = null; setTimeout(() => refresh(w), 0); }
+    else if (which === 'all' && (!st.backtest || Date.now() - Date.parse(st.backtest.ranAt) > 30 * 86400000)) setTimeout(runStrategyTest, 500);
     if (route !== 'add' && route !== 'settings') render();
   }
 
@@ -264,7 +265,7 @@
       return '<span class="pill ' + pillCls(rr.recommendation.action) + '" data-research="' + esc(rr.key) + '" style="margin-top:4px;display:inline-block">' + esc(rr.recommendation.action) + ' ★</span>';
     const a = signalFor(assetKeyStr);
     if (a && !a.insufficient) return '<span class="pill ' + pillCls(a.action) + '" data-sig="' + esc(a.key) + '" style="margin-top:4px;display:inline-block">' + esc(a.action) + '</span>';
-    const why = m === 'US' ? 'no history (free plan)' : a && a.insufficient ? 'not enough history' : 'refresh for signal';
+    const why = m === 'US' && !a ? 'waits for daily research' : a && a.insufficient ? 'not enough history' : 'refresh for signal';
     return '<span class="pill hold" style="margin-top:4px;display:inline-block;font-weight:500">' + esc(why) + '</span>';
   }
   function holdingRow(r) {
@@ -474,35 +475,103 @@
 
   // ------------------------------------------------------------------ signals
   let signalsCache = null, sigFilter = 'all', sigKey = null;
-  function computeSignals() {
-    if (signalsCache) return signalsCache;
-    const G = window.Signals, out = [];
-    let alloc = {};
-    try { const { v } = portfolio(); if (v) for (const r of v.rows) if (r.allocation) alloc[r.asset] = r.allocation.toNumber(); } catch (e) { alloc = {}; }
-    // Amman SE: daily closes from the official file
+  /** Every price history the app has, as [{key, name, market, currency, series, staleDays}]. */
+  function allSeries() {
+    const out = [];
     const fileDays = new Set();
     for (const h of Object.values(st.aseHistory || {})) for (const [d] of h) fileDays.add(d);
     const allDays = [...fileDays].sort();
     for (const [sym, h] of Object.entries(st.aseHistory || {})) {
       const key = assetKey('ASE', sym), q = st.quotes[key];
       const lastDay = h.length ? h[h.length - 1][0] : null;
-      const staleDays = lastDay ? allDays.filter((d) => d > lastDay).length : 0;
-      out.push(G.analyze({ key, name: sym + (q && q.extra && q.extra.name ? ' · ' + q.extra.name : ''), market: 'ASE', currency: 'JOD',
-        series: h.map(([d, v]) => [d, Number(v)]), staleDays, portfolioWeightPct: alloc[key] || 0 }));
+      out.push({ key, name: sym + (q && q.extra && q.extra.name ? ' · ' + q.extra.name : ''), market: 'ASE', currency: 'JOD',
+        series: h.map(([d, v]) => [d, Number(v)]), staleDays: lastDay ? allDays.filter((d) => d > lastDay).length : 0 });
     }
-    // Crypto: CoinGecko daily closes (USD)
-    for (const [id, h] of Object.entries(st.cryptoHistory || {})) {
-      const key = assetKey('CRYPTO', id);
-      out.push(G.analyze({ key, name: id, market: 'CRYPTO', currency: 'USD', series: h.series, portfolioWeightPct: alloc[key] || 0 }));
-    }
-    // Gold: global price (PAXG, USD per troy ounce) converted to JOD per gram of 24K at the CBJ peg
-    let goldWeight = 0; for (const [k, w] of Object.entries(alloc)) if (k.startsWith('GOLD:')) goldWeight += w;
+    for (const [id, h] of Object.entries(st.cryptoHistory || {})) out.push({ key: assetKey('CRYPTO', id), name: id, market: 'CRYPTO', currency: 'USD', series: h.series });
     const gs = (st.goldGlobal && st.goldGlobal.series) || [];
-    const usdJod = 0.709;
-    out.push(G.analyze({ key: GOLD_GLOBAL_KEY, name: 'Gold (global price, per gram 24K)', market: 'GOLD', currency: 'JOD',
-      series: gs.map(([dd, v]) => [dd, (v * usdJod) / OUNCE_G]), portfolioWeightPct: goldWeight }));
+    out.push({ key: GOLD_GLOBAL_KEY, name: 'Gold (global price, per gram 24K)', market: 'GOLD', currency: 'JOD', series: gs.map(([dd, v]) => [dd, (v * 0.709) / OUNCE_G]) });
+    // US stocks/ETFs: histories published by the scheduled research run
+    for (const r of (st.research && st.research.assets) || []) {
+      if (r.market === 'US' && Array.isArray(r.series) && r.series.length) out.push({ key: r.key, name: r.key.slice(3) + ' · ' + r.name, market: 'US', currency: r.currency || 'USD', series: r.series });
+    }
+    return out;
+  }
+  const STRAT_LABEL = { trend: 'Trend', balanced: 'Balanced', dip: 'Dip-buying' };
+  /** Strategy in use for a market: the user's choice, or the strategy test's pick when set to Auto. */
+  function strategyFor(market) {
+    const choice = (st.settings.strategy || {})[market] || 'auto';
+    if (choice !== 'auto') return { strategy: choice, how: 'chosen in Settings' };
+    const bt = st.backtest && st.backtest.markets && st.backtest.markets[market];
+    if (bt) return { strategy: bt.chosen, how: 'picked by the strategy test (' + localTime(st.backtest.ranAt) + ')' };
+    return { strategy: 'trend', how: 'default until the strategy test has run' };
+  }
+  function computeSignals() {
+    if (signalsCache) return signalsCache;
+    const G = window.Signals, out = [];
+    let alloc = {};
+    try { const { v } = portfolio(); if (v) for (const r of v.rows) if (r.allocation) alloc[r.asset] = r.allocation.toNumber(); } catch (e) { alloc = {}; }
+    let goldWeight = 0; for (const [k, w] of Object.entries(alloc)) if (k.startsWith('GOLD:')) goldWeight += w;
+    for (const a of allSeries()) {
+      const sf = strategyFor(a.market);
+      const res = G.analyze({ ...a, strategy: sf.strategy, portfolioWeightPct: a.key === GOLD_GLOBAL_KEY ? goldWeight : alloc[a.key] || 0 });
+      res.strategyHow = sf.how;
+      out.push(res);
+    }
     signalsCache = out;
     return out;
+  }
+
+  // ------------------------------------------------------------------ strategy test (backtest)
+  let btRunning = false, btProgress = '';
+  async function runStrategyTest() {
+    if (btRunning) return;
+    btRunning = true; btProgress = 'Preparing…'; if (route === 'strategy') render();
+    try {
+      const held = new Set(st.txs.filter((t) => t.asset).map((t) => t.asset));
+      let list = allSeries().filter((a) => a.series.length >= 90);
+      // Amman SE: the 80 most actively priced companies plus anything you hold (keeps the test quick on a phone)
+      const ase = list.filter((a) => a.market === 'ASE').map((a) => {
+        const s = a.series.slice(-60); let flat = 0; for (let i = 1; i < s.length; i++) if (s[i][1] === s[i - 1][1]) flat++;
+        return { a, flat };
+      }).sort((x, y) => x.flat - y.flat);
+      const aseKeep = new Set(ase.slice(0, 80).map((x) => x.a.key));
+      list = list.filter((a) => a.market !== 'ASE' || aseKeep.has(a.key) || held.has(a.key));
+      if (!list.length) throw new Error('Not enough price history yet. Tap Refresh first.');
+      const res = await window.Backtest.runAll(list, (d, n) => { btProgress = 'Testing ' + d + ' of ' + n + ' assets…'; const el = $('#btProgress'); if (el) el.textContent = btProgress; });
+      st.backtest = res; save(); signalsCache = null; delete st.errors.strategy;
+    } catch (e) { st.errors.strategy = { msg: e.message, at: new Date().toISOString() }; save(); }
+    btRunning = false; btProgress = '';
+    if (route === 'strategy' || route === 'signals' || route === 'home') render();
+  }
+  const pct = (x, dp = 1) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : (x > 0 ? '+' : '') + (x * 100).toFixed(dp) + '%');
+  routes.strategy = () => {
+    let html = errorBlock(['strategy']);
+    html += '<div class="card"><h2>Strategy test</h2><div class="sub">Each strategy is replayed day by day on real prices: it only sees prices up to that day, trades at the next close, and pays trading costs. ' +
+      'The strategy is chosen on the first 60% of the period, then judged on the last 40%, which it has not seen. Past results do not guarantee future profit.</div>' +
+      '<button class="btn gold" style="margin-top:12px;width:100%" data-runbt ' + (btRunning ? 'disabled' : '') + '>' + (btRunning ? 'Running…' : st.backtest ? 'Run the test again' : 'Run the strategy test') + '</button>' +
+      '<div class="sub" id="btProgress" style="margin-top:8px">' + esc(btProgress || (st.backtest ? 'Last run ' + localTime(st.backtest.ranAt) + '. It reruns automatically every 30 days.' : 'Takes about 10–30 seconds.')) + '</div></div>';
+    const bt = st.backtest;
+    if (!bt) return html;
+    for (const m of ['ASE', 'GOLD', 'US', 'CRYPTO']) {
+      const r = bt.markets[m];
+      if (!r) continue;
+      const rows = window.Backtest.STRATS.map((k) => r.by[k]);
+      const best = r.chosen, sf = strategyFor(m);
+      html += '<div class="card"><h2>' + esc(MARKETS[m]) + ' · ' + r.assets + ' asset' + (r.assets > 1 ? 's' : '') + '</h2>' +
+        (r.period ? '<div class="sub">' + esc(r.period.from) + ' → ' + esc(r.period.to) + ' · test period from ' + esc(r.period.split) + '</div>' : '') +
+        '<table style="margin-top:8px"><tr><th>Method</th><th class="n">Learn</th><th class="n">Test</th><th class="n">Worst drop</th><th class="n">Trades</th></tr>' +
+        rows.map((x) => '<tr><td>' + (x.strategy === best ? '<b>' + esc(x.label) + ' ✓</b>' : esc(x.label)) + '</td><td class="n">' + pct(x.train) + '</td><td class="n ' + signCls(x.test) + '">' + pct(x.test) + '</td><td class="n">' + pct(x.maxDrawdown, 0) + '</td><td class="n">' + x.trades + '</td></tr>').join('') +
+        '<tr><td class="muted">Buy & hold</td><td class="n muted">' + pct(r.buyHold.train) + '</td><td class="n muted">' + pct(r.buyHold.test) + '</td><td></td><td></td></tr></table>' +
+        '<div class="sub" style="margin-top:8px">Average return per asset. Costs: ' + esc(r.costNote) + '. ✓ = best on the learning period.</div>' +
+        '<div class="' + (r.beatsBuyHoldOnTest ? 'note' : 'err') + '" style="margin-top:10px">' + (Math.abs((r.chosenTest || 0) - (r.buyHold.test || 0)) < 0.002
+          ? '<b>' + esc(STRAT_LABEL[best]) + '</b> roughly matched simply holding on the unseen test period (' + pct(r.chosenTest) + ' vs ' + pct(r.buyHold.test) + '): the signals added little here.'
+          : r.beatsBuyHoldOnTest
+          ? '<b>' + esc(STRAT_LABEL[best]) + '</b> beat simply holding on the unseen test period (' + pct(r.chosenTest) + ' vs ' + pct(r.buyHold.test) + ').'
+          : '<b>Buying and holding did better</b> than ' + esc(STRAT_LABEL[best]) + ' on the unseen test period (' + pct(r.buyHold.test) + ' vs ' + pct(r.chosenTest) + '). For this market, signals may cost you more in fees and missed gains than they save.') + '</div>' +
+        '<div class="sub" style="margin-top:6px">Signals now use: <b>' + esc(STRAT_LABEL[sf.strategy]) + '</b> (' + esc(sf.how) + ').</div></div>';
+    }
+    if (!bt.markets.US) html += '<div class="sub" style="margin:0 4px 12px">US stocks are tested once the daily research has published their price history.</div>';
+    return html;
   }
   function recordSignals(list) {
     st.sigHistory = st.sigHistory || [];
@@ -522,6 +591,9 @@
 
   routes.signals = () => {
     const all = computeSignals();
+    const stratCard = '<div class="card" data-go="strategy"><div class="row"><div class="grow"><b>Strategy test</b><div class="sub">' +
+      ['ASE', 'GOLD', 'US', 'CRYPTO'].filter((m) => st.backtest && st.backtest.markets[m]).map((m) => esc(MARKETS[m]) + ': ' + esc(STRAT_LABEL[strategyFor(m).strategy])).join(' · ') +
+      (st.backtest ? '' : (btRunning ? 'Running…' : 'Find which method would have made the most money')) + '</div></div><span class="sub">›</span></div></div>';
     const ok = all.filter((a) => !a.insufficient);
     const heldKeys = new Set(st.txs.filter((t) => t.asset).map((t) => t.asset));
     const filters = [['all', 'All'], ['held', 'My holdings'], ['ASE', 'Amman SE'], ['CRYPTO', 'Crypto'], ['GOLD', 'Gold']];
@@ -539,6 +611,7 @@
           '<span class="pill ' + pillCls(x.recommendation.action) + '">' + esc(x.recommendation.action) + ' ★</span></div></div>').join('') +
         '<div class="sub" style="margin-top:6px">★ = from the scheduled research run (price model + cited news and fundamentals).</div></div>';
     }
+    html += stratCard;
     html += '<div class="seg">' + filters.map(([k, l]) => '<button data-sigf="' + k + '" class="' + (sigFilter === k ? 'on' : '') + '">' + l + '</button>').join('') + '</div>';
     if (!ok.length) html += '<div class="card empty">No signals yet. Tap Refresh to load price history.</div>';
     else {
@@ -551,7 +624,7 @@
     }
     const waiting = all.filter((a) => a.insufficient && (sigFilter === 'all' || a.market === sigFilter));
     if (waiting.length) html += '<div class="card"><h2>Not enough history yet</h2>' + waiting.slice(0, 20).map((a) => '<div class="list-item"><b>' + esc(a.name || a.key) + '</b><div class="sub">' + esc(a.insufficient) + (a.market === 'GOLD' ? ' Tap Refresh to load a year of global gold prices.' : '') + '</div></div>').join('') + '</div>';
-    if (!st.settings.finnhubKey || sigFilter === 'all') html += '<div class="sub" style="margin:0 4px 12px">US stocks: the free Finnhub plan has no price history, so no signals are produced for them.</div>';
+    if (!ok.some((a) => a.market === 'US') && (sigFilter === 'all' || sigFilter === 'held')) html += '<div class="sub" style="margin:0 4px 12px">US stocks get signals from the price history published by the daily research run (tap Refresh after it runs).</div>';
     html += trackRecordCard();
     return html;
   };
@@ -578,7 +651,7 @@
       '<span class="pill ' + pillCls(a.action) + '" style="font-size:13px">' + esc(a.action) + '</span></div>' +
       '<div class="grid2" style="margin-top:12px"><div class="kv"><div class="k">Price</div><div class="v">' + num(a.price) + ' ' + esc(c) + '</div></div>' +
       '<div class="kv"><div class="k">Score · confidence</div><div class="v">' + a.score + ' · ' + a.confidence + '%</div></div></div>' +
-      '<p style="margin:12px 0 0">' + esc(a.thesis) + '</p></div>';
+      '<p style="margin:12px 0 0">' + esc(a.thesis) + '</p><div class="sub" style="margin-top:8px">Strategy: <b>' + esc(a.strategyLabel) + '</b> (' + esc(a.strategyHow || '') + ')</div></div>';
     // levels
     html += '<div class="card"><h2>Levels (' + esc(L.horizon) + ')</h2><table>' +
       (L.entryLow !== null ? '<tr><td>Entry range</td><td class="n">' + num(L.entryLow) + ' – ' + num(L.entryHigh) + '</td></tr>' : '') +
@@ -654,6 +727,10 @@
       '<label>Finnhub API key — free at finnhub.io, needed for stocks/ETFs</label><input id="s_finnhub" value="' + esc(st.settings.finnhubKey) + '" autocapitalize="none">' +
       '<label>CoinGecko Demo key — optional, free at coingecko.com</label><input id="s_cg" value="' + esc(st.settings.coingeckoKey) + '" autocapitalize="none">' +
       '<button class="btn" style="margin-top:12px" data-savekeys>Save keys</button></div>' +
+      '<div class="card"><h2>Signal strategy</h2><div class="sub">Auto uses whichever method did best in the strategy test for that market.</div>' + ['ASE', 'GOLD', 'US', 'CRYPTO'].map((mk) => {
+        const cur = (st.settings.strategy || {})[mk] || 'auto';
+        return '<label>' + esc(MARKETS[mk]) + '</label><select data-strategy="' + mk + '">' + [['auto', 'Auto (strategy test)'], ['trend', 'Trend'], ['balanced', 'Balanced'], ['dip', 'Dip-buying']].map(([v, l]) => '<option value="' + v + '"' + (cur === v ? ' selected' : '') + '>' + l + '</option>').join('') + '</select>';
+      }).join('') + '</div>' +
       '<div class="card"><h2>Cost method</h2>' + Object.keys(MARKETS).map((mk) => '<label>' + esc(MARKETS[mk]) + '</label>' + sel(mk)).join('') + '</div>' +
       '<div class="card"><h2>Backup</h2><div class="sub">Your data lives only on this phone. Uninstalling the app deletes it, so keep a backup.</div>' +
       '<div class="row" style="margin-top:10px"><button class="btn grow" data-export>Share backup</button></div>' +
@@ -666,14 +743,15 @@
     ['ase', 'Amman SE', 'M4 19V9m5 10V5m5 14v-7m5 7V8'], ['markets', 'Markets', 'M3 17l6-6 4 4 8-8M15 7h6v6'], ['signals', 'Signals', 'M12 3v4M12 17v4M3 12h4M17 12h4M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0-8 0'], ['portfolio', 'Portfolio', 'M4 7h16v12H4zM9 7V5h6v2']];
   function render() {
     $('#view').innerHTML = (routes[route] || routes.home)();
-    const navRoute = route === 'add' ? 'portfolio' : route === 'aseStock' ? 'ase' : (route === 'signal' || route === 'research') ? 'signals' : route;
+    const navRoute = route === 'add' ? 'portfolio' : route === 'aseStock' ? 'ase' : (route === 'signal' || route === 'research' || route === 'strategy') ? 'signals' : route;
     $('#nav').innerHTML = NAV.map(([r, l, p]) => '<button data-nav="' + r + '" class="' + (r === navRoute ? 'on' : '') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="' + p + '"/></svg>' + l + '</button>').join('');
   }
   document.addEventListener('click', (e) => {
-    const el = e.target.closest('[data-research],[data-aselookup],[data-nav],[data-go],[data-del],[data-savetx],[data-cancel],[data-addase],[data-asestock],[data-sig],[data-sigf],[data-sigbuy],[data-savekeys],[data-export],[data-import]');
+    const el = e.target.closest('[data-runbt],[data-research],[data-aselookup],[data-nav],[data-go],[data-del],[data-savetx],[data-cancel],[data-addase],[data-asestock],[data-sig],[data-sigf],[data-sigbuy],[data-savekeys],[data-export],[data-import]');
     if (!el) return;
     if (el.dataset.nav) { stack = []; go(el.dataset.nav, false); }
     else if (el.dataset.go) { draft = null; if (el.dataset.market) { draft = null; routes.add(); draft.market = el.dataset.market; } go(el.dataset.go); }
+    if ('runbt' in el.dataset) { runStrategyTest(); return; }
     if (el.dataset.research) { researchKey = el.dataset.research; go('research'); return; }
     if (el.dataset.aselookup) {
       const sym = el.dataset.aselookup; el.disabled = true; el.textContent = 'Looking up ' + sym + '…';
@@ -724,6 +802,7 @@
       if (id === 'f_market') { draft.symbol = draft.market === 'GOLD' ? 'GOLD_21K' : ''; draft.currency = MARKET_CCY[draft.market]; }
       render();
     } else if (id === 's_finnhub' || id === 's_cg') { saveKeys(false);
+    } else if (e.target.dataset.strategy) { st.settings.strategy = st.settings.strategy || {}; st.settings.strategy[e.target.dataset.strategy] = e.target.value; save(); signalsCache = null; toast('Strategy updated');
     } else if (e.target.dataset.method) { st.settings.methods[e.target.dataset.method] = e.target.value; save(); toast('Cost method updated'); }
     else if (id === 'watchCrypto' || id === 'watchUs') {
       const list = e.target.value.split(',').map((s) => s.trim()).filter(Boolean);

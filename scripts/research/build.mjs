@@ -54,10 +54,12 @@ export function build(prices, qual, watchlist, now = new Date()) {
     const last = p.series[p.series.length - 1];
     out.currency = p.currency;
     out.price = { value: last[1], as_of: last[0], source: p.source, url: p.url, points: p.series.length };
-    const t = G.analyze({ key: w.key, name: out.name, market: w.market === 'US' ? 'US' : w.market, currency: p.currency, series: p.series });
+    const strategy = (watchlist.strategies || {})[w.market] || 'trend';
+    out.series = p.series.slice(-260);              // lets the app compute signals and backtests for this asset
+    const t = G.analyze({ key: w.key, name: out.name, market: w.market, currency: p.currency, series: p.series, strategy });
     if (t.insufficient) { out.data_gaps.push(t.insufficient); }
     else {
-      out.technical = { action: t.action, score: t.score, confidence: t.confidence, levels: t.levels, indicators: t.indicators,
+      out.technical = { strategy: t.strategy, action: t.action, score: t.score, confidence: t.confidence, levels: t.levels, indicators: t.indicators,
         factors: t.factors, contributions: t.contributions, why: t.why, thesis: t.thesis, risks: t.risks, invalidation: t.invalidation };
     }
     for (const field of ['fundamentals', 'news', 'analysts']) {

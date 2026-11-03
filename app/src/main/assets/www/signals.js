@@ -52,6 +52,13 @@
 
   // ------------------------------------------------------------------ configuration
   const DEFAULT_WEIGHTS = { trend: 30, momentum: 25, meanReversion: 15, risk: 15, liquidity: 10, portfolio: 5, fundamental: 0, valuation: 0, macro: 0 };
+  // Three strategies. 'trend' follows the move; 'dip' buys weakness inside an intact long-term uptrend;
+  // 'balanced' sits between. Weights must not be tuned per stock (that would overfit the backtest).
+  const STRATEGIES = {
+    trend: { label: 'Trend', weights: DEFAULT_WEIGHTS },
+    balanced: { label: 'Balanced', weights: { ...DEFAULT_WEIGHTS, trend: 20, momentum: 15, meanReversion: 35 } },
+    dip: { label: 'Dip-buying', weights: { ...DEFAULT_WEIGHTS, trend: 10, momentum: 5, meanReversion: 55 } },
+  };
   const PERIODS_PER_YEAR = { ASE: 250, CRYPTO: 365, GOLD: 365, US: 252 };
   const MIN_POINTS = 60;
   const HORIZON = 20;   // trading periods (~1 month)
@@ -66,6 +73,7 @@
    */
   function analyze(input) {
     const { key, name, market, currency = 'JOD' } = input;
+    const strategy = STRATEGIES[input.strategy] ? input.strategy : 'trend';
     const series = (input.series || []).filter((p) => Number.isFinite(p[1]) && p[1] > 0);
     if (series.length < MIN_POINTS) {
       return { key, name, market, insufficient: 'Needs at least ' + MIN_POINTS + ' daily prices; has ' + series.length + '.' };
@@ -106,7 +114,12 @@
       if (breakdown) { s -= 15; w.push('closed below its 60-day low (breakdown)'); }
       F.momentum = clamp(s); why.momentum = w;
     }
-    { // mean reversion: oversold is positive, overbought negative
+    if (strategy !== 'trend') { // continuous reading: any dip below the middle scores, not only RSI < 30
+      let s = 0; const w = [];
+      if (rsi14 !== null) { s += (50 - rsi14) * 2.5; w.push('RSI ' + rsi14.toFixed(0) + (rsi14 < 30 ? ': oversold' : rsi14 > 70 ? ': overbought' : rsi14 < 45 ? ': below the middle (a dip)' : rsi14 > 55 ? ': above the middle (stretched)' : ': neutral')); }
+      if (bb) { s += (0.5 - bb.pctB) * 60; w.push('at ' + Math.round(bb.pctB * 100) + '% of its Bollinger band (0% = lower band)'); }
+      F.meanReversion = clamp(s); why.meanReversion = w;
+    } else { // mean reversion: oversold is positive, overbought negative
       let s = 0; const w = [];
       if (rsi14 !== null) {
         if (rsi14 < 30) { s += (30 - rsi14) * 3 + 20; w.push('RSI ' + rsi14.toFixed(0) + ': oversold'); }
@@ -138,7 +151,7 @@
     const unavailable = { fundamental: 'no earnings/financial-statement source connected', valuation: 'no P/E or book-value source per company',
       macro: 'no macro data source connected' };
 
-    const weights = Object.assign({}, DEFAULT_WEIGHTS, input.weights || {});
+    const weights = Object.assign({}, STRATEGIES[strategy].weights, input.weights || {});
     for (const k of Object.keys(unavailable)) weights[k] = 0;
     const totalW = Object.keys(F).reduce((s, k) => s + (weights[k] || 0), 0);
     const contributions = {};
@@ -146,6 +159,16 @@
     for (const k of Object.keys(F)) { contributions[k] = (F[k] * (weights[k] || 0)) / totalW; score += contributions[k]; }
     // Don't let a risky asset reach the strongest buy band on momentum alone
     if (F.risk < -50 && score > 30) score = 30;
+    // Dip-buying guard: a dip only counts as a buying chance while the long-term trend is intact.
+    let guardNote = null;
+    if (strategy !== 'trend' && score > 11) {
+      const longAvg = s200 || s50;
+      const longPrev = px.length > 70 ? mean(px.slice(-(s200 ? 220 : 70), -20)) : null;
+      if (longAvg && price < longAvg * 0.9 && longPrev && longAvg < longPrev) {
+        score = 11;
+        guardNote = 'held at HOLD: the price is more than 10% below its ' + (s200 ? '200' : '50') + '-day average and that average is falling, so this looks like a downtrend, not a dip';
+      }
+    }
 
     // ---- confidence: data depth x agreement between the main directional factors
     const dir = [F.trend, F.momentum, F.meanReversion].filter((x) => Math.abs(x) > 5);
@@ -196,9 +219,10 @@
     if (market === 'ASE') risks.push('no company financials are included in this score');
     risks.push('signals use past prices only; they do not predict the future');
 
+    if (guardNote) levelNotes.unshift(guardNote);
     const thesis = buildThesis(action, F, why, ind, market, currency) + (levelNotes.length ? ' Note: ' + levelNotes.join('; ') + '.' : '');
     return {
-      key, name, market, currency, asOf, price, action, score: Math.round(score), confidence,
+      key, name, market, currency, asOf, price, action, strategy, strategyLabel: STRATEGIES[strategy].label, score: Math.round(score), confidence,
       factors: F, weights, contributions, why, unavailable, indicators: ind,
       levels: { entryLow, entryHigh, target, stop, riskReward: rr, horizon: market === 'CRYPTO' ? '2–4 weeks' : '3–6 weeks' },
       invalidation: invalidation.filter(Boolean), risks, thesis,
@@ -229,5 +253,5 @@
     });
   }
 
-  root.Signals = { analyze, evaluate, rsi, macd, sma, emaSeries, bollinger, actionFor, DEFAULT_WEIGHTS, MIN_POINTS };
+  root.Signals = { analyze, evaluate, rsi, macd, sma, emaSeries, bollinger, actionFor, DEFAULT_WEIGHTS, STRATEGIES, MIN_POINTS };
 })(typeof window !== 'undefined' ? window : globalThis);
