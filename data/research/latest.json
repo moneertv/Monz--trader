@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-03T05:53:27.651Z",
+  "generated_at": "2026-11-04T13:03:04.163Z",
   "generator": "Monz Trader scheduled research (trader-skill)",
   "disclaimer": "Research summary built from cited public sources and a rules-based price model. Not financial advice.",
   "assets": [
@@ -10,86 +10,410 @@
       "market": "ASE",
       "held": true,
       "data_gaps": [
-        "No company news found for the last 30 days, so the cause of the October fall is unknown",
-        "Q3 2026 results not found",
-        "No analyst coverage found",
-        "Price series: closes before 4 Jun 2026 excluded (bonus-share capital increase); ASE pagination skipped 1–9 Jul 2026 and a few single days"
+        "Price series: closes before 15 Jun 2026 not used (bonus-share capital increase on 4 Jun and an unreliable ASE page); 14 Jul-5 Aug and 4-9 Sep 2026 missing because those ASE pages returned wrong data",
+        "Q3 2026 EPS and current P/B not found",
+        "Net debt/total debt not found",
+        "No named analyst ratings or targets",
+        "No explicit news article attributing the share fall; the attribution to Q3 results/margins is inference",
+        "No index rebalancing or dividend-policy news found"
       ],
       "currency": "JOD",
       "price": {
-        "value": 12.85,
-        "as_of": "2026-11-02",
+        "value": 13.41,
+        "as_of": "2026-11-04",
         "source": "Amman Stock Exchange",
         "url": "https://www.exchange.jo/en/company_historical/JOPH",
-        "points": 97
+        "points": 80
       },
+      "series": [
+        [
+          "2026-06-15",
+          17.22
+        ],
+        [
+          "2026-06-17",
+          16.7
+        ],
+        [
+          "2026-06-18",
+          16.49
+        ],
+        [
+          "2026-06-21",
+          17
+        ],
+        [
+          "2026-06-22",
+          17.1
+        ],
+        [
+          "2026-06-23",
+          16.82
+        ],
+        [
+          "2026-06-24",
+          16.4
+        ],
+        [
+          "2026-06-25",
+          16.09
+        ],
+        [
+          "2026-06-28",
+          15.58
+        ],
+        [
+          "2026-06-29",
+          15.5
+        ],
+        [
+          "2026-06-30",
+          15.5
+        ],
+        [
+          "2026-07-01",
+          15.1
+        ],
+        [
+          "2026-07-02",
+          14.68
+        ],
+        [
+          "2026-07-05",
+          15.44
+        ],
+        [
+          "2026-07-06",
+          15.69
+        ],
+        [
+          "2026-07-07",
+          16.09
+        ],
+        [
+          "2026-07-08",
+          15.99
+        ],
+        [
+          "2026-07-09",
+          15.75
+        ],
+        [
+          "2026-07-12",
+          15.76
+        ],
+        [
+          "2026-07-13",
+          15.14
+        ],
+        [
+          "2026-08-06",
+          15.14
+        ],
+        [
+          "2026-08-09",
+          14.92
+        ],
+        [
+          "2026-08-10",
+          15.03
+        ],
+        [
+          "2026-08-11",
+          14.95
+        ],
+        [
+          "2026-08-12",
+          14.89
+        ],
+        [
+          "2026-08-13",
+          14.86
+        ],
+        [
+          "2026-08-16",
+          14.97
+        ],
+        [
+          "2026-08-17",
+          14.95
+        ],
+        [
+          "2026-08-18",
+          14.94
+        ],
+        [
+          "2026-08-19",
+          14.96
+        ],
+        [
+          "2026-08-20",
+          15.01
+        ],
+        [
+          "2026-08-23",
+          15.14
+        ],
+        [
+          "2026-08-24",
+          15.25
+        ],
+        [
+          "2026-08-26",
+          15.46
+        ],
+        [
+          "2026-08-27",
+          15.67
+        ],
+        [
+          "2026-08-30",
+          15.6
+        ],
+        [
+          "2026-08-31",
+          15.53
+        ],
+        [
+          "2026-09-01",
+          15.6
+        ],
+        [
+          "2026-09-02",
+          15.58
+        ],
+        [
+          "2026-09-03",
+          15.8
+        ],
+        [
+          "2026-09-10",
+          16
+        ],
+        [
+          "2026-09-13",
+          15.85
+        ],
+        [
+          "2026-09-14",
+          15.96
+        ],
+        [
+          "2026-09-15",
+          16.03
+        ],
+        [
+          "2026-09-16",
+          16.11
+        ],
+        [
+          "2026-09-17",
+          16.12
+        ],
+        [
+          "2026-09-20",
+          16.04
+        ],
+        [
+          "2026-09-21",
+          16
+        ],
+        [
+          "2026-09-22",
+          16.07
+        ],
+        [
+          "2026-09-23",
+          16.03
+        ],
+        [
+          "2026-09-24",
+          16.01
+        ],
+        [
+          "2026-09-27",
+          16.12
+        ],
+        [
+          "2026-09-28",
+          16.08
+        ],
+        [
+          "2026-09-29",
+          16.09
+        ],
+        [
+          "2026-09-30",
+          16.01
+        ],
+        [
+          "2026-10-01",
+          16.03
+        ],
+        [
+          "2026-10-04",
+          16.02
+        ],
+        [
+          "2026-10-05",
+          16.03
+        ],
+        [
+          "2026-10-06",
+          15.95
+        ],
+        [
+          "2026-10-07",
+          15.85
+        ],
+        [
+          "2026-10-08",
+          15.4
+        ],
+        [
+          "2026-10-11",
+          15.02
+        ],
+        [
+          "2026-10-12",
+          15.2
+        ],
+        [
+          "2026-10-13",
+          15.05
+        ],
+        [
+          "2026-10-14",
+          14.9
+        ],
+        [
+          "2026-10-15",
+          14.84
+        ],
+        [
+          "2026-10-18",
+          14.7
+        ],
+        [
+          "2026-10-19",
+          14.83
+        ],
+        [
+          "2026-10-20",
+          14.71
+        ],
+        [
+          "2026-10-21",
+          14.56
+        ],
+        [
+          "2026-10-22",
+          14
+        ],
+        [
+          "2026-10-25",
+          13.5
+        ],
+        [
+          "2026-10-26",
+          13.9
+        ],
+        [
+          "2026-10-27",
+          14.01
+        ],
+        [
+          "2026-10-28",
+          13.4
+        ],
+        [
+          "2026-10-29",
+          13.4
+        ],
+        [
+          "2026-11-01",
+          13.05
+        ],
+        [
+          "2026-11-02",
+          12.85
+        ],
+        [
+          "2026-11-03",
+          12.75
+        ],
+        [
+          "2026-11-04",
+          13.41
+        ]
+      ],
       "technical": {
+        "strategy": "trend",
         "action": "SELL",
-        "score": -35,
-        "confidence": 57,
+        "score": -36,
+        "confidence": 79,
         "levels": {
           "entryLow": null,
           "entryHigh": null,
-          "target": 11.276296659871008,
-          "stop": 14.423703340128991,
+          "target": 11.340778252787725,
+          "stop": 15.479221747212275,
           "riskReward": 1,
           "horizon": "3–6 weeks"
         },
         "indicators": {
-          "price": 12.85,
-          "sma20": 14.456000000000003,
-          "sma50": 15.293199999999999,
+          "price": 13.41,
+          "sma20": 14.174000000000003,
+          "sma50": 15.170399999999995,
           "sma200": null,
-          "rsi14": 20.513456978524303,
-          "macd": -0.660687817260154,
-          "macdSignal": -0.500821780243912,
-          "macdHist": -0.15986603701624202,
-          "bbUpper": 16.252281539297517,
-          "bbLower": 12.659718460702488,
-          "bbPctB": 0.052965399670011334,
-          "change20": -19.83780411728011,
-          "change60": -14.333333333333332,
-          "volAnnualPct": 31.256587830098564,
-          "support": 13.05,
-          "resistance": 16.3,
-          "maxDrawdownPct": -31.209850107066384,
+          "rsi14": 35.395963498081144,
+          "macd": -0.6664671704430596,
+          "macdSignal": -0.5681143617274024,
+          "macdHist": -0.09835280871565721,
+          "bbUpper": 15.863925566719624,
+          "bbLower": 12.484074433280382,
+          "bbPctB": 0.2739545412396381,
+          "change20": -15.394321766561514,
+          "change60": -11.426684280052847,
+          "volAnnualPct": 27.45391153600545,
+          "support": 12.75,
+          "resistance": 16.12,
+          "maxDrawdownPct": -25.958188153310104,
           "flatDaysPct": 3.3333333333333335,
-          "points": 97
+          "points": 80
         },
         "factors": {
-          "trend": -70.7422543732062,
-          "momentum": -98.66666666666666,
-          "meanReversion": 48.45962906442709,
-          "risk": -18.76976349029569,
+          "trend": -74.82270694957799,
+          "momentum": -77.8533685601057,
+          "meanReversion": 0,
+          "risk": -7.361734608016349,
           "liquidity": 53.333333333333336,
           "portfolio": 30
         },
         "contributions": {
-          "trend": -21.22267631196186,
-          "momentum": -24.666666666666664,
-          "meanReversion": 7.268944359664064,
-          "risk": -2.8154645235443536,
+          "trend": -22.4468120848734,
+          "momentum": -19.463342140026423,
+          "meanReversion": 0,
+          "risk": -1.1042601912024523,
           "liquidity": 5.333333333333334,
           "portfolio": 1.5
         },
         "why": {
           "trend": [
-            "price below 50-day average by 16.0%",
+            "price below 50-day average by 11.6%",
             "20-day average below 50-day",
             "50-day average falling"
           ],
           "momentum": [
-            "20-day change -19.8%",
-            "60-day change -14.3%",
-            "MACD below its signal line",
-            "closed below its 60-day low (breakdown)"
+            "20-day change -15.4%",
+            "60-day change -11.4%",
+            "MACD below its signal line"
           ],
           "meanReversion": [
-            "RSI 21: oversold"
+            "RSI 35: neutral"
           ],
           "risk": [
-            "annualised volatility 31%",
-            "max drawdown -31% over the period"
+            "annualised volatility 27%",
+            "max drawdown -26% over the period"
           ],
           "liquidity": [
             "3% of the last 60 sessions closed unchanged"
@@ -98,73 +422,136 @@
             "not in your portfolio yet (adds diversification)"
           ]
         },
-        "thesis": "The momentum is negative: 20-day change -19.8%. Also, price below 50-day average by 16.0%. Volatility is 31% a year; recent range 13.05–16.30 JOD.",
+        "thesis": "The momentum is negative: 20-day change -15.4%. Also, price below 50-day average by 11.6%. Volatility is 27% a year; recent range 12.75–16.12 JOD.",
         "risks": [
-          "high volatility (31% a year): position size accordingly",
           "no company financials are included in this score",
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close above 14.42 JOD",
-          "price recovering above the 50-day average (15.29)"
+          "a close above 15.48 JOD",
+          "price recovering above the 50-day average (15.17)"
         ]
       },
       "fundamentals": [
         {
-          "label": "Net profit H1 2026 (after tax)",
-          "value": "JOD 235.1m",
-          "as_of": "2026-06-30",
+          "label": "Net profit 9M 2026",
+          "value": "JOD 315.1m (vs JOD 417.7m in 9M 2025, about -25% YoY)",
+          "as_of": "2026-09-30",
           "source": "Petra",
-          "url": "https://www.petra.gov.jo/en/news/phosphate-mines-company-reports-jd2351m-first-half-profit"
+          "url": "https://petra.gov.jo/en/news/phosphate-mines-company-records-net-profit-of-jd3151m-in-1st-9-months-2026-data"
         },
         {
-          "label": "Net sales H1 2026",
-          "value": "JOD 717m (+19% y/y from JOD 602m)",
+          "label": "Sales revenue 9M 2026",
+          "value": "JOD 1.101bn, +7.9% YoY (from JOD 1.020bn)",
+          "as_of": "2026-09-30",
+          "source": "Petra",
+          "url": "https://petra.gov.jo/en/news/phosphate-mines-company-records-net-profit-of-jd3151m-in-1st-9-months-2026-data"
+        },
+        {
+          "label": "Implied Q3 2026 net profit (derived: 9M 315.1 minus H1 235.1)",
+          "value": "about JOD 80.0m (vs about JOD 124m implied Q2 and about JOD 111m Q1)",
+          "as_of": "2026-09-30",
+          "source": "Petra (9M and H1 releases)",
+          "url": "https://petra.gov.jo/en/news/phosphate-mines-company-records-net-profit-of-jd3151m-in-1st-9-months-2026-data"
+        },
+        {
+          "label": "Input costs 9M 2026 YoY",
+          "value": "Sulfur +165.7%, ammonia +58.4%; admin expenses -8%; gas supply interruptions forced costlier alternatives",
+          "as_of": "2026-09-30",
+          "source": "Petra",
+          "url": "https://petra.gov.jo/en/news/phosphate-mines-company-records-net-profit-of-jd3151m-in-1st-9-months-2026-data"
+        },
+        {
+          "label": "Net profit 9M 2025 (comparison base)",
+          "value": "JOD 417.7m; net sales about JOD 1.02bn",
+          "as_of": "2025-09-30",
+          "source": "Petra",
+          "url": "https://pstg1.petra.gov.jo/en/news/jpmcs-net-profits-at-jd418m-in-first-3-quarters-2025"
+        },
+        {
+          "label": "Net profit H1 2026",
+          "value": "JOD 235.1m; sales JOD 717m",
           "as_of": "2026-06-30",
           "source": "Petra",
           "url": "https://www.petra.gov.jo/en/news/phosphate-mines-company-reports-jd2351m-first-half-profit"
         },
         {
           "label": "P/E",
-          "value": "13.2",
-          "as_of": "2026-11-02",
-          "source": "Amman Stock Exchange company page",
-          "url": "https://www.exchange.jo/en/company/619"
+          "value": "7.84x (2024), 12.1x (2025)",
+          "as_of": "2026-09-10",
+          "source": "MarketScreener",
+          "url": "https://www.marketscreener.com/quote/stock/JORDAN-PHOSPHATE-MINES-CO-6499084/"
         },
         {
-          "label": "Last dividend / capital change",
-          "value": "170% cash dividend of nominal value; capital raised to JOD 500m via JOD 200m bonus shares (AGM 20 Apr 2026)",
-          "as_of": "2026-04-20",
-          "source": "Petra",
-          "url": "https://www.petra.gov.jo/en/news/jordan-phosphate-mines-company-raises-capital-to-jd500-million-approves-170-dividends"
+          "label": "Dividend yield",
+          "value": "11.1% (2024), 7.18% (2025 est.); annual dividend paid 2026-05-17",
+          "as_of": "2026-09-10",
+          "source": "MarketScreener",
+          "url": "https://www.marketscreener.com/quote/stock/JORDAN-PHOSPHATE-MINES-CO-6499084/"
+        },
+        {
+          "label": "FY2025 net profit",
+          "value": "JOD 598.4m",
+          "as_of": "2026-02-03",
+          "source": "MarketScreener",
+          "url": "https://www.marketscreener.com/quote/stock/JORDAN-PHOSPHATE-MINES-CO-6499084/"
         }
       ],
-      "news": [],
+      "news": [
+        {
+          "date": "2026-10-27",
+          "headline": "Phosphate Mines Company records net profit of JD315.1M in 1st 9 months 2026 (about -25% YoY, implied Q3 about JD80m) on sulfur/ammonia cost surge and gas interruptions",
+          "source": "Petra",
+          "url": "https://petra.gov.jo/en/news/phosphate-mines-company-records-net-profit-of-jd3151m-in-1st-9-months-2026-data",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-10-27",
+          "headline": "Jordan, Uzbekistan partner to build phosphate feed additives plant; talks on using Uzbek sulfur, ammonia and gas",
+          "source": "Petra",
+          "url": "https://petra.gov.jo/en/news/jordan-uzbekistan-partner-to-build-phosphate-feed-additives-plant-1",
+          "impact": "positive"
+        },
+        {
+          "date": "2026-10-28",
+          "headline": "JOPH files Q3 quarterly report and miscellaneous disclosure with ASE",
+          "source": "Amman Stock Exchange disclosures",
+          "url": "https://www.exchange.jo/en/company_guide/disclosures/619",
+          "impact": "neutral"
+        },
+        {
+          "date": "2026-10-12",
+          "headline": "Maaden H1 2026 phosphate profit falls 55% to USD 271m; DAP output down 28%. Shows the regional phosphate margin squeeze",
+          "source": "ad-hoc-news (citing AGBI)",
+          "url": "https://www.ad-hoc-news.de/boerse/news/corporate-news/maaden-phosphate-profit-falls-55-percent-11-analysts-rate-maaden-stock-neutral/70299109",
+          "impact": "negative"
+        }
+      ],
       "analysts": [],
       "recommendation": {
         "action": "SELL",
         "technical_action": "SELL",
         "changed_reason": null,
-        "confidence": 57,
-        "thesis": "The price model reads a clear downtrend: the share fell about 20% in 20 sessions to 12.85 JOD and broke below its 60-day low, though RSI 21 says it is oversold. Fundamentals were strong at the half-year (H1 profit JOD 235m, sales +19%) and the ASE shows a P/E of 13.2, but no news was found explaining the October sell-off, so the model's SELL stands until Q3 results show whether earnings held up.",
+        "confidence": 79,
+        "thesis": "The price model stays at SELL: the share is down about 15% in 20 sessions and trades below its falling 20- and 50-day averages, despite a 5% bounce to 13.41 JOD today. The October slide now has a likely explanation: nine-month profit fell about 25% to JOD 315m (implied Q3 about JOD 80m, the weakest quarter of 2026) as sulfur and ammonia costs surged, even though sales rose 8%. Until input costs ease, the lower profit base also points to a smaller dividend next year.",
         "levels": {
           "entryLow": null,
           "entryHigh": null,
-          "target": 11.276296659871008,
-          "stop": 14.423703340128991,
+          "target": 11.340778252787725,
+          "stop": 15.479221747212275,
           "riskReward": 1,
           "horizon": "3–6 weeks"
         },
         "risks": [
-          "Q3 2026 results not yet found; a weak quarter could extend the fall",
-          "Oversold readings can trigger sharp rebounds against a SELL",
-          "high volatility (31% a year): position size accordingly",
+          "Sulfur and ammonia costs tied to the Hormuz disruption could keep squeezing margins",
+          "A lower 2026 profit likely means a smaller 2027 dividend than the 170% paid this year",
+          "Sharp rebounds like today's +5% can whipsaw a SELL",
           "no company financials are included in this score",
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close above 14.42 JOD",
-          "price recovering above the 50-day average (15.29)"
+          "a close above 15.48 JOD",
+          "price recovering above the 50-day average (15.17)"
         ]
       }
     },
@@ -174,71 +561,552 @@
       "market": "ASE",
       "held": true,
       "data_gaps": [
-        "Q3 2026 results not found",
-        "No analyst coverage",
-        "No company-specific news found in the last 30 days",
-        "P/E and dividend data not collected"
+        "9M/Q3 2026 results not yet found",
+        "No analyst coverage found"
       ],
       "currency": "JOD",
       "price": {
         "value": 0.53,
-        "as_of": "2026-11-02",
+        "as_of": "2026-11-04",
         "source": "Amman Stock Exchange",
-        "url": "https://www.exchange.jo/en/company_historical/RJAL",
-        "points": 98
+        "url": "https://ase.com.jo/en/company_historical/RJAL",
+        "points": 120
       },
+      "series": [
+        [
+          "2026-05-07",
+          0.49
+        ],
+        [
+          "2026-05-10",
+          0.5
+        ],
+        [
+          "2026-05-11",
+          0.5
+        ],
+        [
+          "2026-05-12",
+          0.5
+        ],
+        [
+          "2026-05-13",
+          0.5
+        ],
+        [
+          "2026-05-14",
+          0.49
+        ],
+        [
+          "2026-05-17",
+          0.48
+        ],
+        [
+          "2026-05-18",
+          0.5
+        ],
+        [
+          "2026-05-19",
+          0.48
+        ],
+        [
+          "2026-05-20",
+          0.49
+        ],
+        [
+          "2026-05-21",
+          0.49
+        ],
+        [
+          "2026-05-24",
+          0.48
+        ],
+        [
+          "2026-05-31",
+          0.49
+        ],
+        [
+          "2026-06-01",
+          0.49
+        ],
+        [
+          "2026-06-02",
+          0.5
+        ],
+        [
+          "2026-06-03",
+          0.49
+        ],
+        [
+          "2026-06-04",
+          0.49
+        ],
+        [
+          "2026-06-07",
+          0.49
+        ],
+        [
+          "2026-06-08",
+          0.5
+        ],
+        [
+          "2026-06-09",
+          0.49
+        ],
+        [
+          "2026-06-10",
+          0.49
+        ],
+        [
+          "2026-06-11",
+          0.49
+        ],
+        [
+          "2026-06-15",
+          0.5
+        ],
+        [
+          "2026-06-17",
+          0.51
+        ],
+        [
+          "2026-06-18",
+          0.51
+        ],
+        [
+          "2026-06-21",
+          0.51
+        ],
+        [
+          "2026-06-22",
+          0.51
+        ],
+        [
+          "2026-06-23",
+          0.51
+        ],
+        [
+          "2026-06-24",
+          0.51
+        ],
+        [
+          "2026-06-25",
+          0.51
+        ],
+        [
+          "2026-06-28",
+          0.5
+        ],
+        [
+          "2026-06-29",
+          0.5
+        ],
+        [
+          "2026-06-30",
+          0.5
+        ],
+        [
+          "2026-07-01",
+          0.5
+        ],
+        [
+          "2026-07-02",
+          0.51
+        ],
+        [
+          "2026-07-05",
+          0.5
+        ],
+        [
+          "2026-07-06",
+          0.5
+        ],
+        [
+          "2026-07-07",
+          0.51
+        ],
+        [
+          "2026-07-08",
+          0.52
+        ],
+        [
+          "2026-07-09",
+          0.52
+        ],
+        [
+          "2026-07-12",
+          0.52
+        ],
+        [
+          "2026-07-13",
+          0.52
+        ],
+        [
+          "2026-07-14",
+          0.52
+        ],
+        [
+          "2026-07-15",
+          0.51
+        ],
+        [
+          "2026-07-16",
+          0.52
+        ],
+        [
+          "2026-07-19",
+          0.52
+        ],
+        [
+          "2026-07-20",
+          0.51
+        ],
+        [
+          "2026-07-21",
+          0.52
+        ],
+        [
+          "2026-07-22",
+          0.52
+        ],
+        [
+          "2026-07-23",
+          0.51
+        ],
+        [
+          "2026-07-26",
+          0.51
+        ],
+        [
+          "2026-07-27",
+          0.51
+        ],
+        [
+          "2026-07-28",
+          0.51
+        ],
+        [
+          "2026-07-29",
+          0.5
+        ],
+        [
+          "2026-07-30",
+          0.51
+        ],
+        [
+          "2026-08-02",
+          0.5
+        ],
+        [
+          "2026-08-03",
+          0.5
+        ],
+        [
+          "2026-08-04",
+          0.49
+        ],
+        [
+          "2026-08-05",
+          0.49
+        ],
+        [
+          "2026-08-06",
+          0.5
+        ],
+        [
+          "2026-08-10",
+          0.51
+        ],
+        [
+          "2026-08-11",
+          0.51
+        ],
+        [
+          "2026-08-12",
+          0.51
+        ],
+        [
+          "2026-08-13",
+          0.51
+        ],
+        [
+          "2026-08-16",
+          0.52
+        ],
+        [
+          "2026-08-17",
+          0.52
+        ],
+        [
+          "2026-08-18",
+          0.52
+        ],
+        [
+          "2026-08-19",
+          0.52
+        ],
+        [
+          "2026-08-20",
+          0.51
+        ],
+        [
+          "2026-08-23",
+          0.51
+        ],
+        [
+          "2026-08-24",
+          0.5
+        ],
+        [
+          "2026-08-26",
+          0.51
+        ],
+        [
+          "2026-08-27",
+          0.51
+        ],
+        [
+          "2026-08-30",
+          0.51
+        ],
+        [
+          "2026-08-31",
+          0.51
+        ],
+        [
+          "2026-09-01",
+          0.51
+        ],
+        [
+          "2026-09-02",
+          0.51
+        ],
+        [
+          "2026-09-03",
+          0.51
+        ],
+        [
+          "2026-09-06",
+          0.52
+        ],
+        [
+          "2026-09-07",
+          0.52
+        ],
+        [
+          "2026-09-08",
+          0.52
+        ],
+        [
+          "2026-09-09",
+          0.52
+        ],
+        [
+          "2026-09-13",
+          0.52
+        ],
+        [
+          "2026-09-14",
+          0.52
+        ],
+        [
+          "2026-09-15",
+          0.53
+        ],
+        [
+          "2026-09-16",
+          0.52
+        ],
+        [
+          "2026-09-17",
+          0.52
+        ],
+        [
+          "2026-09-20",
+          0.53
+        ],
+        [
+          "2026-09-21",
+          0.53
+        ],
+        [
+          "2026-09-22",
+          0.53
+        ],
+        [
+          "2026-09-23",
+          0.52
+        ],
+        [
+          "2026-09-24",
+          0.56
+        ],
+        [
+          "2026-09-27",
+          0.57
+        ],
+        [
+          "2026-09-28",
+          0.53
+        ],
+        [
+          "2026-09-29",
+          0.53
+        ],
+        [
+          "2026-09-30",
+          0.53
+        ],
+        [
+          "2026-10-01",
+          0.54
+        ],
+        [
+          "2026-10-04",
+          0.53
+        ],
+        [
+          "2026-10-05",
+          0.53
+        ],
+        [
+          "2026-10-06",
+          0.53
+        ],
+        [
+          "2026-10-07",
+          0.54
+        ],
+        [
+          "2026-10-08",
+          0.53
+        ],
+        [
+          "2026-10-11",
+          0.53
+        ],
+        [
+          "2026-10-12",
+          0.53
+        ],
+        [
+          "2026-10-13",
+          0.53
+        ],
+        [
+          "2026-10-14",
+          0.53
+        ],
+        [
+          "2026-10-15",
+          0.53
+        ],
+        [
+          "2026-10-18",
+          0.53
+        ],
+        [
+          "2026-10-20",
+          0.53
+        ],
+        [
+          "2026-10-21",
+          0.53
+        ],
+        [
+          "2026-10-22",
+          0.53
+        ],
+        [
+          "2026-10-25",
+          0.52
+        ],
+        [
+          "2026-10-26",
+          0.53
+        ],
+        [
+          "2026-10-27",
+          0.53
+        ],
+        [
+          "2026-10-28",
+          0.53
+        ],
+        [
+          "2026-10-29",
+          0.53
+        ],
+        [
+          "2026-11-01",
+          0.53
+        ],
+        [
+          "2026-11-02",
+          0.53
+        ],
+        [
+          "2026-11-03",
+          0.53
+        ],
+        [
+          "2026-11-04",
+          0.53
+        ]
+      ],
       "technical": {
+        "strategy": "trend",
         "action": "HOLD",
-        "score": 2,
-        "confidence": 40,
+        "score": 1,
+        "confidence": 43,
         "levels": {
           "entryLow": null,
           "entryHigh": null,
           "target": 0.57,
-          "stop": 0.49,
+          "stop": 0.5,
           "riskReward": null,
           "horizon": "3–6 weeks"
         },
         "indicators": {
           "price": 0.53,
           "sma20": 0.53,
-          "sma50": 0.5250000000000002,
+          "sma50": 0.5264000000000003,
           "sma200": null,
-          "rsi14": 51.50599620279566,
-          "macd": 0.0007191890669230316,
-          "macdSignal": 0.001182162265083822,
-          "macdHist": -0.0004629731981607903,
+          "rsi14": 51.109687321300996,
+          "macd": 0.00044931971537109927,
+          "macdSignal": 0.0007050399883403039,
+          "macdHist": -0.0002557202729692046,
           "bbUpper": 0.5364888568452305,
           "bbLower": 0.5235111431547695,
           "bbPctB": 0.49999999999999817,
           "change20": 0,
           "change60": 6.000000000000005,
-          "volAnnualPct": 25.280265825697768,
-          "support": 0.49,
+          "volAnnualPct": 25.67118098005079,
+          "support": 0.5,
           "resistance": 0.57,
           "maxDrawdownPct": -8.771929824561397,
           "flatDaysPct": 68.33333333333333,
-          "points": 98
+          "points": 120
         },
         "factors": {
-          "trend": 31.458401961860815,
+          "trend": 26.202878536759187,
           "momentum": -2.9999999999999893,
           "meanReversion": 0,
-          "risk": -0.8407974770933038,
+          "risk": -2.013542940152366,
           "liquidity": -76.66666666666666,
           "portfolio": 30
         },
         "contributions": {
-          "trend": 9.437520588558245,
+          "trend": 7.860863561027757,
           "momentum": -0.7499999999999973,
           "meanReversion": 0,
-          "risk": -0.12611962156399556,
+          "risk": -0.3020314410228549,
           "liquidity": -7.666666666666665,
           "portfolio": 1.5
         },
         "why": {
           "trend": [
-            "price above 50-day average by 1.0%",
+            "price above 50-day average by 0.7%",
             "20-day average above 50-day",
             "50-day average rising"
           ],
@@ -248,10 +1116,10 @@
             "MACD below its signal line"
           ],
           "meanReversion": [
-            "RSI 52: neutral"
+            "RSI 51: neutral"
           ],
           "risk": [
-            "annualised volatility 25%",
+            "annualised volatility 26%",
             "max drawdown -9% over the period"
           ],
           "liquidity": [
@@ -261,46 +1129,60 @@
             "not in your portfolio yet (adds diversification)"
           ]
         },
-        "thesis": "The trend is supportive: price above 50-day average by 1.0%. Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 25% a year; recent range 0.490–0.570 JOD.",
+        "thesis": "The trend is supportive: price above 50-day average by 0.7%. Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 26% a year; recent range 0.500–0.570 JOD.",
         "risks": [
           "thin trading: the shown price may not be achievable for larger orders",
           "no company financials are included in this score",
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close above 0.570 (breakout) or below 0.490 (breakdown)"
+          "a close above 0.570 (breakout) or below 0.500 (breakdown)"
         ]
       },
       "fundamentals": [
         {
           "label": "Net profit H1 2026",
-          "value": "JOD 1.4m (vs JOD 12.7m in H1 2025)",
+          "value": "JOD 1.4m (vs JOD 12.7m H1 2025)",
           "as_of": "2026-06-30",
           "source": "Jordan News",
           "url": "https://www.jordannews.jo/Section-113/All/Royal-Jordanian-Reports-a-Net-Profit-of-JOD-1-4-million-in-the-First-Half-of-2026-Despite-Ongoing-Regional-Challenges-53679"
         },
         {
           "label": "Revenue H1 2026",
-          "value": "+JOD 86m (+23% y/y); operating costs +JOD 69.5m; fuel +37%; financing costs +JOD 18m",
+          "value": "+JOD 86m (+23% YoY); total not stated. Operating costs +JOD 69.5m, fuel +JOD 33m (+37%), financing costs +JOD 18m",
           "as_of": "2026-06-30",
           "source": "Jordan News",
           "url": "https://www.jordannews.jo/Section-113/All/Royal-Jordanian-Reports-a-Net-Profit-of-JOD-1-4-million-in-the-First-Half-of-2026-Despite-Ongoing-Regional-Challenges-53679"
         },
         {
-          "label": "Operations H1 2026",
-          "value": "1.984m passengers (+5%); seat load factor 71.8% (-8.6 pts)",
+          "label": "Operating stats H1 2026",
+          "value": "1.984m passengers (+5%), load factor 71.8% (-8.6pp), cargo 21,460t (+36%); results below 2026 budget",
           "as_of": "2026-06-30",
           "source": "Jordan News",
           "url": "https://www.jordannews.jo/Section-113/All/Royal-Jordanian-Reports-a-Net-Profit-of-JOD-1-4-million-in-the-First-Half-of-2026-Despite-Ongoing-Regional-Challenges-53679"
+        },
+        {
+          "label": "Net profit 9M 2025 (comparison base for upcoming 9M 2026)",
+          "value": "JOD 32m incl. JOD 9.6m nonrecurring capital gains; revenue JOD 629m",
+          "as_of": "2025-09-30",
+          "source": "Petra",
+          "url": "https://pstg1.petra.gov.jo/en/news/royal-jordanian-posts-jd32m-profit-in-1st-9-months-2025"
         }
       ],
       "news": [
         {
-          "date": "2026-10-23",
-          "headline": "Brent crude above $114 a barrel, highest since May, amid the US-Israel war on Iran (higher jet fuel costs for airlines)",
-          "source": "Al Jazeera",
-          "url": "https://aljazeera.com/economy/2026/10/23/us-tech-stocks-tumble-as-investors-fret-over-ai-spending",
+          "date": "2026-10-13",
+          "headline": "Royal Jordanian continues temporary suspension of Riyadh and Dammam flights after Saudi authorities closed airport operations",
+          "source": "Petra",
+          "url": "https://petra.gov.jo/en/news/royal-jordanian-temporarily-suspends-flights-to-riyadh-dammam",
           "impact": "negative"
+        },
+        {
+          "date": "2026-10-26",
+          "headline": "Royal Jordanian to launch Amman-Beijing nonstop with Boeing 787 from 2027-01-26",
+          "source": "TravelMole",
+          "url": "https://travelmole.com/news/royal-jordanian-beijing-flights",
+          "impact": "positive"
         }
       ],
       "analysts": [],
@@ -308,25 +1190,25 @@
         "action": "HOLD",
         "technical_action": "HOLD",
         "changed_reason": null,
-        "confidence": 40,
-        "thesis": "The share has barely moved, sitting at 0.53 JOD with most sessions unchanged, so the model sees no clear signal and says HOLD. Half-year profit shrank to JOD 1.4m as fuel and financing costs outpaced 23% revenue growth, and oil above $114 with regional conflict keeps cost pressure on.",
+        "confidence": 43,
+        "thesis": "The share has sat at 0.52-0.54 JOD for a month with most sessions unchanged, so the model sees no trend and says HOLD. Nine-month results are not out yet; last year's came on 30 Oct, and with H1 profit down to JOD 1.4m against a JOD 32m nine-month base last year, a weak print looks likely. The suspended Saudi routes hurt, while the new Amman-Beijing route from January 2027 is a small positive.",
         "levels": {
           "entryLow": null,
           "entryHigh": null,
           "target": 0.57,
-          "stop": 0.49,
+          "stop": 0.5,
           "riskReward": null,
           "horizon": "3–6 weeks"
         },
         "risks": [
-          "High fuel prices and regional conflict weigh on margins",
-          "Very thin trading: 68% of recent sessions closed unchanged",
+          "A weak nine-month result could break the 0.50 support",
+          "Fuel costs and regional airspace closures weigh on margins",
           "thin trading: the shown price may not be achievable for larger orders",
           "no company financials are included in this score",
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close above 0.570 (breakout) or below 0.490 (breakdown)"
+          "a close above 0.570 (breakout) or below 0.500 (breakdown)"
         ]
       }
     },
@@ -336,83 +1218,484 @@
       "market": "GOLD",
       "held": true,
       "data_gaps": [
-        "CoinGecko blocked; PAX Gold closes taken from Yahoo Finance (PAXG-USD) and converted to JOD per gram",
-        "No central-bank buying or gold ETF flow data found",
-        "Close for 2 Nov missing from the source"
+        "CoinGecko and Yahoo PAXG not reachable; PAX Gold closes taken from Coinranking (cross-checked against CoinLore for 31 Oct-3 Nov)",
+        "Latest gold close is 3 Nov",
+        "No direct USD index level fetched",
+        "October 2026 (monthly) ETF flow data not found; Q3 data only",
+        "CNBC Fed article fetch failed"
       ],
       "currency": "JOD",
       "price": {
-        "value": 89.08,
-        "as_of": "2026-11-01",
-        "source": "Yahoo Finance PAXG-USD (PAX Gold) converted at USD x 0.709 / 31.1034768",
-        "url": "https://finance.yahoo.com/quote/PAXG-USD/history/",
-        "points": 140
+        "value": 89.85,
+        "as_of": "2026-11-03",
+        "source": "Coinranking PAX Gold (PAXG) daily closes converted at USD x 0.709 / 31.1034768",
+        "url": "https://coinranking.com/coin/YRTkUcMi+paxgold-paxg/historical-data",
+        "points": 99
       },
+      "series": [
+        [
+          "2026-07-28",
+          91.67
+        ],
+        [
+          "2026-07-29",
+          93.07
+        ],
+        [
+          "2026-07-30",
+          93.49
+        ],
+        [
+          "2026-07-31",
+          92.27
+        ],
+        [
+          "2026-08-01",
+          92.28
+        ],
+        [
+          "2026-08-02",
+          92.8
+        ],
+        [
+          "2026-08-03",
+          92.35
+        ],
+        [
+          "2026-08-04",
+          92.72
+        ],
+        [
+          "2026-08-05",
+          97.34
+        ],
+        [
+          "2026-08-06",
+          96.83
+        ],
+        [
+          "2026-08-07",
+          99.02
+        ],
+        [
+          "2026-08-08",
+          99.08
+        ],
+        [
+          "2026-08-09",
+          98.74
+        ],
+        [
+          "2026-08-10",
+          100.19
+        ],
+        [
+          "2026-08-11",
+          99.59
+        ],
+        [
+          "2026-08-12",
+          100.45
+        ],
+        [
+          "2026-08-13",
+          99.33
+        ],
+        [
+          "2026-08-14",
+          99.81
+        ],
+        [
+          "2026-08-15",
+          99.8
+        ],
+        [
+          "2026-08-16",
+          99.58
+        ],
+        [
+          "2026-08-17",
+          100.7
+        ],
+        [
+          "2026-08-18",
+          98.82
+        ],
+        [
+          "2026-08-19",
+          102.53
+        ],
+        [
+          "2026-08-20",
+          102.9
+        ],
+        [
+          "2026-08-21",
+          104.86
+        ],
+        [
+          "2026-08-22",
+          104.58
+        ],
+        [
+          "2026-08-23",
+          105.19
+        ],
+        [
+          "2026-08-24",
+          106.51
+        ],
+        [
+          "2026-08-25",
+          105.93
+        ],
+        [
+          "2026-08-26",
+          105.23
+        ],
+        [
+          "2026-08-27",
+          104.58
+        ],
+        [
+          "2026-08-28",
+          101.72
+        ],
+        [
+          "2026-08-29",
+          101.77
+        ],
+        [
+          "2026-08-30",
+          101.47
+        ],
+        [
+          "2026-08-31",
+          101.43
+        ],
+        [
+          "2026-09-01",
+          98.94
+        ],
+        [
+          "2026-09-02",
+          100.17
+        ],
+        [
+          "2026-09-03",
+          102.14
+        ],
+        [
+          "2026-09-04",
+          101.03
+        ],
+        [
+          "2026-09-05",
+          101.03
+        ],
+        [
+          "2026-09-06",
+          100.76
+        ],
+        [
+          "2026-09-07",
+          100.82
+        ],
+        [
+          "2026-09-08",
+          99.28
+        ],
+        [
+          "2026-09-09",
+          100.17
+        ],
+        [
+          "2026-09-10",
+          98.47
+        ],
+        [
+          "2026-09-11",
+          99.3
+        ],
+        [
+          "2026-09-12",
+          99.29
+        ],
+        [
+          "2026-09-13",
+          98.87
+        ],
+        [
+          "2026-09-14",
+          97.9
+        ],
+        [
+          "2026-09-15",
+          97.7
+        ],
+        [
+          "2026-09-16",
+          97.5
+        ],
+        [
+          "2026-09-17",
+          99.08
+        ],
+        [
+          "2026-09-18",
+          99.61
+        ],
+        [
+          "2026-09-19",
+          99.51
+        ],
+        [
+          "2026-09-20",
+          99.46
+        ],
+        [
+          "2026-09-21",
+          99.49
+        ],
+        [
+          "2026-09-22",
+          99.37
+        ],
+        [
+          "2026-09-23",
+          97.77
+        ],
+        [
+          "2026-09-24",
+          97.12
+        ],
+        [
+          "2026-09-25",
+          97.62
+        ],
+        [
+          "2026-09-26",
+          97.58
+        ],
+        [
+          "2026-09-27",
+          97.08
+        ],
+        [
+          "2026-09-28",
+          94.32
+        ],
+        [
+          "2026-09-29",
+          95.55
+        ],
+        [
+          "2026-09-30",
+          94.95
+        ],
+        [
+          "2026-10-01",
+          95.56
+        ],
+        [
+          "2026-10-02",
+          94.66
+        ],
+        [
+          "2026-10-03",
+          94.56
+        ],
+        [
+          "2026-10-04",
+          94.56
+        ],
+        [
+          "2026-10-05",
+          94.44
+        ],
+        [
+          "2026-10-06",
+          95.09
+        ],
+        [
+          "2026-10-07",
+          93.93
+        ],
+        [
+          "2026-10-08",
+          94.56
+        ],
+        [
+          "2026-10-09",
+          95.44
+        ],
+        [
+          "2026-10-10",
+          95.41
+        ],
+        [
+          "2026-10-11",
+          95.51
+        ],
+        [
+          "2026-10-12",
+          95.12
+        ],
+        [
+          "2026-10-13",
+          94.82
+        ],
+        [
+          "2026-10-14",
+          93.97
+        ],
+        [
+          "2026-10-15",
+          94.79
+        ],
+        [
+          "2026-10-16",
+          94.89
+        ],
+        [
+          "2026-10-17",
+          94.71
+        ],
+        [
+          "2026-10-18",
+          95.21
+        ],
+        [
+          "2026-10-19",
+          94.23
+        ],
+        [
+          "2026-10-20",
+          93.96
+        ],
+        [
+          "2026-10-21",
+          94.09
+        ],
+        [
+          "2026-10-22",
+          91.99
+        ],
+        [
+          "2026-10-23",
+          91.26
+        ],
+        [
+          "2026-10-24",
+          91.26
+        ],
+        [
+          "2026-10-25",
+          91.41
+        ],
+        [
+          "2026-10-26",
+          91.57
+        ],
+        [
+          "2026-10-27",
+          92.73
+        ],
+        [
+          "2026-10-28",
+          92.46
+        ],
+        [
+          "2026-10-29",
+          91.45
+        ],
+        [
+          "2026-10-30",
+          88.91
+        ],
+        [
+          "2026-10-31",
+          88.86
+        ],
+        [
+          "2026-11-01",
+          89.16
+        ],
+        [
+          "2026-11-02",
+          90.09
+        ],
+        [
+          "2026-11-03",
+          89.85
+        ]
+      ],
       "technical": {
-        "action": "REDUCE",
-        "score": -28,
-        "confidence": 61,
+        "strategy": "trend",
+        "action": "SELL",
+        "score": -30,
+        "confidence": 80,
         "levels": {
           "entryLow": null,
           "entryHigh": null,
-          "target": 83.26084799793131,
-          "stop": 94.89915200206869,
+          "target": 83.84980582612489,
+          "stop": 95.8501941738751,
           "riskReward": 1,
           "horizon": "3–6 weeks"
         },
         "indicators": {
-          "price": 89.08,
-          "sma20": 92.48159999999999,
-          "sma50": 94.95533999999998,
+          "price": 89.85,
+          "sma20": 92.14399999999999,
+          "sma50": 94.68439999999998,
           "sma200": null,
-          "rsi14": 28.499482902136776,
-          "macd": -1.5918327617557395,
-          "macdSignal": -1.3078459968809597,
-          "macdHist": -0.2839867648747798,
-          "bbUpper": 96.64303261769055,
-          "bbLower": 88.32016738230942,
-          "bbPctB": 0.09129459581544963,
-          "change20": -6.246382150186813,
-          "change60": -11.045425949411335,
-          "volAnnualPct": 22.133768927499357,
-          "support": 88.774,
-          "resistance": 102.117,
-          "maxDrawdownPct": -16.63865230578535,
-          "flatDaysPct": 0,
-          "points": 140
+          "rsi14": 34.53978394641692,
+          "macd": -1.5230526862254692,
+          "macdSignal": -1.3755366529362623,
+          "macdHist": -0.14751603328920693,
+          "bbUpper": 96.37350737457436,
+          "bbLower": 87.91449262542562,
+          "bbPctB": 0.22881002480450216,
+          "change20": -4.384377992976485,
+          "change60": -11.066019994061172,
+          "volAnnualPct": 22.633630504885964,
+          "support": 88.86,
+          "resistance": 101.03,
+          "maxDrawdownPct": -16.571213970519207,
+          "flatDaysPct": 5,
+          "points": 99
         },
         "factors": {
-          "trend": -74.45935854046809,
-          "momentum": -62.07638049956992,
-          "meanReversion": 24.50155129358967,
-          "risk": 8.598693217501928,
+          "trend": -73.53379826769108,
+          "momentum": -54.669551960028286,
+          "meanReversion": 0,
+          "risk": 7.099108485342107,
           "liquidity": 30,
           "portfolio": 30
         },
         "contributions": {
-          "trend": -22.337807562140423,
-          "momentum": -15.51909512489248,
-          "meanReversion": 3.6752326940384505,
-          "risk": 1.2898039826252892,
+          "trend": -22.060139480307324,
+          "momentum": -13.667387990007072,
+          "meanReversion": 0,
+          "risk": 1.064866272801316,
           "liquidity": 3,
           "portfolio": 1.5
         },
         "why": {
           "trend": [
-            "price below 50-day average by 6.2%",
+            "price below 50-day average by 5.1%",
             "20-day average below 50-day",
             "50-day average falling"
           ],
           "momentum": [
-            "20-day change -6.2%",
-            "60-day change -11.0%",
+            "20-day change -4.4%",
+            "60-day change -11.1%",
             "MACD below its signal line"
           ],
           "meanReversion": [
-            "RSI 28: oversold"
+            "RSI 35: neutral"
           ],
           "risk": [
-            "annualised volatility 22%",
+            "annualised volatility 23%",
             "max drawdown -17% over the period"
           ],
           "liquidity": [
@@ -422,63 +1705,155 @@
             "not in your portfolio yet (adds diversification)"
           ]
         },
-        "thesis": "The trend is negative: price below 50-day average by 6.2%. Also, 20-day change -6.2%. Volatility is 22% a year; recent range 88.77–102.12 JOD.",
+        "thesis": "The trend is negative: price below 50-day average by 5.1%. Also, 20-day change -4.4%. Volatility is 23% a year; recent range 88.86–101.03 JOD.",
         "risks": [
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close above 94.90 JOD",
-          "price recovering above the 50-day average (94.96)"
+          "a close above 95.85 JOD",
+          "price recovering above the 50-day average (94.68)"
         ]
       },
-      "fundamentals": [],
+      "fundamentals": [
+        {
+          "label": "Weekly range (week to 10-30)",
+          "value": "High $4,082.50, low $3,870.25; last $3,875.05, -3.74% w/w",
+          "as_of": "2026-10-30",
+          "source": "Kitco",
+          "url": "https://www.kitco.com/news/article/2026-10-30/wall-street-abandons-ship-after-gold-sinks-below-3900oz-main-street"
+        },
+        {
+          "label": "Fed policy",
+          "value": "FOMC held at 3.75-4.00% on 10-28 in a 10-2 vote (Cook and Hammack wanted a hike); Northlight's Zaccarelli sees a likely December hike",
+          "as_of": "2026-10-28",
+          "source": "Kitco",
+          "url": "https://www.kitco.com/news/article/2026-10-28/gold-price-drops-4035oz-fed-votes-10-2-favor-rate-hold"
+        },
+        {
+          "label": "Central bank buying Q3 2026",
+          "value": "321t (fastest since end-2024); YTD 675t (+6% YoY); WGC expects 2026 to at least match 2025",
+          "as_of": "2026-11-03",
+          "source": "PGurus (WGC Gold Demand Trends)",
+          "url": "https://www.pgurus.com/gold-demand-hits-usd-566-billion-in-first-nine-months-of-2026-says-wgc"
+        },
+        {
+          "label": "Gold ETF flows Q3 2026",
+          "value": "+211t net inflow, reversing Q2 outflows; holdings at a record 4,256t",
+          "as_of": "2026-11-03",
+          "source": "KuCoin News (WGC data)",
+          "url": "https://www.kucoin.com/news/flash/world-gold-council-q3-2026-global-gold-etfs-see-211-ton-net-inflow-central-bank-purchases-hit-2024-high"
+        },
+        {
+          "label": "Total demand",
+          "value": "Q3 1,369t (-1% YoY); 9M 3,881t; YTD value a record USD 566bn",
+          "as_of": "2026-11-03",
+          "source": "PGurus (WGC)",
+          "url": "https://www.pgurus.com/gold-demand-hits-usd-566-billion-in-first-nine-months-of-2026-says-wgc"
+        }
+      ],
       "news": [
         {
+          "date": "2026-10-28",
+          "headline": "Gold drops to $4,035 as Fed votes 10-2 to hold; two dissenters wanted a hike",
+          "source": "Kitco",
+          "url": "https://www.kitco.com/news/article/2026-10-28/gold-price-drops-4035oz-fed-votes-10-2-favor-rate-hold",
+          "impact": "negative"
+        },
+        {
           "date": "2026-10-30",
-          "headline": "Gold sinks below $3,900/oz, weakest in over a year, after Fed holds at 3.75-4.00% with two votes for a hike",
-          "source": "Kitco News",
+          "headline": "Wall Street abandons gold after it sinks below $3,900; tech selloff liquidations, strong GDP/core PCE; payrolls (Fri 11-06) and midterms loom",
+          "source": "Kitco",
           "url": "https://www.kitco.com/news/article/2026-10-30/wall-street-abandons-ship-after-gold-sinks-below-3900oz-main-street",
           "impact": "negative"
         },
         {
-          "date": "2026-10-30",
-          "headline": "Markets price more than 50bp of Fed hikes by mid-2027 (LSEG data) as tech sell-off forces liquidations",
-          "source": "Business Standard / Reuters",
-          "url": "https://business-standard.com/world-news/nasdaq-hits-near-three-month-low-as-amazon-intel-rattle-ai-trade-126103001910_1.html",
+          "date": "2026-11-02",
+          "headline": "Gold opens at its lowest in over a year ahead of midterms; liquidity-driven selling and a break of $3,975 support",
+          "source": "Yahoo Finance",
+          "url": "https://finance.yahoo.com/personal-finance/investing/article/gold-prices-today-monday-november-2-2026-gold-opens-at-its-lowest-point-in-over-a-year-ahead-of-midterms-121724988.html",
           "impact": "negative"
+        },
+        {
+          "date": "2026-11-03",
+          "headline": "Gold opens below $4,000 for second day; higher oil from Iran tensions (reported US strike on Qeshm Island) raises odds of a December Fed hike",
+          "source": "Yahoo Finance",
+          "url": "https://finance.yahoo.com/personal-finance/investing/article/gold-price-today-tuesday-november-3-2026-gold-prices-open-below-4000-for-the-second-straight-day-123207114.html",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-11-03",
+          "headline": "WGC Q3: central banks bought 321t, ETFs +211t; record USD 566bn YTD demand",
+          "source": "PGurus (WGC)",
+          "url": "https://www.pgurus.com/gold-demand-hits-usd-566-billion-in-first-nine-months-of-2026-says-wgc",
+          "impact": "positive"
         }
       ],
       "analysts": [
         {
-          "label": "Kitco weekly survey (16 analysts)",
-          "value": "1 bullish, 10 bearish, 5 neutral for the coming week",
+          "label": "Kitco Weekly Survey, Wall Street (10-30)",
+          "value": "16 analysts: 1 bullish, 10 bearish (63%), 5 neutral",
           "as_of": "2026-10-30",
-          "source": "Kitco News",
+          "source": "Kitco",
           "url": "https://www.kitco.com/news/article/2026-10-30/wall-street-abandons-ship-after-gold-sinks-below-3900oz-main-street"
+        },
+        {
+          "label": "Kitco Weekly Survey, Main Street (10-30)",
+          "value": "184 votes: 53% bullish, 30% bearish, 16% neutral",
+          "as_of": "2026-10-30",
+          "source": "Kitco",
+          "url": "https://www.kitco.com/news/article/2026-10-30/wall-street-abandons-ship-after-gold-sinks-below-3900oz-main-street"
+        },
+        {
+          "label": "Marc Chandler, Bannockburn Global Forex",
+          "value": "Gold can fall into $3,750-3,850",
+          "as_of": "2026-10-30",
+          "source": "Kitco",
+          "url": "https://www.kitco.com/news/article/2026-10-30/wall-street-abandons-ship-after-gold-sinks-below-3900oz-main-street"
+        },
+        {
+          "label": "Daniel Pavilonis, StoneX",
+          "value": "Could fall to around $3,000 by early next year",
+          "as_of": "2026-10-30",
+          "source": "Kitco",
+          "url": "https://www.kitco.com/news/article/2026-10-30/wall-street-abandons-ship-after-gold-sinks-below-3900oz-main-street"
+        },
+        {
+          "label": "Alex Kuptsikevich, FxPro",
+          "value": "Scenario points to $3,300",
+          "as_of": "2026-10-30",
+          "source": "Kitco",
+          "url": "https://www.kitco.com/news/article/2026-10-30/wall-street-abandons-ship-after-gold-sinks-below-3900oz-main-street"
+        },
+        {
+          "label": "Kitco Weekly Survey, Wall Street (10-23)",
+          "value": "17 analysts: 4 bullish, 7 bearish, 6 neutral",
+          "as_of": "2026-10-23",
+          "source": "Kitco",
+          "url": "https://www.kitco.com/news/article/2026-10-23/wall-street-doubts-golds-near-term-strength-main-street-maintains-bullish"
         }
       ],
       "recommendation": {
-        "action": "REDUCE",
-        "technical_action": "REDUCE",
+        "action": "SELL",
+        "technical_action": "SELL",
         "changed_reason": null,
-        "confidence": 61,
-        "thesis": "Gold in JOD per gram is about 6% below its 50-day average and falling, so the model says REDUCE, though RSI 28 shows it is oversold. The drivers are rate-hike expectations after a hawkish Fed hold and forced selling during the tech sell-off; most surveyed analysts are bearish for the week ahead.",
+        "confidence": 80,
+        "thesis": "Gold in JOD per gram is about 5% below its 50-day average and down 11% over 60 days, so the model says SELL. The drivers are rate-hike expectations after the Fed's 10-2 hold and forced selling during the tech sell-off, and most surveyed Wall Street analysts are bearish near term. Central banks bought 321t in Q3 and ETF holdings are at a record, which supports the longer-term case but has not stopped the short-term slide.",
         "levels": {
           "entryLow": null,
           "entryHigh": null,
-          "target": 83.26084799793131,
-          "stop": 94.89915200206869,
+          "target": 83.84980582612489,
+          "stop": 95.8501941738751,
           "riskReward": 1,
           "horizon": "3–6 weeks"
         },
         "risks": [
-          "US payrolls and midterm elections this week could move gold sharply either way",
-          "Oversold conditions can produce a fast rebound",
+          "US payrolls on 6 Nov could move gold sharply either way",
+          "An Iran ceasefire or a softer Fed could trigger a fast rebound from oversold levels",
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close above 94.90 JOD",
-          "price recovering above the 50-day average (94.96)"
+          "a close above 95.85 JOD",
+          "price recovering above the 50-day average (94.68)"
         ]
       }
     },
@@ -488,84 +1863,524 @@
       "market": "US",
       "held": true,
       "data_gaps": [
-        "No named analyst consensus or price targets found",
-        "No ASML-specific news found explaining the 30 Oct-2 Nov drop beyond the sector sell-off",
-        "stooq/Nasdaq blocked; prices from Yahoo Finance"
+        "Prices: Yahoo Finance up to 22 Oct, MarketBeat from 23 Oct (overlapping days matched)",
+        "SEC 6-K press release URL was blocked in this run (permission timeout); Q3 figures taken from the Finviz reprint of the release",
+        "Total debt / net cash not found",
+        "Net bookings Q3 2026 not in fetched source",
+        "No new export-control rule news found dated 2-4 Nov; latest is the 2026-10-07 study (Boerse Global: https://www.boerse-global.de/asml-aktie-studie-fordert-schaerfere-china-exportkontrollen/831383)"
       ],
       "currency": "USD",
       "price": {
-        "value": 1526.14,
-        "as_of": "2026-11-02",
-        "source": "Yahoo Finance",
-        "url": "https://finance.yahoo.com/quote/ASML/history/",
-        "points": 98
+        "value": 1552.14,
+        "as_of": "2026-11-03",
+        "source": "Yahoo Finance (to 22 Oct) and MarketBeat (from 23 Oct)",
+        "url": "https://www.marketbeat.com/stocks/NASDAQ/ASML/price-history/",
+        "points": 109
       },
+      "series": [
+        [
+          "2026-06-01",
+          1628.57
+        ],
+        [
+          "2026-06-02",
+          1705.37
+        ],
+        [
+          "2026-06-03",
+          1726.36
+        ],
+        [
+          "2026-06-04",
+          1757.47
+        ],
+        [
+          "2026-06-05",
+          1641.74
+        ],
+        [
+          "2026-06-08",
+          1749.04
+        ],
+        [
+          "2026-06-09",
+          1777.77
+        ],
+        [
+          "2026-06-10",
+          1734.19
+        ],
+        [
+          "2026-06-11",
+          1899.48
+        ],
+        [
+          "2026-06-12",
+          1863.55
+        ],
+        [
+          "2026-06-15",
+          1892.66
+        ],
+        [
+          "2026-06-16",
+          1803.89
+        ],
+        [
+          "2026-06-17",
+          1867.83
+        ],
+        [
+          "2026-06-18",
+          1929.68
+        ],
+        [
+          "2026-06-22",
+          1929.25
+        ],
+        [
+          "2026-06-23",
+          1778.46
+        ],
+        [
+          "2026-06-24",
+          1762.77
+        ],
+        [
+          "2026-06-25",
+          1841.18
+        ],
+        [
+          "2026-06-26",
+          1794.62
+        ],
+        [
+          "2026-06-29",
+          1883.11
+        ],
+        [
+          "2026-06-30",
+          1989.44
+        ],
+        [
+          "2026-07-01",
+          1843.04
+        ],
+        [
+          "2026-07-02",
+          1769.32
+        ],
+        [
+          "2026-07-06",
+          1825.07
+        ],
+        [
+          "2026-07-07",
+          1747.28
+        ],
+        [
+          "2026-07-08",
+          1768.65
+        ],
+        [
+          "2026-07-09",
+          1804.25
+        ],
+        [
+          "2026-07-10",
+          1797.32
+        ],
+        [
+          "2026-07-13",
+          1726.04
+        ],
+        [
+          "2026-07-14",
+          1775.64
+        ],
+        [
+          "2026-07-15",
+          1815.27
+        ],
+        [
+          "2026-07-16",
+          1784.87
+        ],
+        [
+          "2026-07-17",
+          1747.58
+        ],
+        [
+          "2026-07-20",
+          1739.02
+        ],
+        [
+          "2026-07-21",
+          1801.51
+        ],
+        [
+          "2026-07-22",
+          1801.86
+        ],
+        [
+          "2026-07-23",
+          1803
+        ],
+        [
+          "2026-07-24",
+          1757.09
+        ],
+        [
+          "2026-07-27",
+          1655.26
+        ],
+        [
+          "2026-07-28",
+          1582.95
+        ],
+        [
+          "2026-07-29",
+          1550.69
+        ],
+        [
+          "2026-07-30",
+          1651.44
+        ],
+        [
+          "2026-07-31",
+          1629
+        ],
+        [
+          "2026-08-03",
+          1642.52
+        ],
+        [
+          "2026-08-04",
+          1711.89
+        ],
+        [
+          "2026-08-05",
+          1678.22
+        ],
+        [
+          "2026-08-06",
+          1704.37
+        ],
+        [
+          "2026-08-07",
+          1740.99
+        ],
+        [
+          "2026-08-10",
+          1733.48
+        ],
+        [
+          "2026-08-11",
+          1799.38
+        ],
+        [
+          "2026-08-12",
+          1810.07
+        ],
+        [
+          "2026-08-13",
+          1847.9
+        ],
+        [
+          "2026-08-14",
+          1844.08
+        ],
+        [
+          "2026-08-17",
+          1883.12
+        ],
+        [
+          "2026-08-18",
+          1802.98
+        ],
+        [
+          "2026-08-19",
+          1751.73
+        ],
+        [
+          "2026-08-20",
+          1750.31
+        ],
+        [
+          "2026-08-21",
+          1763.76
+        ],
+        [
+          "2026-08-24",
+          1740.13
+        ],
+        [
+          "2026-08-25",
+          1744.16
+        ],
+        [
+          "2026-08-26",
+          1745.64
+        ],
+        [
+          "2026-08-27",
+          1735.01
+        ],
+        [
+          "2026-08-28",
+          1696.16
+        ],
+        [
+          "2026-08-31",
+          1696.01
+        ],
+        [
+          "2026-09-01",
+          1665.14
+        ],
+        [
+          "2026-09-02",
+          1682.3
+        ],
+        [
+          "2026-09-03",
+          1646.19
+        ],
+        [
+          "2026-09-04",
+          1714.88
+        ],
+        [
+          "2026-09-08",
+          1764.85
+        ],
+        [
+          "2026-09-09",
+          1729.52
+        ],
+        [
+          "2026-09-10",
+          1687.43
+        ],
+        [
+          "2026-09-11",
+          1698.3
+        ],
+        [
+          "2026-09-14",
+          1575.15
+        ],
+        [
+          "2026-09-15",
+          1591.48
+        ],
+        [
+          "2026-09-16",
+          1602.22
+        ],
+        [
+          "2026-09-17",
+          1629.67
+        ],
+        [
+          "2026-09-18",
+          1679.92
+        ],
+        [
+          "2026-09-21",
+          1711.32
+        ],
+        [
+          "2026-09-22",
+          1747.9
+        ],
+        [
+          "2026-09-23",
+          1744.61
+        ],
+        [
+          "2026-09-24",
+          1722.5
+        ],
+        [
+          "2026-09-25",
+          1743.94
+        ],
+        [
+          "2026-09-28",
+          1771.41
+        ],
+        [
+          "2026-09-29",
+          1834.39
+        ],
+        [
+          "2026-09-30",
+          1811.67
+        ],
+        [
+          "2026-10-01",
+          1808.49
+        ],
+        [
+          "2026-10-02",
+          1867.31
+        ],
+        [
+          "2026-10-05",
+          1859.86
+        ],
+        [
+          "2026-10-06",
+          1834.1
+        ],
+        [
+          "2026-10-07",
+          1804.96
+        ],
+        [
+          "2026-10-08",
+          1769.79
+        ],
+        [
+          "2026-10-09",
+          1780.34
+        ],
+        [
+          "2026-10-12",
+          1750.24
+        ],
+        [
+          "2026-10-13",
+          1717.76
+        ],
+        [
+          "2026-10-14",
+          1650
+        ],
+        [
+          "2026-10-15",
+          1657.44
+        ],
+        [
+          "2026-10-16",
+          1641.52
+        ],
+        [
+          "2026-10-19",
+          1647.12
+        ],
+        [
+          "2026-10-20",
+          1630.84
+        ],
+        [
+          "2026-10-21",
+          1676.69
+        ],
+        [
+          "2026-10-22",
+          1560.54
+        ],
+        [
+          "2026-10-23",
+          1571.8
+        ],
+        [
+          "2026-10-26",
+          1590.9
+        ],
+        [
+          "2026-10-27",
+          1635.57
+        ],
+        [
+          "2026-10-28",
+          1662.85
+        ],
+        [
+          "2026-10-29",
+          1675.7
+        ],
+        [
+          "2026-10-30",
+          1565.9
+        ],
+        [
+          "2026-11-02",
+          1526.14
+        ],
+        [
+          "2026-11-03",
+          1552.14
+        ]
+      ],
       "technical": {
+        "strategy": "trend",
         "action": "SELL",
-        "score": -52,
+        "score": -49,
         "confidence": 85,
         "levels": {
           "entryLow": null,
           "entryHigh": null,
-          "target": 1255.1059665551131,
-          "stop": 1797.174033444887,
+          "target": 1269.9682065524376,
+          "stop": 1834.3117934475626,
           "riskReward": 1,
           "horizon": "3–6 weeks"
         },
         "indicators": {
-          "price": 1526.14,
-          "sma20": 1667.5100000000002,
-          "sma50": 1699.9551999999996,
+          "price": 1552.14,
+          "sma20": 1653.4120000000003,
+          "sma50": 1696.1953999999998,
           "sma200": null,
-          "rsi14": 35.48729357035229,
-          "macd": -41.08048744405801,
-          "macdSignal": -31.288065236944835,
-          "macdHist": -9.792422207113173,
-          "bbUpper": 1839.204436779567,
-          "bbLower": 1495.8155632204334,
-          "bbPctB": 0.08830931668013012,
-          "change20": -17.943286053788988,
-          "change60": -12.340679728200621,
-          "volAnnualPct": 46.85456151105274,
-          "support": 1560.54,
+          "rsi14": 38.83100075140458,
+          "macd": -43.55261962441955,
+          "macdSignal": -33.624572233223084,
+          "macdHist": -9.928047391196465,
+          "bbUpper": 1813.4173222272707,
+          "bbLower": 1493.4066777727298,
+          "bbPctB": 0.18353552684905663,
+          "change20": -15.373207567744384,
+          "change60": -10.461037912176652,
+          "volAnnualPct": 49.98684114242203,
+          "support": 1526.14,
           "resistance": 1883.12,
           "maxDrawdownPct": -23.287960431076083,
           "flatDaysPct": 0,
-          "points": 98
+          "points": 109
         },
         "factors": {
-          "trend": -76.75084971809594,
-          "momentum": -94.68135945640124,
+          "trend": -77.76003917727732,
+          "momentum": -75.9220758243533,
           "meanReversion": 0,
-          "risk": -65.56368453315821,
+          "risk": -74.96052342726608,
           "liquidity": 30,
           "portfolio": 30
         },
         "contributions": {
-          "trend": -23.025254915428782,
-          "momentum": -23.67033986410031,
+          "trend": -23.328011753183194,
+          "momentum": -18.980518956088325,
           "meanReversion": 0,
-          "risk": -9.834552679973731,
+          "risk": -11.244078514089914,
           "liquidity": 3,
           "portfolio": 1.5
         },
         "why": {
           "trend": [
-            "price below 50-day average by 10.2%",
+            "price below 50-day average by 8.5%",
             "20-day average below 50-day",
             "50-day average falling"
           ],
           "momentum": [
-            "20-day change -17.9%",
-            "60-day change -12.3%",
-            "MACD below its signal line",
-            "closed below its 60-day low (breakdown)"
+            "20-day change -15.4%",
+            "60-day change -10.5%",
+            "MACD below its signal line"
           ],
           "meanReversion": [
-            "RSI 35: neutral"
+            "RSI 39: neutral"
           ],
           "risk": [
-            "annualised volatility 47%",
+            "annualised volatility 50%",
             "max drawdown -23% over the period"
           ],
           "liquidity": [
@@ -575,86 +2390,213 @@
             "not in your portfolio yet (adds diversification)"
           ]
         },
-        "thesis": "The momentum is negative: 20-day change -17.9%. Also, price below 50-day average by 10.2%. Volatility is 47% a year; recent range 1561–1883 USD.",
+        "thesis": "The trend is negative: price below 50-day average by 8.5%. Also, 20-day change -15.4%. Volatility is 50% a year; recent range 1526–1883 USD.",
         "risks": [
-          "high volatility (47% a year): position size accordingly",
+          "high volatility (50% a year): position size accordingly",
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close above 1797 USD",
-          "price recovering above the 50-day average (1700)"
+          "a close above 1834 USD",
+          "price recovering above the 50-day average (1696)"
         ]
       },
       "fundamentals": [
         {
-          "label": "Q3 2026 net sales",
-          "value": "EUR 11,662m",
-          "as_of": "2026-09-30",
-          "source": "ASML press release (SEC 6-K)",
-          "url": "https://www.sec.gov/Archives/edgar/data/0000937966/000162828026065813/pressreleasefinancialresul.htm"
-        },
-        {
-          "label": "Q3 2026 net income / EPS",
-          "value": "EUR 4,960m / EUR 12.95 basic; gross margin 57.5%",
-          "as_of": "2026-09-30",
-          "source": "ASML press release (SEC 6-K)",
-          "url": "https://www.sec.gov/Archives/edgar/data/0000937966/000162828026065813/pressreleasefinancialresul.htm"
-        },
-        {
-          "label": "Guidance",
-          "value": "Q4 2026 sales EUR 14.2-15.2bn; FY2026 EUR 44-45bn; supply planned for 2027-28 will not fully meet demand",
+          "label": "Q3 2026 total net sales",
+          "value": "EUR 11,662m (EUR 11.7bn)",
           "as_of": "2026-10-14",
-          "source": "ASML press release (SEC 6-K)",
-          "url": "https://www.sec.gov/Archives/edgar/data/0000937966/000162828026065813/pressreleasefinancialresul.htm"
+          "source": "ASML Q3 2026 release via Finviz",
+          "url": "https://finviz.com/news/402169/asml-reports-117-billion-total-net-sales-and-50-billion-net-income-in-q3-2026"
+        },
+        {
+          "label": "Q3 2026 gross margin",
+          "value": "57.5%",
+          "as_of": "2026-10-14",
+          "source": "ASML Q3 2026 release via Finviz",
+          "url": "https://finviz.com/news/402169/asml-reports-117-billion-total-net-sales-and-50-billion-net-income-in-q3-2026"
+        },
+        {
+          "label": "Q3 2026 net income",
+          "value": "EUR 4,960m",
+          "as_of": "2026-10-14",
+          "source": "ASML Q3 2026 release via Finviz",
+          "url": "https://finviz.com/news/402169/asml-reports-117-billion-total-net-sales-and-50-billion-net-income-in-q3-2026"
+        },
+        {
+          "label": "Q3 2026 basic EPS",
+          "value": "EUR 12.95",
+          "as_of": "2026-10-14",
+          "source": "ASML Q3 2026 release via Finviz",
+          "url": "https://finviz.com/news/402169/asml-reports-117-billion-total-net-sales-and-50-billion-net-income-in-q3-2026"
+        },
+        {
+          "label": "Q4 2026 guidance",
+          "value": "Net sales EUR 14.2-15.2bn, gross margin ~57%",
+          "as_of": "2026-10-14",
+          "source": "ASML Q3 2026 release via Finviz",
+          "url": "https://finviz.com/news/402169/asml-reports-117-billion-total-net-sales-and-50-billion-net-income-in-q3-2026"
+        },
+        {
+          "label": "FY2026 guidance",
+          "value": "Net sales EUR 44-45bn, gross margin ~56%",
+          "as_of": "2026-10-14",
+          "source": "ASML Q3 2026 release via Finviz",
+          "url": "https://finviz.com/news/402169/asml-reports-117-billion-total-net-sales-and-50-billion-net-income-in-q3-2026"
+        },
+        {
+          "label": "Interim dividend 2026",
+          "value": "EUR 1.88 per share, payable 2026-11-04",
+          "as_of": "2026-10-14",
+          "source": "ASML Q3 2026 release via Finviz",
+          "url": "https://finviz.com/news/402169/asml-reports-117-billion-total-net-sales-and-50-billion-net-income-in-q3-2026"
+        },
+        {
+          "label": "Q3 2026 share buybacks",
+          "value": "~EUR 4.1bn under 2026-2028 program",
+          "as_of": "2026-10-14",
+          "source": "ASML Q3 2026 release via Finviz",
+          "url": "https://finviz.com/news/402169/asml-reports-117-billion-total-net-sales-and-50-billion-net-income-in-q3-2026"
+        },
+        {
+          "label": "Revenue (TTM)",
+          "value": "$44.98B (+22.5%)",
+          "as_of": "2026-10-27",
+          "source": "StockAnalysis",
+          "url": "https://stockanalysis.com/stocks/asml/"
+        },
+        {
+          "label": "Net income (TTM)",
+          "value": "$15.36B (+42.4%)",
+          "as_of": "2026-10-27",
+          "source": "StockAnalysis",
+          "url": "https://stockanalysis.com/stocks/asml/"
+        },
+        {
+          "label": "EPS (TTM)",
+          "value": "$39.00",
+          "as_of": "2026-10-27",
+          "source": "StockAnalysis",
+          "url": "https://stockanalysis.com/stocks/asml/"
+        },
+        {
+          "label": "P/E (TTM) / forward P/E",
+          "value": "41.81 / 25.14",
+          "as_of": "2026-10-27",
+          "source": "StockAnalysis",
+          "url": "https://stockanalysis.com/stocks/asml/"
+        },
+        {
+          "label": "Market cap",
+          "value": "$629.41B",
+          "as_of": "2026-10-27",
+          "source": "StockAnalysis",
+          "url": "https://stockanalysis.com/stocks/asml/"
         }
       ],
       "news": [
         {
-          "date": "2026-10-14",
-          "headline": "ASML Q3: EUR 11.7bn sales, EUR 5.0bn net income; says demand will exceed planned capacity in 2027 and 2028",
-          "source": "ASML / SEC",
-          "url": "https://www.sec.gov/Archives/edgar/data/0000937966/000162828026065813/pressreleasefinancialresul.htm",
+          "date": "2026-11-04",
+          "headline": "Democrats sweep Congress; futures rise but investors flag stricter data-center rules/AI capex scrutiny risk",
+          "source": "TipRanks",
+          "url": "https://www.tipranks.com/news/stock-market-today-nov-4-futures-rise-after-democrats-sweep-midterm-elections",
+          "impact": "neutral"
+        },
+        {
+          "date": "2026-11-03",
+          "headline": "ASML opens up 3.10% as semiconductor equipment names rebound; PHLX Semi index +2.63% on the day",
+          "source": "TradingKey",
+          "url": "https://www.tradingkey.com/news/market-movers/262267769-market-movers-asml-20261103",
           "impact": "positive"
         },
         {
-          "date": "2026-10-22",
-          "headline": "Nasdaq falls 2.6% as AI capital-spending fears hit chip stocks",
-          "source": "Al Jazeera",
-          "url": "https://aljazeera.com/economy/2026/10/23/us-tech-stocks-tumble-as-investors-fret-over-ai-spending",
+          "date": "2026-11-03",
+          "headline": "Asian chip stocks slide ~3.6% (Kospi, Taiex); ASML down 3.4% in early European trading",
+          "source": "StockTitan",
+          "url": "https://www.stocktitan.net/articles/stock-market-today-live-november-3-2026",
           "impact": "negative"
         },
         {
           "date": "2026-10-30",
-          "headline": "Chip index sheds 7% as Intel posts record one-day drop and Amazon's AI spending rattles investors",
-          "source": "Business Standard / Reuters",
-          "url": "https://business-standard.com/world-news/nasdaq-hits-near-three-month-low-as-amazon-intel-rattle-ai-trade-126103001910_1.html",
+          "headline": "Chip rout: PHLX Semi index -7.2% after Intel -28.6% on weak Q4 guide; Amazon keeps $220bn capex; ASML US shares -6.55%",
+          "source": "CappNotes / MarketBeat",
+          "url": "https://cappnotes.substack.com/p/closing-look-friday-october-30-2026",
           "impact": "negative"
+        },
+        {
+          "date": "2026-10-14",
+          "headline": "ASML Q3: sales EUR 11.7bn, net income EUR 5.0bn; Q4 guided EUR 14.2-15.2bn, FY26 EUR 44-45bn",
+          "source": "Finviz (company release)",
+          "url": "https://finviz.com/news/402169/asml-reports-117-billion-total-net-sales-and-50-billion-net-income-in-q3-2026",
+          "impact": "positive"
         }
       ],
-      "analysts": [],
+      "analysts": [
+        {
+          "label": "MarketBeat consensus",
+          "value": "Moderate Buy (25 analysts: 3 Strong Buy, 17 Buy, 2 Hold, 3 Sell); PT $2,079.13 (high $2,623, low $1,200)",
+          "as_of": "2026-10-30",
+          "source": "MarketBeat",
+          "url": "https://www.marketbeat.com/stocks/NASDAQ/ASML/forecast/"
+        },
+        {
+          "label": "StockAnalysis consensus",
+          "value": "Strong Buy (41 analysts); 12-month PT $2,143.94",
+          "as_of": "2026-10-27",
+          "source": "StockAnalysis",
+          "url": "https://stockanalysis.com/stocks/asml/"
+        },
+        {
+          "label": "TipRanks consensus",
+          "value": "Strong Buy (6 Buy/0 Hold/0 Sell, 3 months); avg PT $2,544.47 (high $2,813.35, low $2,100)",
+          "as_of": "2026-11-02",
+          "source": "TipRanks",
+          "url": "https://www.tipranks.com/stocks/ASML/forecast"
+        },
+        {
+          "label": "TradingKey analyst average",
+          "value": "Buy; avg PT $2,210.62 (high $2,858, low $1,450)",
+          "as_of": "2026-11-03",
+          "source": "TradingKey",
+          "url": "https://www.tradingkey.com/news/market-movers/262267769-market-movers-asml-20261103"
+        },
+        {
+          "label": "JPMorgan",
+          "value": "Overweight; PT cut $2,400 -> $2,350",
+          "as_of": "2026-10-15",
+          "source": "MarketBeat",
+          "url": "https://www.marketbeat.com/stocks/NASDAQ/ASML/forecast/"
+        },
+        {
+          "label": "RBC",
+          "value": "Outperform reiterated; PT $2,100",
+          "as_of": "2026-10-07",
+          "source": "MarketBeat",
+          "url": "https://www.marketbeat.com/stocks/NASDAQ/ASML/forecast/"
+        }
+      ],
       "recommendation": {
         "action": "SELL",
         "technical_action": "SELL",
         "changed_reason": null,
         "confidence": 85,
-        "thesis": "The model gives a strong SELL: the share is down about 18% in 20 sessions to $1,526 and broke below its 60-day low. Company results are strong (Q3 net income EUR 5.0bn and demand exceeding capacity into 2028), but the stock is being dragged down by a sector-wide sell-off in AI and chip names and rising rate-hike expectations, so price momentum is likely to dominate in the short term.",
+        "thesis": "The model gives a strong SELL: ASML is down about 15% in 20 sessions to $1,552 and sits well below its 20- and 50-day averages. The company itself is doing well (Q3 net income EUR 5.0bn, Q4 guided to a record EUR 14.2-15.2bn) and analysts are firmly positive with average targets around $2,080-2,540, but the stock is being driven by the AI and chip sell-off and rate-hike fears. The 3 Nov chip rebound has not yet changed the trend.",
         "levels": {
           "entryLow": null,
           "entryHigh": null,
-          "target": 1255.1059665551131,
-          "stop": 1797.174033444887,
+          "target": 1269.9682065524376,
+          "stop": 1834.3117934475626,
           "riskReward": 1,
           "horizon": "3–6 weeks"
         },
         "risks": [
-          "High volatility (47% a year)",
-          "US export-control pressure on sales to China",
-          "high volatility (47% a year): position size accordingly",
+          "Possible data-center and AI-capex scrutiny under the new Democratic Congress",
+          "China export-control tightening remains an overhang",
+          "high volatility (50% a year): position size accordingly",
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close above 1797 USD",
-          "price recovering above the 50-day average (1700)"
+          "a close above 1834 USD",
+          "price recovering above the 50-day average (1696)"
         ]
       }
     },
@@ -664,81 +2606,1174 @@
       "market": "US",
       "held": true,
       "data_gaps": [
-        "No analyst coverage for the ETF",
-        "stooq/Nasdaq blocked; prices from Yahoo Finance"
+        "wahed.com/hlal and stockanalysis.com/etf/hlal blocked in this run (permission timeout); used Robinhood/P&I/HalalWallet instead",
+        "No analyst consensus applicable/found for ETF",
+        "No HLAL-specific news found; items are market drivers"
       ],
       "currency": "USD",
       "price": {
-        "value": 70.44,
-        "as_of": "2026-11-02",
+        "value": 70.95,
+        "as_of": "2026-11-03",
         "source": "Yahoo Finance",
-        "url": "https://finance.yahoo.com/quote/HLAL/history/",
-        "points": 98
+        "url": "https://sg.finance.yahoo.com/quote/HLAL/history/",
+        "points": 109
       },
+      "series": [
+        [
+          "2026-06-01",
+          73.14
+        ],
+        [
+          "2026-06-02",
+          73.6
+        ],
+        [
+          "2026-06-03",
+          73.55
+        ],
+        [
+          "2026-06-04",
+          73.15
+        ],
+        [
+          "2026-06-05",
+          70.53
+        ],
+        [
+          "2026-06-08",
+          70.94
+        ],
+        [
+          "2026-06-09",
+          70.27
+        ],
+        [
+          "2026-06-10",
+          69
+        ],
+        [
+          "2026-06-11",
+          70.42
+        ],
+        [
+          "2026-06-12",
+          70.72
+        ],
+        [
+          "2026-06-15",
+          72.35
+        ],
+        [
+          "2026-06-16",
+          71.5
+        ],
+        [
+          "2026-06-17",
+          70.72
+        ],
+        [
+          "2026-06-18",
+          71.84
+        ],
+        [
+          "2026-06-22",
+          71.74
+        ],
+        [
+          "2026-06-23",
+          69.97
+        ],
+        [
+          "2026-06-24",
+          69.61
+        ],
+        [
+          "2026-06-25",
+          69.75
+        ],
+        [
+          "2026-06-26",
+          69.19
+        ],
+        [
+          "2026-06-29",
+          70.5
+        ],
+        [
+          "2026-06-30",
+          71.39
+        ],
+        [
+          "2026-07-01",
+          70.95
+        ],
+        [
+          "2026-07-02",
+          70.3
+        ],
+        [
+          "2026-07-06",
+          71.16
+        ],
+        [
+          "2026-07-07",
+          70.57
+        ],
+        [
+          "2026-07-08",
+          70.83
+        ],
+        [
+          "2026-07-09",
+          71.57
+        ],
+        [
+          "2026-07-10",
+          72.04
+        ],
+        [
+          "2026-07-13",
+          71.08
+        ],
+        [
+          "2026-07-14",
+          71.66
+        ],
+        [
+          "2026-07-15",
+          71.9
+        ],
+        [
+          "2026-07-16",
+          71.08
+        ],
+        [
+          "2026-07-17",
+          70.34
+        ],
+        [
+          "2026-07-20",
+          70.22
+        ],
+        [
+          "2026-07-21",
+          71.24
+        ],
+        [
+          "2026-07-22",
+          71.18
+        ],
+        [
+          "2026-07-23",
+          69.94
+        ],
+        [
+          "2026-07-24",
+          69.64
+        ],
+        [
+          "2026-07-27",
+          69.42
+        ],
+        [
+          "2026-07-28",
+          69.24
+        ],
+        [
+          "2026-07-29",
+          68.03
+        ],
+        [
+          "2026-07-30",
+          69.82
+        ],
+        [
+          "2026-07-31",
+          69.9
+        ],
+        [
+          "2026-08-03",
+          71.11
+        ],
+        [
+          "2026-08-04",
+          72.82
+        ],
+        [
+          "2026-08-05",
+          72.55
+        ],
+        [
+          "2026-08-06",
+          72.63
+        ],
+        [
+          "2026-08-07",
+          73.14
+        ],
+        [
+          "2026-08-10",
+          72.97
+        ],
+        [
+          "2026-08-11",
+          72.66
+        ],
+        [
+          "2026-08-12",
+          72.93
+        ],
+        [
+          "2026-08-13",
+          73.54
+        ],
+        [
+          "2026-08-14",
+          73.39
+        ],
+        [
+          "2026-08-17",
+          73.24
+        ],
+        [
+          "2026-08-18",
+          72.38
+        ],
+        [
+          "2026-08-19",
+          72.49
+        ],
+        [
+          "2026-08-20",
+          72.07
+        ],
+        [
+          "2026-08-21",
+          72.34
+        ],
+        [
+          "2026-08-24",
+          71.71
+        ],
+        [
+          "2026-08-25",
+          72.04
+        ],
+        [
+          "2026-08-26",
+          71.97
+        ],
+        [
+          "2026-08-27",
+          73.07
+        ],
+        [
+          "2026-08-28",
+          72.65
+        ],
+        [
+          "2026-08-31",
+          72.65
+        ],
+        [
+          "2026-09-01",
+          72.3
+        ],
+        [
+          "2026-09-02",
+          72.67
+        ],
+        [
+          "2026-09-03",
+          73.4
+        ],
+        [
+          "2026-09-04",
+          73.26
+        ],
+        [
+          "2026-09-08",
+          73
+        ],
+        [
+          "2026-09-09",
+          72.86
+        ],
+        [
+          "2026-09-10",
+          72.39
+        ],
+        [
+          "2026-09-11",
+          73.05
+        ],
+        [
+          "2026-09-14",
+          72.53
+        ],
+        [
+          "2026-09-15",
+          72.31
+        ],
+        [
+          "2026-09-16",
+          72.22
+        ],
+        [
+          "2026-09-17",
+          73.42
+        ],
+        [
+          "2026-09-18",
+          73.68
+        ],
+        [
+          "2026-09-21",
+          75.25
+        ],
+        [
+          "2026-09-22",
+          75.53
+        ],
+        [
+          "2026-09-23",
+          74.9
+        ],
+        [
+          "2026-09-24",
+          74.95
+        ],
+        [
+          "2026-09-25",
+          75.36
+        ],
+        [
+          "2026-09-28",
+          74.8
+        ],
+        [
+          "2026-09-29",
+          74.63
+        ],
+        [
+          "2026-09-30",
+          74.81
+        ],
+        [
+          "2026-10-01",
+          74.93
+        ],
+        [
+          "2026-10-02",
+          75.6
+        ],
+        [
+          "2026-10-05",
+          76.29
+        ],
+        [
+          "2026-10-06",
+          76.54
+        ],
+        [
+          "2026-10-07",
+          76.44
+        ],
+        [
+          "2026-10-08",
+          75.69
+        ],
+        [
+          "2026-10-09",
+          75.91
+        ],
+        [
+          "2026-10-12",
+          75.8
+        ],
+        [
+          "2026-10-13",
+          75.9
+        ],
+        [
+          "2026-10-14",
+          74.7
+        ],
+        [
+          "2026-10-15",
+          74.59
+        ],
+        [
+          "2026-10-16",
+          73.33
+        ],
+        [
+          "2026-10-19",
+          73.81
+        ],
+        [
+          "2026-10-20",
+          73.78
+        ],
+        [
+          "2026-10-21",
+          74.32
+        ],
+        [
+          "2026-10-22",
+          72.71
+        ],
+        [
+          "2026-10-23",
+          72.51
+        ],
+        [
+          "2026-10-26",
+          73.22
+        ],
+        [
+          "2026-10-27",
+          73.9
+        ],
+        [
+          "2026-10-28",
+          74.11
+        ],
+        [
+          "2026-10-29",
+          73.4
+        ],
+        [
+          "2026-10-30",
+          71.52
+        ],
+        [
+          "2026-11-02",
+          70.44
+        ],
+        [
+          "2026-11-03",
+          70.95
+        ]
+      ],
       "technical": {
+        "strategy": "trend",
         "action": "HOLD",
-        "score": -12,
-        "confidence": 52,
+        "score": -9,
+        "confidence": 76,
         "levels": {
           "entryLow": null,
           "entryHigh": null,
           "target": 76.54,
-          "stop": 71.52,
+          "stop": 70.44,
           "riskReward": null,
           "horizon": "3–6 weeks"
         },
         "indicators": {
-          "price": 70.44,
-          "sma20": 74.13100000000001,
-          "sma50": 73.81700000000001,
+          "price": 70.95,
+          "sma20": 73.85150000000002,
+          "sma50": 73.80180000000001,
           "sma200": null,
-          "rsi14": 31.053265076193824,
-          "macd": -0.6235380833148128,
-          "macdSignal": -0.22931769083024145,
-          "macdHist": -0.3942203924845713,
-          "bbUpper": 77.39447506098703,
-          "bbLower": 70.867524939013,
-          "bbPctB": -0.06550148706877124,
-          "change20": -7.668108533228479,
-          "change60": -3.691550451189507,
-          "volAnnualPct": 15.982947470845849,
-          "support": 71.52,
+          "rsi14": 34.955856440483444,
+          "macd": -0.7438317554855729,
+          "macdSignal": -0.333000634679552,
+          "macdHist": -0.4108311208060209,
+          "bbUpper": 77.20259895564521,
+          "bbLower": 70.50040104435482,
+          "bbPctB": 0.06708231562183513,
+          "change20": -7.303370786516861,
+          "change60": -2.768260929148958,
+          "volAnnualPct": 17.198017516457437,
+          "support": 70.44,
           "resistance": 76.54,
           "maxDrawdownPct": -7.969689051476358,
           "flatDaysPct": 1.6666666666666667,
-          "points": 98
+          "points": 109
         },
         "factors": {
-          "trend": -21.083563786595096,
-          "momentum": -68.05553503529293,
-          "meanReversion": 20,
-          "risk": 27.051157587462455,
+          "trend": -15.82363044963281,
+          "momentum": -49.750005004365356,
+          "meanReversion": 0,
+          "risk": 23.40594745062769,
           "liquidity": 30,
           "portfolio": 30
         },
         "contributions": {
-          "trend": -6.325069135978529,
-          "momentum": -17.013883758823233,
-          "meanReversion": 3,
-          "risk": 4.057673638119368,
+          "trend": -4.747089134889843,
+          "momentum": -12.437501251091339,
+          "meanReversion": 0,
+          "risk": 3.510892117594153,
           "liquidity": 3,
           "portfolio": 1.5
         },
         "why": {
           "trend": [
-            "price below 50-day average by 4.6%",
+            "price below 50-day average by 3.9%",
             "20-day average above 50-day",
             "50-day average rising"
           ],
           "momentum": [
-            "20-day change -7.7%",
-            "60-day change -3.7%",
-            "MACD below its signal line",
-            "closed below its 60-day low (breakdown)"
+            "20-day change -7.3%",
+            "60-day change -2.8%",
+            "MACD below its signal line"
           ],
           "meanReversion": [
-            "RSI 31: neutral",
-            "below lower Bollinger band"
+            "RSI 35: neutral"
+          ],
+          "risk": [
+            "annualised volatility 17%",
+            "max drawdown -8% over the period"
+          ],
+          "liquidity": [
+            "liquid market"
+          ],
+          "portfolio": [
+            "not in your portfolio yet (adds diversification)"
+          ]
+        },
+        "thesis": "The momentum is negative: 20-day change -7.3%. Also, price below 50-day average by 3.9%. Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 17% a year; recent range 70.44–76.54 USD.",
+        "risks": [
+          "signals use past prices only; they do not predict the future"
+        ],
+        "invalidation": [
+          "a close above 76.54 (breakout) or below 70.44 (breakdown)"
+        ]
+      },
+      "fundamentals": [
+        {
+          "label": "Expense ratio",
+          "value": "0.50%",
+          "as_of": "2026-11-01",
+          "source": "Robinhood",
+          "url": "https://robinhood.com/us/en/stocks/HLAL"
+        },
+        {
+          "label": "AUM",
+          "value": "$947.24M",
+          "as_of": "2026-11-01",
+          "source": "Robinhood",
+          "url": "https://robinhood.com/us/en/stocks/HLAL"
+        },
+        {
+          "label": "Number of holdings",
+          "value": "202",
+          "as_of": "2026-11-01",
+          "source": "Robinhood",
+          "url": "https://robinhood.com/us/en/stocks/HLAL"
+        },
+        {
+          "label": "Top 10 holdings",
+          "value": "AAPL 12.73%, NVDA 12.45%, MSFT 10.01%, GOOGL 4.21%, AVGO 4.08%, META 3.49%, GOOG 3.41%, TSLA 2.99%, LLY 2.74%, MU 2.68% (58.79% total)",
+          "as_of": "2026-10-29",
+          "source": "Robinhood",
+          "url": "https://robinhood.com/us/en/stocks/HLAL"
+        },
+        {
+          "label": "P/E",
+          "value": "29.57",
+          "as_of": "2026-11-01",
+          "source": "Robinhood",
+          "url": "https://robinhood.com/us/en/stocks/HLAL"
+        },
+        {
+          "label": "Dividend yield / 30-day yield",
+          "value": "0.68% / 0.28",
+          "as_of": "2026-11-01",
+          "source": "Robinhood",
+          "url": "https://robinhood.com/us/en/stocks/HLAL"
+        },
+        {
+          "label": "Index",
+          "value": "FTSE USA Shariah GTR Index (USD)",
+          "as_of": "2026-11-02",
+          "source": "Pensions & Investments ETF data",
+          "url": "https://etf.pionline.com/fund/HLAL"
+        },
+        {
+          "label": "Sharia screening provider",
+          "value": "Yasaar Limited (FTSE Shariah screens); Shariyah Review Bureau as external Shariah advisor",
+          "as_of": "2026-08-13",
+          "source": "HalalWallet",
+          "url": "https://www.halalwallet.us/providers/wahed-invest/wahed-ftse-usa-shariah-etf"
+        }
+      ],
+      "news": [
+        {
+          "date": "2026-11-04",
+          "headline": "Democrats sweep Congress; futures rise but AI/data-center regulation fears hang over megacap tech",
+          "source": "TipRanks",
+          "url": "https://www.tipranks.com/news/stock-market-today-nov-4-futures-rise-after-democrats-sweep-midterm-elections",
+          "impact": "neutral"
+        },
+        {
+          "date": "2026-11-03",
+          "headline": "Chips rebound (PHLX Semi +2.63%); S&P 500 snaps 3-day losing streak; 10-yr yield 4.95%, 78% odds of December Fed hike",
+          "source": "CappNotes",
+          "url": "https://cappnotes.substack.com/p/closing-look-tuesday-november-3-2026",
+          "impact": "neutral"
+        },
+        {
+          "date": "2026-11-03",
+          "headline": "Apple (top HLAL holding) falls ~2% despite beat on weaker margin outlook; AMD beats after close",
+          "source": "StockTitan",
+          "url": "https://www.stocktitan.net/articles/stock-market-today-live-november-3-2026",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-10-30",
+          "headline": "Nasdaq -2.86%, PHLX Semi -7.2% on Intel guide and AI-capex worries; hawkish Fed talk",
+          "source": "CappNotes",
+          "url": "https://cappnotes.substack.com/p/closing-look-friday-october-30-2026",
+          "impact": "negative"
+        }
+      ],
+      "analysts": [],
+      "recommendation": {
+        "action": "HOLD",
+        "technical_action": "HOLD",
+        "changed_reason": null,
+        "confidence": 76,
+        "thesis": "HLAL is about 4% below its 20- and 50-day averages and near the bottom of its recent range, but the 50-day average is still roughly flat, so the model says HOLD. About 35% of the fund is Apple, NVIDIA and Microsoft, so it moves with the AI trade: the 30 Oct chip rout and Apple's 3 Nov drop pulled it down. A close below 70.44 would turn the picture weaker.",
+        "levels": {
+          "entryLow": null,
+          "entryHigh": null,
+          "target": 76.54,
+          "stop": 70.44,
+          "riskReward": null,
+          "horizon": "3–6 weeks"
+        },
+        "risks": [
+          "Concentration in a few mega-cap tech names",
+          "Rate-hike odds (about 78% for December) weigh on growth valuations",
+          "Overlaps heavily with SPUS",
+          "signals use past prices only; they do not predict the future"
+        ],
+        "invalidation": [
+          "a close above 76.54 (breakout) or below 70.44 (breakdown)"
+        ]
+      }
+    },
+    {
+      "key": "US:SPUS",
+      "name": "SP Funds S&P 500 Sharia Industry Exclusions ETF",
+      "market": "US",
+      "held": true,
+      "data_gaps": [
+        "Prices combined from Yahoo Finance (to 10 Sep), StockAnalysis (11 Sep-2 Oct) and MarketBeat (from 5 Oct); overlapping days matched",
+        "sp-funds.com/spus blocked in this run (permission timeout); used Robinhood/HalalWallet/ETF Strategy",
+        "Named Shariah advisor not found",
+        "No analyst consensus applicable/found for ETF",
+        "No SPUS-specific news found; items are market drivers"
+      ],
+      "currency": "USD",
+      "price": {
+        "value": 57.95,
+        "as_of": "2026-11-03",
+        "source": "Yahoo Finance (to 10 Sep), StockAnalysis (11 Sep-2 Oct), MarketBeat (from 5 Oct)",
+        "url": "https://www.marketbeat.com/stocks/NYSEARCA/SPUS/price-history/",
+        "points": 109
+      },
+      "series": [
+        [
+          "2026-06-01",
+          59.2
+        ],
+        [
+          "2026-06-02",
+          59.51
+        ],
+        [
+          "2026-06-03",
+          59
+        ],
+        [
+          "2026-06-04",
+          58.83
+        ],
+        [
+          "2026-06-05",
+          56.64
+        ],
+        [
+          "2026-06-08",
+          56.98
+        ],
+        [
+          "2026-06-09",
+          56.51
+        ],
+        [
+          "2026-06-10",
+          55.4
+        ],
+        [
+          "2026-06-11",
+          56.52
+        ],
+        [
+          "2026-06-12",
+          56.75
+        ],
+        [
+          "2026-06-15",
+          57.98
+        ],
+        [
+          "2026-06-16",
+          57.26
+        ],
+        [
+          "2026-06-17",
+          56.63
+        ],
+        [
+          "2026-06-18",
+          57.53
+        ],
+        [
+          "2026-06-22",
+          57.48
+        ],
+        [
+          "2026-06-23",
+          56.08
+        ],
+        [
+          "2026-06-24",
+          55.99
+        ],
+        [
+          "2026-06-25",
+          56.15
+        ],
+        [
+          "2026-06-26",
+          55.81
+        ],
+        [
+          "2026-06-29",
+          56.7
+        ],
+        [
+          "2026-06-30",
+          57.5
+        ],
+        [
+          "2026-07-01",
+          56.97
+        ],
+        [
+          "2026-07-02",
+          56.66
+        ],
+        [
+          "2026-07-06",
+          57.19
+        ],
+        [
+          "2026-07-07",
+          56.76
+        ],
+        [
+          "2026-07-08",
+          56.93
+        ],
+        [
+          "2026-07-09",
+          57.46
+        ],
+        [
+          "2026-07-10",
+          57.78
+        ],
+        [
+          "2026-07-13",
+          57
+        ],
+        [
+          "2026-07-14",
+          57.26
+        ],
+        [
+          "2026-07-15",
+          57.45
+        ],
+        [
+          "2026-07-16",
+          57.06
+        ],
+        [
+          "2026-07-17",
+          56.45
+        ],
+        [
+          "2026-07-20",
+          56.32
+        ],
+        [
+          "2026-07-21",
+          57.07
+        ],
+        [
+          "2026-07-22",
+          57.07
+        ],
+        [
+          "2026-07-23",
+          56.37
+        ],
+        [
+          "2026-07-24",
+          56.28
+        ],
+        [
+          "2026-07-27",
+          55.99
+        ],
+        [
+          "2026-07-28",
+          55.92
+        ],
+        [
+          "2026-07-29",
+          54.95
+        ],
+        [
+          "2026-07-30",
+          56.45
+        ],
+        [
+          "2026-07-31",
+          56.33
+        ],
+        [
+          "2026-08-03",
+          57.17
+        ],
+        [
+          "2026-08-04",
+          58.6
+        ],
+        [
+          "2026-08-05",
+          58.6
+        ],
+        [
+          "2026-08-06",
+          58.68
+        ],
+        [
+          "2026-08-07",
+          59.16
+        ],
+        [
+          "2026-08-10",
+          58.95
+        ],
+        [
+          "2026-08-11",
+          58.82
+        ],
+        [
+          "2026-08-12",
+          59.11
+        ],
+        [
+          "2026-08-13",
+          59.44
+        ],
+        [
+          "2026-08-14",
+          59.31
+        ],
+        [
+          "2026-08-17",
+          59.2
+        ],
+        [
+          "2026-08-18",
+          58.61
+        ],
+        [
+          "2026-08-19",
+          58.76
+        ],
+        [
+          "2026-08-20",
+          58.41
+        ],
+        [
+          "2026-08-21",
+          58.62
+        ],
+        [
+          "2026-08-24",
+          58.08
+        ],
+        [
+          "2026-08-25",
+          58.35
+        ],
+        [
+          "2026-08-26",
+          58.27
+        ],
+        [
+          "2026-08-27",
+          59.28
+        ],
+        [
+          "2026-08-28",
+          58.79
+        ],
+        [
+          "2026-08-31",
+          58.84
+        ],
+        [
+          "2026-09-01",
+          58.38
+        ],
+        [
+          "2026-09-02",
+          58.62
+        ],
+        [
+          "2026-09-03",
+          59.16
+        ],
+        [
+          "2026-09-04",
+          59.03
+        ],
+        [
+          "2026-09-08",
+          58.72
+        ],
+        [
+          "2026-09-09",
+          58.45
+        ],
+        [
+          "2026-09-10",
+          58.08
+        ],
+        [
+          "2026-09-11",
+          58.51
+        ],
+        [
+          "2026-09-14",
+          58.06
+        ],
+        [
+          "2026-09-15",
+          57.9
+        ],
+        [
+          "2026-09-16",
+          57.8
+        ],
+        [
+          "2026-09-17",
+          58.67
+        ],
+        [
+          "2026-09-18",
+          58.91
+        ],
+        [
+          "2026-09-21",
+          59.83
+        ],
+        [
+          "2026-09-22",
+          60.19
+        ],
+        [
+          "2026-09-23",
+          59.69
+        ],
+        [
+          "2026-09-24",
+          59.57
+        ],
+        [
+          "2026-09-25",
+          60.04
+        ],
+        [
+          "2026-09-28",
+          59.72
+        ],
+        [
+          "2026-09-29",
+          59.56
+        ],
+        [
+          "2026-09-30",
+          59.54
+        ],
+        [
+          "2026-10-01",
+          59.72
+        ],
+        [
+          "2026-10-02",
+          60.33
+        ],
+        [
+          "2026-10-05",
+          60.81
+        ],
+        [
+          "2026-10-06",
+          61.15
+        ],
+        [
+          "2026-10-07",
+          61.07
+        ],
+        [
+          "2026-10-08",
+          60.48
+        ],
+        [
+          "2026-10-09",
+          60.77
+        ],
+        [
+          "2026-10-12",
+          60.57
+        ],
+        [
+          "2026-10-13",
+          60.53
+        ],
+        [
+          "2026-10-14",
+          59.67
+        ],
+        [
+          "2026-10-15",
+          59.72
+        ],
+        [
+          "2026-10-16",
+          58.82
+        ],
+        [
+          "2026-10-19",
+          59.21
+        ],
+        [
+          "2026-10-20",
+          59.28
+        ],
+        [
+          "2026-10-21",
+          59.78
+        ],
+        [
+          "2026-10-22",
+          58.81
+        ],
+        [
+          "2026-10-23",
+          58.66
+        ],
+        [
+          "2026-10-26",
+          59.3
+        ],
+        [
+          "2026-10-27",
+          59.87
+        ],
+        [
+          "2026-10-28",
+          60.11
+        ],
+        [
+          "2026-10-29",
+          59.77
+        ],
+        [
+          "2026-10-30",
+          58.42
+        ],
+        [
+          "2026-11-02",
+          57.61
+        ],
+        [
+          "2026-11-03",
+          57.95
+        ]
+      ],
+      "technical": {
+        "strategy": "trend",
+        "action": "HOLD",
+        "score": -2,
+        "confidence": 57,
+        "levels": {
+          "entryLow": null,
+          "entryHigh": null,
+          "target": 61.15,
+          "stop": 57.61,
+          "riskReward": null,
+          "horizon": "3–6 weeks"
+        },
+        "indicators": {
+          "price": 57.95,
+          "sma20": 59.51999999999998,
+          "sma50": 59.287400000000005,
+          "sma200": null,
+          "rsi14": 39.50152733688785,
+          "macd": -0.292844246090354,
+          "macdSignal": -0.06976169082241129,
+          "macdHist": -0.22308255526794268,
+          "bbUpper": 61.40797859042275,
+          "bbLower": 57.63202140957721,
+          "bbPctB": 0.08421138672753337,
+          "change20": -5.233033524121011,
+          "change60": -1.6963528413910134,
+          "volAnnualPct": 16.47853929736436,
+          "support": 57.61,
+          "resistance": 61.15,
+          "maxDrawdownPct": -7.6625777180305725,
+          "flatDaysPct": 0,
+          "points": 109
+        },
+        "factors": {
+          "trend": -2.3982180444977708,
+          "momentum": -39.32483977926607,
+          "meanReversion": 0,
+          "risk": 25.56438210790692,
+          "liquidity": 30,
+          "portfolio": 30
+        },
+        "contributions": {
+          "trend": -0.7194654133493313,
+          "momentum": -9.831209944816518,
+          "meanReversion": 0,
+          "risk": 3.834657316186038,
+          "liquidity": 3,
+          "portfolio": 1.5
+        },
+        "why": {
+          "trend": [
+            "price below 50-day average by 2.3%",
+            "20-day average above 50-day",
+            "50-day average rising"
+          ],
+          "momentum": [
+            "20-day change -5.2%",
+            "60-day change -1.7%",
+            "MACD below its signal line"
+          ],
+          "meanReversion": [
+            "RSI 40: neutral"
           ],
           "risk": [
             "annualised volatility 16%",
@@ -751,236 +3786,99 @@
             "not in your portfolio yet (adds diversification)"
           ]
         },
-        "thesis": "The momentum is negative: 20-day change -7.7%. Also, price below 50-day average by 4.6%. Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 16% a year; recent range 71.52–76.54 USD.",
+        "thesis": "The momentum is negative: 20-day change -5.2%. Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 16% a year; recent range 57.61–61.15 USD.",
         "risks": [
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close above 76.54 (breakout) or below 71.52 (breakdown)"
-        ]
-      },
-      "fundamentals": [
-        {
-          "label": "Expense ratio",
-          "value": "0.50%",
-          "as_of": "2026-11-03",
-          "source": "Wahed Invest fund page",
-          "url": "https://www.wahed.com/hlal"
-        },
-        {
-          "label": "Benchmark / Sharia screening",
-          "value": "FTSE Shariah USA Index; screening by Yasaar Limited",
-          "as_of": "2026-11-03",
-          "source": "Wahed Invest fund page",
-          "url": "https://www.wahed.com/hlal"
-        },
-        {
-          "label": "Assets / holdings",
-          "value": "$962.67M AUM; 202 holdings; top 10 = 59.48% (Apple 12.83%, NVIDIA 12.49%, Microsoft 9.94%)",
-          "as_of": "2026-10-27",
-          "source": "StockAnalysis",
-          "url": "https://stockanalysis.com/etf/hlal/"
-        },
-        {
-          "label": "P/E",
-          "value": "27.49 (forward 20.32)",
-          "as_of": "2026-10-27",
-          "source": "StockAnalysis",
-          "url": "https://stockanalysis.com/etf/hlal/"
-        }
-      ],
-      "news": [
-        {
-          "date": "2026-10-30",
-          "headline": "S&P 500 tech index falls 3.9%, steepest drop since June, as Intel and Amazon rattle the AI trade",
-          "source": "Business Standard / Reuters",
-          "url": "https://business-standard.com/world-news/nasdaq-hits-near-three-month-low-as-amazon-intel-rattle-ai-trade-126103001910_1.html",
-          "impact": "negative"
-        },
-        {
-          "date": "2026-10-22",
-          "headline": "Meta raises 2026 capex to $135-145bn; Nasdaq drops 2.6% on AI spending fears",
-          "source": "Al Jazeera",
-          "url": "https://aljazeera.com/economy/2026/10/23/us-tech-stocks-tumble-as-investors-fret-over-ai-spending",
-          "impact": "negative"
-        }
-      ],
-      "analysts": [],
-      "recommendation": {
-        "action": "HOLD",
-        "technical_action": "HOLD",
-        "changed_reason": null,
-        "confidence": 52,
-        "thesis": "The fund is about 8% off its early-October level and closed below its 60-day low, but its 50-day average is still rising, so the model sees mixed signals and says HOLD. About 60% of the fund sits in ten large tech names, which is why the late-October AI and chip sell-off hit it directly.",
-        "levels": {
-          "entryLow": null,
-          "entryHigh": null,
-          "target": 76.54,
-          "stop": 71.52,
-          "riskReward": null,
-          "horizon": "3–6 weeks"
-        },
-        "risks": [
-          "Heavy concentration in a few mega-cap tech stocks",
-          "Rate-hike expectations weigh on growth valuations",
-          "signals use past prices only; they do not predict the future"
-        ],
-        "invalidation": [
-          "a close above 76.54 (breakout) or below 71.52 (breakdown)"
-        ]
-      }
-    },
-    {
-      "key": "US:SPUS",
-      "name": "SP Funds S&P 500 Sharia Industry Exclusions ETF",
-      "market": "US",
-      "held": true,
-      "data_gaps": [
-        "No analyst coverage for the ETF",
-        "stooq/Nasdaq blocked; prices from Yahoo Finance"
-      ],
-      "currency": "USD",
-      "price": {
-        "value": 57.61,
-        "as_of": "2026-11-02",
-        "source": "Yahoo Finance",
-        "url": "https://finance.yahoo.com/quote/SPUS/history/",
-        "points": 98
-      },
-      "technical": {
-        "action": "HOLD",
-        "score": -4,
-        "confidence": 50,
-        "levels": {
-          "entryLow": null,
-          "entryHigh": null,
-          "target": 61.15,
-          "stop": 57.8,
-          "riskReward": null,
-          "horizon": "3–6 weeks"
-        },
-        "indicators": {
-          "price": 57.61,
-          "sma20": 59.68000000000001,
-          "sma50": 59.29000000000002,
-          "sma200": null,
-          "rsi14": 36.301913731594944,
-          "macd": -0.21152305000945404,
-          "macdSignal": -0.01324308482632558,
-          "macdHist": -0.19827996518312846,
-          "bbUpper": 61.55005206794948,
-          "bbLower": 57.809947932050534,
-          "bbPctB": -0.05346052537183598,
-          "change20": -5.262292386120704,
-          "change60": -2.620013522650433,
-          "volAnnualPct": 15.040055218916146,
-          "support": 57.8,
-          "resistance": 61.15,
-          "maxDrawdownPct": -5.7890433360588744,
-          "flatDaysPct": 0,
-          "points": 98
-        },
-        "factors": {
-          "trend": -6.86476226040015,
-          "momentum": -56.289196589783685,
-          "meanReversion": 20,
-          "risk": 29.87983434325156,
-          "liquidity": 30,
-          "portfolio": 30
-        },
-        "contributions": {
-          "trend": -2.059428678120045,
-          "momentum": -14.072299147445921,
-          "meanReversion": 3,
-          "risk": 4.481975151487734,
-          "liquidity": 3,
-          "portfolio": 1.5
-        },
-        "why": {
-          "trend": [
-            "price below 50-day average by 2.8%",
-            "20-day average above 50-day",
-            "50-day average rising"
-          ],
-          "momentum": [
-            "20-day change -5.3%",
-            "60-day change -2.6%",
-            "MACD below its signal line",
-            "closed below its 60-day low (breakdown)"
-          ],
-          "meanReversion": [
-            "RSI 36: neutral",
-            "below lower Bollinger band"
-          ],
-          "risk": [
-            "annualised volatility 15%",
-            "max drawdown -6% over the period"
-          ],
-          "liquidity": [
-            "liquid market"
-          ],
-          "portfolio": [
-            "not in your portfolio yet (adds diversification)"
-          ]
-        },
-        "thesis": "The momentum is negative: 20-day change -5.3%. Also, RSI 36: neutral. Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 15% a year; recent range 57.80–61.15 USD.",
-        "risks": [
-          "signals use past prices only; they do not predict the future"
-        ],
-        "invalidation": [
-          "a close above 61.15 (breakout) or below 57.80 (breakdown)"
+          "a close above 61.15 (breakout) or below 57.61 (breakdown)"
         ]
       },
       "fundamentals": [
         {
           "label": "Expense ratio",
           "value": "0.45%",
-          "as_of": "2026-11-02",
-          "source": "SP Funds",
-          "url": "https://www.sp-funds.com/spus/"
-        },
-        {
-          "label": "Net assets / index",
-          "value": "$3,319.9m; tracks S&P 500 Shariah Industry Exclusions Index; AAOIFI guidelines",
-          "as_of": "2026-11-02",
-          "source": "SP Funds",
-          "url": "https://www.sp-funds.com/spus/"
-        },
-        {
-          "label": "Top holdings",
-          "value": "Apple 13.13%, NVIDIA 12.93%, Microsoft 10.12%, Alphabet 4.29%, Broadcom 4.05%",
-          "as_of": "2026-11-02",
-          "source": "SP Funds",
-          "url": "https://www.sp-funds.com/spus/"
-        },
-        {
-          "label": "30-day SEC yield / last distribution",
-          "value": "0.39% (30 Sep 2026); $0.0260 ex-date 27 Oct 2026",
-          "as_of": "2026-10-27",
-          "source": "SP Funds",
-          "url": "https://www.sp-funds.com/spus/"
-        },
-        {
-          "label": "Holdings count",
-          "value": "212 holdings",
           "as_of": "2026-11-03",
-          "source": "Musaffa",
-          "url": "https://musaffa.com/etf/SPUS/"
+          "source": "Robinhood",
+          "url": "https://robinhood.com/us/en/stocks/spus/"
+        },
+        {
+          "label": "AUM",
+          "value": "$3.28B",
+          "as_of": "2026-11-03",
+          "source": "Robinhood",
+          "url": "https://robinhood.com/us/en/stocks/spus/"
+        },
+        {
+          "label": "Number of holdings",
+          "value": "219",
+          "as_of": "2026-11-03",
+          "source": "Robinhood",
+          "url": "https://robinhood.com/us/en/stocks/spus/"
+        },
+        {
+          "label": "Top 10 holdings",
+          "value": "NVDA 13.19%, AAPL 12.99%, MSFT 10.04%, GOOGL 4.25%, AVGO 4.19%, TSLA 2.89%, LLY 2.80%, MU 2.70%, AMD 2.35%, XOM 1.93% (57.33% total)",
+          "as_of": "2026-10-29",
+          "source": "Robinhood",
+          "url": "https://robinhood.com/us/en/stocks/spus/"
+        },
+        {
+          "label": "P/E",
+          "value": "30.40",
+          "as_of": "2026-11-03",
+          "source": "Robinhood",
+          "url": "https://robinhood.com/us/en/stocks/spus/"
+        },
+        {
+          "label": "Dividend yield / 30-day yield",
+          "value": "0.74% / 0.39",
+          "as_of": "2026-11-03",
+          "source": "Robinhood",
+          "url": "https://robinhood.com/us/en/stocks/spus/"
+        },
+        {
+          "label": "Index",
+          "value": "S&P 500 Shariah Industry Exclusions Index (S&P 500 Shariah minus Aerospace & Defense, Financial Exchanges & Data, Data Processing & Outsourced Services)",
+          "as_of": "2026-11-04",
+          "source": "ETF Strategy",
+          "url": "https://www.etfstrategy.com/spus_us/"
+        },
+        {
+          "label": "Sharia screening provider",
+          "value": "S&P Dow Jones Indices applies AAOIFI-based Shariah screens; SP Funds publishes Sharia accreditation certificate and annual audit",
+          "as_of": "2026-11-01",
+          "source": "HalalWallet",
+          "url": "https://halalwallet.us/blog/spus-etf-review-2026"
         }
       ],
       "news": [
         {
-          "date": "2026-10-30",
-          "headline": "S&P 500 tech index falls 3.9%, steepest drop since June, as Intel and Amazon rattle the AI trade",
-          "source": "Business Standard / Reuters",
-          "url": "https://business-standard.com/world-news/nasdaq-hits-near-three-month-low-as-amazon-intel-rattle-ai-trade-126103001910_1.html",
-          "impact": "negative"
+          "date": "2026-11-04",
+          "headline": "Democrats sweep Congress; futures rise; defense stocks fall (SPUS excludes A&D); AI data-center scrutiny risk",
+          "source": "TipRanks",
+          "url": "https://www.tipranks.com/news/stock-market-today-nov-4-futures-rise-after-democrats-sweep-midterm-elections",
+          "impact": "neutral"
         },
         {
-          "date": "2026-10-22",
-          "headline": "Nasdaq drops 2.6% on AI spending fears, biggest fall since June",
-          "source": "Al Jazeera",
-          "url": "https://aljazeera.com/economy/2026/10/23/us-tech-stocks-tumble-as-investors-fret-over-ai-spending",
+          "date": "2026-11-03",
+          "headline": "AMD (2.35% of SPUS) beats Q3 estimates after hours; chips rebound with Nvidia and Broadcom up",
+          "source": "StockTitan",
+          "url": "https://www.stocktitan.net/articles/stock-market-today-live-november-3-2026",
+          "impact": "positive"
+        },
+        {
+          "date": "2026-11-03",
+          "headline": "S&P 500 +0.36% snaps losing streak; 10-yr 4.95%; markets price 78% odds of December Fed hike",
+          "source": "CappNotes",
+          "url": "https://cappnotes.substack.com/p/closing-look-tuesday-november-3-2026",
+          "impact": "neutral"
+        },
+        {
+          "date": "2026-10-30",
+          "headline": "Nasdaq -2.86%, PHLX Semi -7.2%, Nvidia -4.2%, AMD -10.9% on Intel guide and AI-capex concerns",
+          "source": "CappNotes",
+          "url": "https://cappnotes.substack.com/p/closing-look-friday-october-30-2026",
           "impact": "negative"
         }
       ],
@@ -989,23 +3887,23 @@
         "action": "HOLD",
         "technical_action": "HOLD",
         "changed_reason": null,
-        "confidence": 50,
-        "thesis": "SPUS is about 3% below its 50-day average and closed below its 60-day low, while the longer trend is still rising, so the model says HOLD. Like HLAL it is concentrated in Apple, NVIDIA and Microsoft (about 36% together), so the AI and chip sell-off is the main short-term driver.",
+        "confidence": 57,
+        "thesis": "SPUS is about 2-3% below its 20- and 50-day averages and just above its recent low of 57.61, so the model says HOLD with mixed signals. It is concentrated in NVIDIA, Apple and Microsoft (about 36%), so AI and chip sentiment and Fed hike odds drive it in the short term; AMD's beat and the 3 Nov chip rebound were small positives.",
         "levels": {
           "entryLow": null,
           "entryHigh": null,
           "target": 61.15,
-          "stop": 57.8,
+          "stop": 57.61,
           "riskReward": null,
           "horizon": "3–6 weeks"
         },
         "risks": [
-          "Concentration in mega-cap tech",
+          "Concentration in mega-cap tech and chips",
           "Overlaps heavily with HLAL, so the two holdings move together",
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close above 61.15 (breakout) or below 57.80 (breakdown)"
+          "a close above 61.15 (breakout) or below 57.61 (breakdown)"
         ]
       }
     },
@@ -1015,83 +3913,524 @@
       "market": "US",
       "held": true,
       "data_gaps": [
-        "No named analyst consensus or price targets found",
-        "stooq/Nasdaq blocked; prices from Yahoo Finance"
+        "Official investor.exxonmobil.com release URL was blocked in this run (permission timeout); figures from the BOE Report reprint",
+        "Debt-to-capital ratio not reported in fetched source",
+        "P/E figures differ by source (Gotrade TTM 23.5x vs 24/7 forward 15x)"
       ],
       "currency": "USD",
       "price": {
-        "value": 179.67,
-        "as_of": "2026-11-02",
+        "value": 177.46,
+        "as_of": "2026-11-03",
         "source": "Yahoo Finance",
         "url": "https://finance.yahoo.com/quote/XOM/history/",
-        "points": 98
+        "points": 109
       },
+      "series": [
+        [
+          "2026-06-01",
+          149.38
+        ],
+        [
+          "2026-06-02",
+          149.56
+        ],
+        [
+          "2026-06-03",
+          152.53
+        ],
+        [
+          "2026-06-04",
+          152.04
+        ],
+        [
+          "2026-06-05",
+          149.92
+        ],
+        [
+          "2026-06-08",
+          151.75
+        ],
+        [
+          "2026-06-09",
+          148.91
+        ],
+        [
+          "2026-06-10",
+          150.62
+        ],
+        [
+          "2026-06-11",
+          146.6
+        ],
+        [
+          "2026-06-12",
+          147.01
+        ],
+        [
+          "2026-06-15",
+          140.92
+        ],
+        [
+          "2026-06-16",
+          141.86
+        ],
+        [
+          "2026-06-17",
+          140.74
+        ],
+        [
+          "2026-06-18",
+          137.81
+        ],
+        [
+          "2026-06-22",
+          138.47
+        ],
+        [
+          "2026-06-23",
+          139.73
+        ],
+        [
+          "2026-06-24",
+          136.9
+        ],
+        [
+          "2026-06-25",
+          137.55
+        ],
+        [
+          "2026-06-26",
+          136.54
+        ],
+        [
+          "2026-06-29",
+          136.06
+        ],
+        [
+          "2026-06-30",
+          136.72
+        ],
+        [
+          "2026-07-01",
+          136.28
+        ],
+        [
+          "2026-07-02",
+          137.09
+        ],
+        [
+          "2026-07-06",
+          136.44
+        ],
+        [
+          "2026-07-07",
+          141.69
+        ],
+        [
+          "2026-07-08",
+          141.13
+        ],
+        [
+          "2026-07-09",
+          137.46
+        ],
+        [
+          "2026-07-10",
+          138.88
+        ],
+        [
+          "2026-07-13",
+          144.51
+        ],
+        [
+          "2026-07-14",
+          145.09
+        ],
+        [
+          "2026-07-15",
+          144.51
+        ],
+        [
+          "2026-07-16",
+          145.95
+        ],
+        [
+          "2026-07-17",
+          147.36
+        ],
+        [
+          "2026-07-20",
+          148.36
+        ],
+        [
+          "2026-07-21",
+          151.71
+        ],
+        [
+          "2026-07-22",
+          154.45
+        ],
+        [
+          "2026-07-23",
+          156.89
+        ],
+        [
+          "2026-07-24",
+          156.94
+        ],
+        [
+          "2026-07-27",
+          154.77
+        ],
+        [
+          "2026-07-28",
+          153.04
+        ],
+        [
+          "2026-07-29",
+          156.75
+        ],
+        [
+          "2026-07-30",
+          156.97
+        ],
+        [
+          "2026-07-31",
+          155.44
+        ],
+        [
+          "2026-08-03",
+          155.06
+        ],
+        [
+          "2026-08-04",
+          153.96
+        ],
+        [
+          "2026-08-05",
+          151.63
+        ],
+        [
+          "2026-08-06",
+          154.84
+        ],
+        [
+          "2026-08-07",
+          153.04
+        ],
+        [
+          "2026-08-10",
+          159.79
+        ],
+        [
+          "2026-08-11",
+          159.8
+        ],
+        [
+          "2026-08-12",
+          159.75
+        ],
+        [
+          "2026-08-13",
+          158.61
+        ],
+        [
+          "2026-08-14",
+          160.1
+        ],
+        [
+          "2026-08-17",
+          161.46
+        ],
+        [
+          "2026-08-18",
+          165.56
+        ],
+        [
+          "2026-08-19",
+          164.77
+        ],
+        [
+          "2026-08-20",
+          166.15
+        ],
+        [
+          "2026-08-21",
+          165.11
+        ],
+        [
+          "2026-08-24",
+          164.05
+        ],
+        [
+          "2026-08-25",
+          160.64
+        ],
+        [
+          "2026-08-26",
+          158.19
+        ],
+        [
+          "2026-08-27",
+          156.44
+        ],
+        [
+          "2026-08-28",
+          156.71
+        ],
+        [
+          "2026-08-31",
+          160.95
+        ],
+        [
+          "2026-09-01",
+          164.55
+        ],
+        [
+          "2026-09-02",
+          164.15
+        ],
+        [
+          "2026-09-03",
+          162.21
+        ],
+        [
+          "2026-09-04",
+          159.47
+        ],
+        [
+          "2026-09-08",
+          160.66
+        ],
+        [
+          "2026-09-09",
+          164.23
+        ],
+        [
+          "2026-09-10",
+          165.23
+        ],
+        [
+          "2026-09-11",
+          165.99
+        ],
+        [
+          "2026-09-14",
+          165.08
+        ],
+        [
+          "2026-09-15",
+          169.32
+        ],
+        [
+          "2026-09-16",
+          163.32
+        ],
+        [
+          "2026-09-17",
+          163.27
+        ],
+        [
+          "2026-09-18",
+          163.54
+        ],
+        [
+          "2026-09-21",
+          158.3
+        ],
+        [
+          "2026-09-22",
+          158.71
+        ],
+        [
+          "2026-09-23",
+          161.23
+        ],
+        [
+          "2026-09-24",
+          162.14
+        ],
+        [
+          "2026-09-25",
+          160.59
+        ],
+        [
+          "2026-09-28",
+          162.52
+        ],
+        [
+          "2026-09-29",
+          161.35
+        ],
+        [
+          "2026-09-30",
+          162.75
+        ],
+        [
+          "2026-10-01",
+          163.82
+        ],
+        [
+          "2026-10-02",
+          164.01
+        ],
+        [
+          "2026-10-05",
+          164
+        ],
+        [
+          "2026-10-06",
+          164.48
+        ],
+        [
+          "2026-10-07",
+          164.05
+        ],
+        [
+          "2026-10-08",
+          168.5
+        ],
+        [
+          "2026-10-09",
+          168.94
+        ],
+        [
+          "2026-10-12",
+          172.15
+        ],
+        [
+          "2026-10-13",
+          174.08
+        ],
+        [
+          "2026-10-14",
+          177.01
+        ],
+        [
+          "2026-10-15",
+          174.68
+        ],
+        [
+          "2026-10-16",
+          178.98
+        ],
+        [
+          "2026-10-19",
+          178.28
+        ],
+        [
+          "2026-10-20",
+          177.86
+        ],
+        [
+          "2026-10-21",
+          178.09
+        ],
+        [
+          "2026-10-22",
+          178.23
+        ],
+        [
+          "2026-10-23",
+          183.21
+        ],
+        [
+          "2026-10-26",
+          184.54
+        ],
+        [
+          "2026-10-27",
+          179.91
+        ],
+        [
+          "2026-10-28",
+          182.02
+        ],
+        [
+          "2026-10-29",
+          183.29
+        ],
+        [
+          "2026-10-30",
+          187.25
+        ],
+        [
+          "2026-11-02",
+          179.67
+        ],
+        [
+          "2026-11-03",
+          177.46
+        ]
+      ],
       "technical": {
+        "strategy": "trend",
         "action": "BUY",
-        "score": 49,
-        "confidence": 84,
+        "score": 35,
+        "confidence": 82,
         "levels": {
-          "entryLow": 172.74789190069706,
-          "entryHigh": 179.67,
-          "target": 207.35843239721171,
-          "stop": 158.9036757020912,
-          "riskReward": 1.3333333333333333,
+          "entryLow": 170.4585093144427,
+          "entryHigh": 177.46,
+          "target": 205.4659627422293,
+          "stop": 156.45552794332804,
+          "riskReward": 1.3333333333333328,
           "horizon": "3–6 weeks"
         },
         "indicators": {
-          "price": 179.67,
-          "sma20": 176.76100000000002,
-          "sma50": 168.0528,
+          "price": 177.46,
+          "sma20": 177.41,
+          "sma50": 168.32099999999994,
           "sma200": null,
-          "rsi14": 57.076020914666906,
-          "macd": 4.830591602122269,
-          "macdSignal": 4.702504150403919,
-          "macdHist": 0.12808745171834968,
-          "bbUpper": 189.63933415183487,
-          "bbLower": 163.88266584816517,
-          "bbPctB": 0.6129416260559409,
-          "change20": 9.55487804878048,
-          "change60": 17.4006795608991,
-          "volAnnualPct": 24.841722928930825,
-          "support": 153.04,
+          "rsi14": 53.41328306331987,
+          "macd": 4.239972963152496,
+          "macdSignal": 4.592978064443099,
+          "macdHist": -0.35300510129060303,
+          "bbUpper": 188.91776579898158,
+          "bbLower": 165.90223420101842,
+          "bbPctB": 0.5021724460192101,
+          "change20": 7.89153696498055,
+          "change60": 11.058263971462544,
+          "volAnnualPct": 25.53112601720033,
+          "support": 156.44,
           "resistance": 187.25,
-          "maxDrawdownPct": -6.508386487124962,
+          "maxDrawdownPct": -10.797875827706028,
           "flatDaysPct": 0,
-          "points": 98
+          "points": 109
         },
         "factors": {
-          "trend": 78.505207882899,
-          "momentum": 83.21951219512192,
+          "trend": 77.88720839501445,
+          "momentum": 28.682675802847285,
           "meanReversion": 0,
-          "risk": 0.4748312132075263,
+          "risk": -1.5933780516009861,
           "liquidity": 30,
           "portfolio": 30
         },
         "contributions": {
-          "trend": 23.5515623648697,
-          "momentum": 20.80487804878048,
+          "trend": 23.366162518504336,
+          "momentum": 7.170668950711821,
           "meanReversion": 0,
-          "risk": 0.07122468198112894,
+          "risk": -0.23900670774014793,
           "liquidity": 3,
           "portfolio": 1.5
         },
         "why": {
           "trend": [
-            "price above 50-day average by 6.9%",
+            "price above 50-day average by 5.4%",
             "20-day average above 50-day",
             "50-day average rising"
           ],
           "momentum": [
-            "20-day change +9.6%",
-            "60-day change +17.4%",
-            "MACD above its signal line"
+            "20-day change +7.9%",
+            "60-day change +11.1%",
+            "MACD below its signal line",
+            "MACD just crossed down"
           ],
           "meanReversion": [
-            "RSI 57: neutral"
+            "RSI 53: neutral"
           ],
           "risk": [
-            "annualised volatility 25%",
-            "max drawdown -7% over the period"
+            "annualised volatility 26%",
+            "max drawdown -11% over the period"
           ],
           "liquidity": [
             "liquid market"
@@ -1100,92 +4439,205 @@
             "not in your portfolio yet (adds diversification)"
           ]
         },
-        "thesis": "The momentum is supportive: 20-day change +9.6%. Also, price above 50-day average by 6.9%. Volatility is 25% a year; recent range 153.04–187.25 USD.",
+        "thesis": "The trend is supportive: price above 50-day average by 5.4%. Also, 20-day change +7.9%. Volatility is 26% a year; recent range 156.44–187.25 USD.",
         "risks": [
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close below 158.90 USD",
-          "price falling back below the 50-day average (168.05)",
+          "a close below 156.46 USD",
+          "price falling back below the 50-day average (168.32)",
           "RSI rising above 75"
         ]
       },
       "fundamentals": [
         {
-          "label": "Q3 2026 earnings",
-          "value": "$15,413m GAAP ($3.72/share); $17,505m excl. identified items ($4.23/share)",
-          "as_of": "2026-09-30",
-          "source": "ExxonMobil press release",
-          "url": "https://investor.exxonmobil.com/company-information/press-releases/detail/1213/exxonmobil-announces-third-quarter-2026-results"
-        },
-        {
-          "label": "Cash flow Q3 2026",
-          "value": "Operating cash flow $25.7bn; free cash flow $19.1bn",
-          "as_of": "2026-09-30",
-          "source": "ExxonMobil press release",
-          "url": "https://investor.exxonmobil.com/company-information/press-releases/detail/1213/exxonmobil-announces-third-quarter-2026-results"
-        },
-        {
-          "label": "Dividend / buybacks",
-          "value": "$1.07 quarterly dividend (record 16 Nov, paid 10 Dec 2026); $20bn buybacks planned for 2027",
+          "label": "Q3 2026 earnings (GAAP)",
+          "value": "$15,413m; diluted EPS $3.72",
           "as_of": "2026-10-30",
-          "source": "ExxonMobil press release",
-          "url": "https://investor.exxonmobil.com/company-information/press-releases/detail/1213/exxonmobil-announces-third-quarter-2026-results"
+          "source": "XOM Q3 2026 release via BOE Report",
+          "url": "https://boereport.com/2026/10/30/exxonmobil-announces-third-quarter-2026-results/amp/"
         },
         {
-          "label": "Net debt",
-          "value": "$22.1bn (total debt $34.3bn less $12.2bn cash)",
+          "label": "Q3 2026 earnings ex-identified items (non-GAAP)",
+          "value": "$17,505m; EPS $4.23 (vs $3.98 expected per 24/7 Wall St.)",
+          "as_of": "2026-10-30",
+          "source": "XOM Q3 2026 release via BOE Report",
+          "url": "https://boereport.com/2026/10/30/exxonmobil-announces-third-quarter-2026-results/amp/"
+        },
+        {
+          "label": "Q3 2026 revenue",
+          "value": "$110.50B vs $104.03B expected",
+          "as_of": "2026-11-02",
+          "source": "24/7 Wall St.",
+          "url": "https://247wallst.com/investing/2026/11/02/exxon-is-up-59-this-year-after-another-beat-this-is-how-high-it-can-go/"
+        },
+        {
+          "label": "Q3 2026 cash flow from operations / free cash flow",
+          "value": "$25.7B / $19.1B",
+          "as_of": "2026-10-30",
+          "source": "XOM Q3 2026 release via BOE Report",
+          "url": "https://boereport.com/2026/10/30/exxonmobil-announces-third-quarter-2026-results/amp/"
+        },
+        {
+          "label": "Shareholder distributions Q3",
+          "value": "$9.4B ($4.3B dividends + $5.1B buybacks)",
+          "as_of": "2026-10-30",
+          "source": "XOM Q3 2026 release via BOE Report",
+          "url": "https://boereport.com/2026/10/30/exxonmobil-announces-third-quarter-2026-results/amp/"
+        },
+        {
+          "label": "Quarterly dividend",
+          "value": "$1.07/share for Q4, record 2026-11-16, payable 2026-12-10; 44th consecutive annual increase",
+          "as_of": "2026-10-30",
+          "source": "BOE Report / Il Sole 24 Ore",
+          "url": "https://boereport.com/2026/10/30/exxonmobil-announces-third-quarter-2026-results/amp/"
+        },
+        {
+          "label": "Debt",
+          "value": "Total debt $34.3B, cash $12.2B, net debt $22.1B at 2026-09-30",
           "as_of": "2026-09-30",
-          "source": "ExxonMobil press release",
-          "url": "https://investor.exxonmobil.com/company-information/press-releases/detail/1213/exxonmobil-announces-third-quarter-2026-results"
+          "source": "XOM Q3 2026 release via BOE Report",
+          "url": "https://boereport.com/2026/10/30/exxonmobil-announces-third-quarter-2026-results/amp/"
+        },
+        {
+          "label": "Buyback plan",
+          "value": "$20B of repurchases planned in 2027, subject to market conditions",
+          "as_of": "2026-10-30",
+          "source": "Egypt Oil & Gas",
+          "url": "https://egyptoil-gas.com/news/exxonmobil-records-15-4-bn-profit-in-q3-2026/"
+        },
+        {
+          "label": "Production Q3 2026",
+          "value": "4,496 koebd (vs 4,514 koebd Q2)",
+          "as_of": "2026-10-30",
+          "source": "XOM Q3 2026 release via BOE Report",
+          "url": "https://boereport.com/2026/10/30/exxonmobil-announces-third-quarter-2026-results/amp/"
+        },
+        {
+          "label": "Capex guidance",
+          "value": "$27-29bn for 2026; $28-32bn/yr through 2030",
+          "as_of": "2026-10-17",
+          "source": "TIKR",
+          "url": "https://www.tikr.com/blog/exxonmobil-is-up-49-in-2026-with-brent-near-110-heres-what-the-stock-could-be-worth-when-oil-cools"
+        },
+        {
+          "label": "P/E (TTM) / EPS (TTM)",
+          "value": "23.5x / $7.78",
+          "as_of": "2026-11-03",
+          "source": "Gotrade",
+          "url": "https://www.heygotrade.com/en/us-stock/xom/"
+        },
+        {
+          "label": "Forward P/E",
+          "value": "15x",
+          "as_of": "2026-11-02",
+          "source": "24/7 Wall St.",
+          "url": "https://247wallst.com/investing/2026/11/02/exxon-is-up-59-this-year-after-another-beat-this-is-how-high-it-can-go/"
+        },
+        {
+          "label": "Dividend yield",
+          "value": "2.29%",
+          "as_of": "2026-11-03",
+          "source": "Gotrade",
+          "url": "https://www.heygotrade.com/en/us-stock/xom/"
         }
       ],
       "news": [
         {
-          "date": "2026-10-30",
-          "headline": "ExxonMobil reports Q3 2026 earnings of $15.4bn ($17.5bn adjusted), plans $20bn of 2027 buybacks",
-          "source": "ExxonMobil",
-          "url": "https://investor.exxonmobil.com/company-information/press-releases/detail/1213/exxonmobil-announces-third-quarter-2026-results",
-          "impact": "positive"
+          "date": "2026-11-04",
+          "headline": "Brent slips 0.75% to $102.82 as Qatar mediates US-Iran talks; Democrats win Congress, renewables gain, defense falls",
+          "source": "TipRanks",
+          "url": "https://www.tipranks.com/news/stock-market-today-nov-4-futures-rise-after-democrats-sweep-midterm-elections",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-11-03",
+          "headline": "Brent settles -1.12% at $103.60, WTI $96.09; energy sector -0.85%",
+          "source": "CappNotes",
+          "url": "https://cappnotes.substack.com/p/closing-look-tuesday-november-3-2026",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-11-02",
+          "headline": "Brent falls 5.9% to $106.65 on hopes for US-Iran diplomacy and a proposal to reopen the Strait of Hormuz",
+          "source": "Transport Topics",
+          "url": "https://www.ttnews.com/articles/oil-prices-progress-iran-war",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-11-02",
+          "headline": "XOM falls 3.57% on profit-taking after record highs as crude retreats",
+          "source": "TradingKey",
+          "url": "https://www.tradingkey.com/news/market-movers/262264638-market-movers-xom-20261102",
+          "impact": "negative"
         },
         {
           "date": "2026-10-30",
-          "headline": "Exxon gains 1.2% after beating third-quarter profit estimates as investors rotate to defensives",
-          "source": "Business Standard / Reuters",
-          "url": "https://business-standard.com/world-news/nasdaq-hits-near-three-month-low-as-amazon-intel-rattle-ai-trade-126103001910_1.html",
-          "impact": "positive"
-        },
-        {
-          "date": "2026-10-23",
-          "headline": "Brent crude above $114 a barrel, highest since May, amid the US-Israel war on Iran",
-          "source": "Al Jazeera",
-          "url": "https://aljazeera.com/economy/2026/10/23/us-tech-stocks-tumble-as-investors-fret-over-ai-spending",
+          "headline": "XOM +2.16% to record highs after Q3 beat; Brent +2.37% to $113.43 after Hormuz tanker attack",
+          "source": "CappNotes",
+          "url": "https://cappnotes.substack.com/p/closing-look-friday-october-30-2026",
           "impact": "positive"
         }
       ],
-      "analysts": [],
+      "analysts": [
+        {
+          "label": "Gotrade analyst summary",
+          "value": "Buy (8 analysts: 5 Buy, 3 Hold, 0 Sell); avg PT $187, high $213 (UBS), low $142",
+          "as_of": "2026-11-03",
+          "source": "Gotrade",
+          "url": "https://www.heygotrade.com/en/us-stock/xom/"
+        },
+        {
+          "label": "24/7 Wall St. consensus",
+          "value": "Consensus PT $179.41; 3 strong buy, 7 buy, 15 hold; 24/7 own target $173.08 Hold",
+          "as_of": "2026-11-02",
+          "source": "24/7 Wall St.",
+          "url": "https://247wallst.com/investing/2026/11/02/exxon-is-up-59-this-year-after-another-beat-this-is-how-high-it-can-go/"
+        },
+        {
+          "label": "TradingKey analyst average",
+          "value": "Buy; avg PT $178.02 (high $206, low $142)",
+          "as_of": "2026-11-02",
+          "source": "TradingKey",
+          "url": "https://www.tradingkey.com/news/market-movers/262264638-market-movers-xom-20261102"
+        },
+        {
+          "label": "Morgan Stanley",
+          "value": "PT raised to $185 (Oct 15); listed at $187 Buy on Gotrade as of Nov 3",
+          "as_of": "2026-10-15",
+          "source": "TIKR / Gotrade",
+          "url": "https://www.tikr.com/blog/exxonmobil-is-up-49-in-2026-with-brent-near-110-heres-what-the-stock-could-be-worth-when-oil-cools"
+        },
+        {
+          "label": "Wells Fargo",
+          "value": "Equal Weight, PT $182 (Oct 1); listed at $189 Hold on Gotrade",
+          "as_of": "2026-10-01",
+          "source": "TIKR",
+          "url": "https://www.tikr.com/blog/exxonmobil-is-up-49-in-2026-with-brent-near-110-heres-what-the-stock-could-be-worth-when-oil-cools"
+        }
+      ],
       "recommendation": {
-        "action": "BUY",
+        "action": "ACCUMULATE",
         "technical_action": "BUY",
-        "changed_reason": null,
-        "confidence": 84,
-        "thesis": "XOM is the only holding in a clear uptrend: up about 10% in 20 sessions and 7% above its 50-day average, so the model says BUY. Q3 earnings beat estimates with $19.1bn of free cash flow and a $20bn 2027 buyback plan, helped by oil above $114. The main risk is that much of the gain depends on high oil prices tied to the Iran conflict.",
+        "changed_reason": "Brent has fallen from $113 on 30 Oct to about $103 on 4 Nov on US-Iran talks mediated by Qatar (CappNotes, TipRanks), and analyst consensus targets ($178-187 per 24/7 Wall St., TradingKey, Gotrade) sit close to the current $177, so the model's BUY is tempered one step.",
+        "confidence": 82,
+        "thesis": "The model reads an uptrend (price 5% above its 50-day average, +8% in 20 sessions) and says BUY. Q3 was strong, with adjusted EPS of $4.23 against $3.98 expected, $19.1bn free cash flow and a $20bn 2027 buyback. But the rally rests on the Iran-war oil premium, which is now unwinding as peace talks progress, and consensus targets are near today's price, so the review lowers the action to ACCUMULATE: build slowly rather than buy in full.",
         "levels": {
-          "entryLow": 172.74789190069706,
-          "entryHigh": 179.67,
-          "target": 207.35843239721171,
-          "stop": 158.9036757020912,
-          "riskReward": 1.3333333333333333,
+          "entryLow": 170.4585093144427,
+          "entryHigh": 177.46,
+          "target": 205.4659627422293,
+          "stop": 156.45552794332804,
+          "riskReward": 1.3333333333333328,
           "horizon": "3–6 weeks"
         },
         "risks": [
-          "A ceasefire or oil price drop could reverse the move quickly",
-          "Shares fell 4% on 2 Nov (179.67 from 187.25 on 30 Oct)",
+          "A US-Iran deal or Hormuz reopening could push oil and the stock down quickly",
+          "The stock fell from $187.25 to $177.46 in two sessions",
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close below 158.90 USD",
-          "price falling back below the 50-day average (168.05)",
+          "a close below 156.46 USD",
+          "price falling back below the 50-day average (168.32)",
           "RSI rising above 75"
         ]
       }
