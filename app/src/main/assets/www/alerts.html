@@ -1,0 +1,11 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>alerts</title></head>
+<body>
+<script src="core.js"></script>
+<script src="sources.js"></script>
+<script src="signals.js"></script>
+<script src="alerts.js"></script>
+<script>
+  window.MonzAlerts.run().catch(function () {}).then(function () { if (window.NativeBridge) window.NativeBridge.done(); });
+</script>
+</body></html>

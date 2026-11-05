@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: 22
-      - run: node --test tests/core.test.js tests/signals.test.js tests/research.test.js tests/backtest.test.js
+      - run: node --test tests/core.test.js tests/signals.test.js tests/research.test.js tests/backtest.test.js tests/alerts.test.js
 
       - uses: actions/setup-java@v5
         with:

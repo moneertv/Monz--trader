@@ -220,6 +220,7 @@
     if (st.txs.length && (!st.lastBackup || Date.now() - Date.parse(st.lastBackup) > 7 * 86400000))
       html += '<div class="note">Your transactions are stored only on this phone. <b>Settings → Share backup</b> keeps a copy safe (for example, send it to yourself on WhatsApp or email).</div>';
     if (!st.lastRefresh) html += '<div class="note">Tap <b>Refresh</b> to load prices from Roya, the Amman Stock Exchange, CoinGecko and the ECB.</div>';
+    html += alertsCard();
     html += '<div class="card"><h2>Portfolio value</h2><div class="big">' + jod(total) + '</div>' +
       '<div class="sub">Priced holdings only · prices ' + esc(st.lastRefresh ? 'refreshed ' + ago(st.lastRefresh) : 'not loaded yet') + '</div>' +
       '<div class="grid2" style="margin-top:12px">' +
@@ -720,6 +721,39 @@
     return html;
   };
 
+  // ------------------------------------------------------------------ strong-signal alerts
+  const ALERT_KEY = 'monz.alerts';
+  const alertsState = () => { try { return JSON.parse(localStorage.getItem(ALERT_KEY) || 'null') || { log: [] }; } catch (e) { return { log: [] }; } };
+  const nb = () => window.NativeBridge;
+  function applyAlertSchedule() {
+    const a = st.settings.alerts;
+    if (nb() && nb().setAlerts && a) nb().setAlerts(!!a.on, a.minutes || 15);
+  }
+  function alertsCard() {
+    const log = (alertsState().log || []).filter((x) => Date.now() - Date.parse(x.at) < 7 * 86400000).slice(0, 4);
+    if (!log.length) return '';
+    return '<div class="card"><h2>Strong-signal alerts</h2>' + log.map((x) => '<div class="list-item" data-alertopen="' + esc(x.key) + '"><div class="row"><div class="grow"><b>' + esc(x.name) + '</b>' +
+      '<div class="sub">' + esc(localTime(x.at)) + ' · ' + esc(x.source) + (x.provisional ? ' · intraday' : '') + '</div></div><span class="pill ' + pillCls(x.action) + '">' + esc(x.action) + '</span></div></div>').join('') + '</div>';
+  }
+  window.openSignalFromAlert = (key) => {
+    const r = researchFor(key);
+    if (r && r.recommendation) { researchKey = key; go('research'); return; }
+    sigKey = key; go('signal');
+  };
+  window.onNotificationPermission = (ok) => { toast(ok ? 'Notifications allowed' : 'Notifications are blocked: allow them for Monz Trader in Android settings'); render(); };
+  function alertsSettingsCard() {
+    const a = st.settings.alerts || { on: false, minutes: 15 }, as = alertsState();
+    const allowed = nb() && nb().notificationsAllowed ? nb().notificationsAllowed() : false;
+    return '<div class="card"><h2>Strong-signal alerts</h2>' +
+      '<label style="display:flex;align-items:center;gap:10px;color:var(--text);font-size:15px;margin-top:0"><input type="checkbox" id="al_on" style="width:auto"' + (a.on ? ' checked' : '') + '> Notify me when a holding turns STRONG BUY or STRONG SELL</label>' +
+      '<label>Check every</label><select id="al_min">' + [15, 30, 60].map((m) => '<option value="' + m + '"' + ((a.minutes || 15) === m ? ' selected' : '') + '>' + m + ' minutes</option>').join('') + '</select>' +
+      '<div class="sub" style="margin-top:8px">' + (allowed ? 'Notifications are allowed.' : '<span class="warn">Notifications are not allowed yet for Monz Trader.</span>') +
+      (as.lastCheck ? ' Last check ' + esc(ago(as.lastCheck)) + (as.lastError && as.lastError !== 'alerts are off' ? ' — ' + esc(as.lastError) : '') + '.' : ' No background check has run yet.') +
+      ' Android may delay checks when the phone is idle or in battery saver.</div>' +
+      '<div class="row" style="margin-top:10px;gap:8px"><button class="btn ghost small grow" data-alcheck>Check now</button><button class="btn ghost small grow" data-altest>Test notification</button></div>' +
+      '<div class="sub" style="margin-top:8px">Intraday alerts use the latest price as a provisional close, so a signal can disappear by the end of the day. Amman SE prices are end of day only.</div></div>';
+  }
+
   routes.settings = () => {
     const m = st.settings.methods;
     const sel = (mk) => '<select data-method="' + mk + '">' + ['FIFO', 'AVERAGE'].map((x) => '<option' + (m[mk] === x ? ' selected' : '') + '>' + x + '</option>').join('') + '</select>';
@@ -727,6 +761,7 @@
       '<label>Finnhub API key — free at finnhub.io, needed for stocks/ETFs</label><input id="s_finnhub" value="' + esc(st.settings.finnhubKey) + '" autocapitalize="none">' +
       '<label>CoinGecko Demo key — optional, free at coingecko.com</label><input id="s_cg" value="' + esc(st.settings.coingeckoKey) + '" autocapitalize="none">' +
       '<button class="btn" style="margin-top:12px" data-savekeys>Save keys</button></div>' +
+      alertsSettingsCard() +
       '<div class="card"><h2>Signal strategy</h2><div class="sub">Auto uses whichever method did best in the strategy test for that market.</div>' + ['ASE', 'GOLD', 'US', 'CRYPTO'].map((mk) => {
         const cur = (st.settings.strategy || {})[mk] || 'auto';
         return '<label>' + esc(MARKETS[mk]) + '</label><select data-strategy="' + mk + '">' + [['auto', 'Auto (strategy test)'], ['trend', 'Trend'], ['balanced', 'Balanced'], ['dip', 'Dip-buying']].map(([v, l]) => '<option value="' + v + '"' + (cur === v ? ' selected' : '') + '>' + l + '</option>').join('') + '</select>';
@@ -747,10 +782,17 @@
     $('#nav').innerHTML = NAV.map(([r, l, p]) => '<button data-nav="' + r + '" class="' + (r === navRoute ? 'on' : '') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="' + p + '"/></svg>' + l + '</button>').join('');
   }
   document.addEventListener('click', (e) => {
-    const el = e.target.closest('[data-runbt],[data-research],[data-aselookup],[data-nav],[data-go],[data-del],[data-savetx],[data-cancel],[data-addase],[data-asestock],[data-sig],[data-sigf],[data-sigbuy],[data-savekeys],[data-export],[data-import]');
+    const el = e.target.closest('[data-alertopen],[data-alcheck],[data-altest],[data-runbt],[data-research],[data-aselookup],[data-nav],[data-go],[data-del],[data-savetx],[data-cancel],[data-addase],[data-asestock],[data-sig],[data-sigf],[data-sigbuy],[data-savekeys],[data-export],[data-import]');
     if (!el) return;
     if (el.dataset.nav) { stack = []; go(el.dataset.nav, false); }
     else if (el.dataset.go) { draft = null; if (el.dataset.market) { draft = null; routes.add(); draft.market = el.dataset.market; } go(el.dataset.go); }
+    if (el.dataset.alertopen) { window.openSignalFromAlert(el.dataset.alertopen); return; }
+    if ('alcheck' in el.dataset) { if (nb() && nb().checkAlertsNow) { nb().checkAlertsNow(); toast('Checking your holdings in the background…'); setTimeout(render, 20000); } return; }
+    if ('altest' in el.dataset) {
+      if (nb() && nb().notificationsAllowed && !nb().notificationsAllowed()) { nb().requestNotificationPermission(); return; }
+      if (nb()) nb().notify('Test · Monz Trader', 'Alerts are working. You will get one like this when a holding turns STRONG BUY or STRONG SELL.', null);
+      return;
+    }
     if ('runbt' in el.dataset) { runStrategyTest(); return; }
     if (el.dataset.research) { researchKey = el.dataset.research; go('research'); return; }
     if (el.dataset.aselookup) {
@@ -802,6 +844,10 @@
       if (id === 'f_market') { draft.symbol = draft.market === 'GOLD' ? 'GOLD_21K' : ''; draft.currency = MARKET_CCY[draft.market]; }
       render();
     } else if (id === 's_finnhub' || id === 's_cg') { saveKeys(false);
+    } else if (id === 'al_on' || id === 'al_min') {
+      st.settings.alerts = { on: $('#al_on').checked, minutes: Number($('#al_min').value) || 15 }; save();
+      if (st.settings.alerts.on && nb() && nb().notificationsAllowed && !nb().notificationsAllowed()) nb().requestNotificationPermission();
+      applyAlertSchedule(); toast(st.settings.alerts.on ? 'Alerts on: checking every ' + st.settings.alerts.minutes + ' minutes' : 'Alerts off');
     } else if (e.target.dataset.strategy) { st.settings.strategy = st.settings.strategy || {}; st.settings.strategy[e.target.dataset.strategy] = e.target.value; save(); signalsCache = null; toast('Strategy updated');
     } else if (e.target.dataset.method) { st.settings.methods[e.target.dataset.method] = e.target.value; save(); toast('Cost method updated'); }
     else if (id === 'watchCrypto' || id === 'watchUs') {
@@ -816,6 +862,11 @@
   document.addEventListener('input', (e) => { if (e.target.id === 'aseSearch') { aseFilter = e.target.value; const pos = e.target.selectionStart; render(); const s = $('#aseSearch'); s.focus(); s.setSelectionRange(pos, pos); } });
   $('#refreshBtn').addEventListener('click', () => refresh('all'));
 
+  if (!st.settings.alerts) {
+    st.settings.alerts = { on: true, minutes: 15 }; save();
+    if (nb() && nb().notificationsAllowed && !nb().notificationsAllowed()) nb().requestNotificationPermission();
+  }
+  applyAlertSchedule();
   render();
   if (!st.lastRefresh || Date.now() - Date.parse(st.lastRefresh) > 30 * 60000) refresh('all');
 })();
