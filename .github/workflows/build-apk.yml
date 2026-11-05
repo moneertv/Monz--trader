@@ -6,6 +6,8 @@ on:
     paths-ignore:
       - 'data/**'          # daily research updates don't need a new APK
       - 'docs/**'
+      - 'scripts/universe/**'
+      - '.github/workflows/universe.yml'
       - '**.md'
   workflow_dispatch:
 
@@ -22,7 +24,7 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: 22
-      - run: node --test tests/core.test.js tests/signals.test.js tests/research.test.js tests/backtest.test.js tests/alerts.test.js
+      - run: node --test tests/core.test.js tests/signals.test.js tests/research.test.js tests/backtest.test.js tests/alerts.test.js tests/universe.test.js
 
       - uses: actions/setup-java@v5
         with:
