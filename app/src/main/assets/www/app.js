@@ -9,8 +9,6 @@
   const MARKETS = { GOLD: 'Jordan gold', ASE: 'Amman SE', US: 'Stocks/ETFs', CRYPTO: 'Crypto' };
   const MARKET_CCY = { GOLD: 'JOD', ASE: 'JOD', US: 'USD', CRYPTO: 'USD' };
   const COLORS = { GOLD: '#d4a93c', ASE: '#3cc48a', US: '#5b8def', CRYPTO: '#b36bef' };
-  // Coins always analysed in Signals, in addition to your watch list and holdings (CoinGecko ids)
-  const CRYPTO_UNIVERSE = ['bitcoin', 'ethereum', 'solana', 'binancecoin', 'ripple', 'cardano', 'dogecoin', 'tron', 'chainlink', 'avalanche-2', 'toncoin', 'polkadot'];
   const OUNCE_G = 31.1034768;
   const GOLD_GLOBAL_KEY = 'GOLD:GLOBAL';
   const GOLD_SYMBOLS = ['GOLD_24K', 'GOLD_21K', 'GOLD_18K', 'GOLD_14K', 'GOLD_LIRA_RASHADI', 'GOLD_LIRA_ENGLISH'];
@@ -24,7 +22,13 @@
   });
   let st;
   try { st = Object.assign(blank(), JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) { st = blank(); }
-  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) { toast('Could not save: ' + e.message); } };
+  const save = () => {
+    try { localStorage.setItem(KEY, JSON.stringify(st)); }
+    catch (e) {
+      // Phone storage is limited; the market universe can be downloaded again, so keep it in memory only.
+      try { const { universe, ...rest } = st; localStorage.setItem(KEY, JSON.stringify(rest)); } catch (e2) { toast('Could not save: ' + e2.message); }
+    }
+  };
 
   // Quotes are stored as plain JSON; Dec values become strings.
   const plain = (q) => JSON.parse(JSON.stringify(q, (k, v) => (v instanceof Dec ? v.toString() : v)));
@@ -120,14 +124,19 @@
       if (marketError) st.errors.aseMarket = { msg: marketError, at: new Date().toISOString() }; else delete st.errors.aseMarket;
     }]);
     if (which === 'all' || which === 'crypto') jobs.push(['crypto', async () => {
+      await loadUniverse('crypto');
+      const uni = universeAssets('crypto');
       const ids = [...new Set(st.watch.crypto.concat(held('CRYPTO')))];
-      if (!ids.length) return;
-      for (const q of await S.fetchCrypto(ids, st.settings.coingeckoKey)) st.quotes[assetKey('CRYPTO', q.symbol)] = plain(q);
-      // daily history for signals, at most once a day per coin
-      st.cryptoHistory = st.cryptoHistory || {};
-      const universe = [...new Set(ids.concat(CRYPTO_UNIVERSE))].slice(0, 16);
       const failed = [];
-      for (const id of universe) {
+      // live prices for the whole top-100 list in one request
+      try { st.cryptoLive = { at: new Date().toISOString(), prices: await S.fetchCryptoMarkets([...new Set(uni.map((a) => a.id).concat(ids))], st.settings.coingeckoKey) }; }
+      catch (e) { failed.push('live prices'); }
+      if (ids.length) for (const q of await S.fetchCrypto(ids, st.settings.coingeckoKey)) st.quotes[assetKey('CRYPTO', q.symbol)] = plain(q);
+      // daily history only for coins you watch or hold that are not in the top-100 file
+      st.cryptoHistory = st.cryptoHistory || {};
+      const inUni = new Set(uni.map((a) => a.id));
+      for (const id of Object.keys(st.cryptoHistory)) if (inUni.has(id)) delete st.cryptoHistory[id];
+      for (const id of ids.filter((x) => !inUni.has(x)).slice(0, 10)) {
         const h = st.cryptoHistory[id];
         if (h && h.fetched === today()) continue;
         try { st.cryptoHistory[id] = { fetched: today(), series: await S.fetchCryptoHistory(id, st.settings.coingeckoKey) }; }
@@ -142,6 +151,7 @@
       if (failed.length) throw new Error('could not load history for ' + failed.join(', ') + ' (CoinGecko rate limit; it retries on the next refresh — a free CoinGecko key in Settings helps)');
     }]);
     if (which === 'all' || which === 'us') jobs.push(['us', async () => {
+      await loadUniverse('us');
       const syms = [...new Set(st.watch.us.concat(held('US')))];
       if (!syms.length) return;
       if (!st.settings.finnhubKey) { if (held('US').length) throw new Error('Add a free Finnhub API key in Settings to price your stocks'); return; }
@@ -173,6 +183,25 @@
     if (pendingRefresh) { const w = pendingRefresh; pendingRefresh = null; setTimeout(() => refresh(w), 0); }
     else if (which === 'all' && (!st.backtest || Date.now() - Date.parse(st.backtest.ranAt) > 30 * 86400000)) setTimeout(runStrategyTest, 500);
     if (route !== 'add' && route !== 'settings') render();
+  }
+
+  // ------------------------------------------------------------------ market universe (top 100 crypto, S&P 100 + ETFs)
+  const uniCache = {};
+  async function loadUniverse(kind) {
+    st.universe = st.universe || {};
+    const cur = st.universe[kind];
+    if (cur && Date.now() - Date.parse(cur.fetchedAt) < 3 * 3600000) return;   // at most every 3 hours
+    const doc = await S.fetchUniverse(kind);
+    st.universe[kind] = { fetchedAt: new Date().toISOString(), generated_at: doc.generated_at, source: doc.source,
+      assets: doc.assets.map(({ series, ...meta }) => ({ ...meta, p: S.packSeries(series) })) };
+    delete uniCache[kind]; signalsCache = null;
+  }
+  /** Universe assets with unpacked series (cached in memory). */
+  function universeAssets(kind) {
+    const u = st.universe && st.universe[kind];
+    if (!u) return [];
+    if (!uniCache[kind] || uniCache[kind].gen !== u.generated_at) uniCache[kind] = { gen: u.generated_at, list: u.assets.map((a) => ({ ...a, series: S.unpackSeries(a.p) })) };
+    return uniCache[kind].list;
   }
 
   async function loadCompany(sym) {
@@ -360,6 +389,65 @@
       '</div><button class="btn gold" data-addase="' + esc(q.symbol) + '" style="width:100%">Record a purchase</button>';
   };
 
+  // ------------------------------------------------------------------ Crypto and Stocks tabs
+  let cryFilter = '', stkFilter = '', stkType = 'all', assetKeyOpen = null;
+  const sigMap = () => { const m = {}; try { for (const a of computeSignals()) if (!a.insufficient) m[a.key] = a; } catch (e) { /* not ready */ } return m; };
+  const heldSet = () => new Set(st.txs.filter((t) => t.asset).map((t) => t.asset));
+  function liveCrypto(id) { return st.cryptoLive && st.cryptoLive.prices && st.cryptoLive.prices[id]; }
+  function marketRow(a, price, chg, ccy, sub, sig, held) {
+    return '<tr data-asset="' + esc(a.key) + '"><td><b>' + esc(a.symbol) + '</b>' + (held ? ' <span class="up" style="font-size:11px">held</span>' : '') + '<div class="sub">' + esc(sub) + '</div></td>' +
+      '<td class="n">' + (Number.isFinite(price) ? num(price) : '—') + '<div class="sub ' + signCls(chg) + '">' + (Number.isFinite(chg) ? signed(chg, 2, '%') : '') + '</div></td>' +
+      '<td class="n">' + (sig ? '<span class="pill ' + pillCls(sig.action) + '" style="font-size:10px">' + esc(sig.action) + '</span>' : '<span class="sub">—</span>') + '</td></tr>';
+  }
+  routes.crypto = () => {
+    let html = errorBlock(['crypto']);
+    const list = universeAssets('crypto');
+    html += '<input id="cryptoSearch" placeholder="Search coin" value="' + esc(cryFilter) + '">';
+    if (!list.length) return html + '<div class="card empty" style="margin-top:12px">Tap Refresh to load the top 100 coins.</div>';
+    const f = cryFilter.trim().toUpperCase(), sm = sigMap(), hs = heldSet();
+    const rows = list.filter((a) => !f || a.symbol.includes(f) || a.name.toUpperCase().includes(f) || a.id.toUpperCase().includes(f));
+    const u = st.universe.crypto;
+    html += '<div class="card" style="margin-top:12px"><h2>Top ' + list.length + ' coins by market cap</h2><table><tr><th>Coin</th><th class="n">USD · 24h</th><th class="n">Signal</th></tr>' +
+      rows.map((a) => { const lv = liveCrypto(a.id); return marketRow(a, lv ? lv.price : a.price, lv ? lv.change24h : a.change24h, 'USD', '#' + a.rank + ' · ' + a.name, sm[a.key], hs.has(a.key)); }).join('') +
+      '</table><div class="sub" style="margin-top:8px">Prices: CoinGecko' + (st.cryptoLive ? ' (live, ' + esc(ago(st.cryptoLive.at)) + ')' : '') + '. History and list updated daily (' + esc(localTime(u.generated_at)) + '). Stablecoins and wrapped tokens are excluded. Tap a coin for its chart and signal.</div></div>';
+    return html;
+  };
+  routes.stocks = () => {
+    let html = errorBlock(['us']);
+    const list = universeAssets('us');
+    html += '<div class="seg">' + [['all', 'All'], ['stock', 'S&P 100 stocks'], ['etf', 'ETFs']].map(([k, l]) => '<button data-stktype="' + k + '" class="' + (stkType === k ? 'on' : '') + '">' + l + '</button>').join('') + '</div>';
+    html += '<input id="stockSearch" placeholder="Search symbol or company" value="' + esc(stkFilter) + '">';
+    if (!list.length) return html + '<div class="card empty" style="margin-top:12px">Tap Refresh to load the S&P 100 and ETFs.</div>';
+    const f = stkFilter.trim().toUpperCase(), sm = sigMap(), hs = heldSet();
+    const rows = list.filter((a) => (stkType === 'all' || a.type === stkType) && (!f || a.symbol.includes(f) || a.name.toUpperCase().includes(f)));
+    const u = st.universe.us;
+    html += '<div class="card" style="margin-top:12px"><h2>' + rows.length + ' US stocks & ETFs</h2><table><tr><th>Symbol</th><th class="n">USD · day</th><th class="n">Signal</th></tr>' +
+      rows.map((a) => { const q = st.quotes[a.key]; const live = q && q.source === 'Finnhub' ? Number(q.price) : null;
+        return marketRow(a, live || a.price, live && q.extra && Number.isFinite(q.extra.changePct) ? q.extra.changePct : a.change1d, 'USD', a.name + (a.type === 'etf' ? ' · ETF' : a.sector ? ' · ' + a.sector : ''), sm[a.key], hs.has(a.key)); }).join('') +
+      '</table><div class="sub" style="margin-top:8px">End-of-day closes (' + esc(rows[0] ? rows[0].asOf || '' : '') + ') from ' + esc(u.source) + '. Your holdings and watch list also get live Finnhub prices. Updated daily ' + esc(localTime(u.generated_at)) + '. Tap a symbol for its chart and signal.</div></div>';
+    return html;
+  };
+  routes.asset = () => {
+    const kind = assetKeyOpen && assetKeyOpen.startsWith('CRYPTO:') ? 'crypto' : 'us';
+    const a = universeAssets(kind).find((x) => x.key === assetKeyOpen);
+    if (!a) return '<div class="empty">Not found.</div>';
+    const sig = sigMap()[a.key], lv = kind === 'crypto' ? liveCrypto(a.id) : null, q = st.quotes[a.key];
+    const price = lv ? lv.price : q && q.source === 'Finnhub' ? Number(q.price) : a.price;
+    const jodPrice = price * 0.709;
+    const ser = a.series, first = ser.length ? ser[0][1] : null;
+    let html = '<div class="card"><h2>' + esc(kind === 'crypto' ? 'Crypto · #' + a.rank : a.type === 'etf' ? 'ETF' : 'S&P 100' + (a.sector ? ' · ' + a.sector : '')) + '</h2>' +
+      '<div style="font-size:18px;font-weight:700">' + esc(a.symbol) + ' · ' + esc(a.name) + '</div>' +
+      '<div class="row" style="margin-top:6px"><div class="big grow">' + num(price) + ' <span class="sub">USD</span></div>' + (sig ? '<span class="pill ' + pillCls(sig.action) + '" data-sig="' + esc(a.key) + '" style="font-size:13px">' + esc(sig.action) + '</span>' : '') + '</div>' +
+      '<div class="sub">≈ ' + num(jodPrice) + ' JOD' + (kind === 'crypto' && Number.isFinite(lv ? lv.change24h : a.change24h) ? ' · 24h ' + signed(lv ? lv.change24h : a.change24h, 2, '%') : Number.isFinite(a.change1d) ? ' · day ' + signed(a.change1d, 2, '%') : '') +
+      (kind === 'crypto' && a.marketCap ? ' · market cap ' + (a.marketCap / 1e9).toFixed(1) + ' bn USD' : '') + '</div>' +
+      (ser.length > 2 ? lineChart(ser, kind === 'crypto' ? '#b36bef' : '#5b8def') + '<div class="sub">' + ser.length + ' daily closes since ' + esc(ser[0][0]) + (first ? ' · change ' + signed((price / first - 1) * 100, 1, '%') : '') + '</div>' : '') + '</div>';
+    if (sig) html += '<div class="card" data-sig="' + esc(a.key) + '"><h2>Signal · ' + esc(sig.strategyLabel) + '</h2><div class="row"><div class="grow">' + esc(sig.thesis) + '</div></div>' +
+      '<div class="sub" style="margin-top:8px">Score ' + sig.score + ' · confidence ' + sig.confidence + '%' + (sig.levels && Number.isFinite(sig.levels.target) ? ' · target ' + num(sig.levels.target) + ' · stop ' + num(sig.levels.stop) : '') + ' — tap for the full breakdown</div></div>';
+    html += '<button class="btn gold" style="width:100%" data-sigbuy="' + esc(a.key) + '">+ Add to holdings (record a purchase)</button>';
+    html += '<div class="sub" style="margin:10px 4px">Source: ' + esc(kind === 'crypto' ? 'CoinGecko' : a.source || '') + '. Not financial advice.</div>';
+    return html;
+  };
+
   routes.markets = () => {
     let html = errorBlock(['crypto', 'us']);
     const cq = st.watch.crypto.map((id) => st.quotes[assetKey('CRYPTO', id)]).filter(Boolean);
@@ -489,12 +577,15 @@
       out.push({ key, name: sym + (q && q.extra && q.extra.name ? ' · ' + q.extra.name : ''), market: 'ASE', currency: 'JOD',
         series: h.map(([d, v]) => [d, Number(v)]), staleDays: lastDay ? allDays.filter((d) => d > lastDay).length : 0 });
     }
+    for (const a of universeAssets('crypto')) out.push({ key: a.key, name: a.symbol + ' · ' + a.name, market: 'CRYPTO', currency: 'USD', series: a.series, rank: a.rank });
     for (const [id, h] of Object.entries(st.cryptoHistory || {})) out.push({ key: assetKey('CRYPTO', id), name: id, market: 'CRYPTO', currency: 'USD', series: h.series });
     const gs = (st.goldGlobal && st.goldGlobal.series) || [];
     out.push({ key: GOLD_GLOBAL_KEY, name: 'Gold (global price, per gram 24K)', market: 'GOLD', currency: 'JOD', series: gs.map(([dd, v]) => [dd, (v * 0.709) / OUNCE_G]) });
-    // US stocks/ETFs: histories published by the scheduled research run
+    // US stocks/ETFs: the daily universe file, plus any researched symbol not in it
+    const usKeys = new Set();
+    for (const a of universeAssets('us')) { usKeys.add(a.key); out.push({ key: a.key, name: a.symbol + ' · ' + a.name, market: 'US', currency: 'USD', series: a.series, etf: a.type === 'etf' }); }
     for (const r of (st.research && st.research.assets) || []) {
-      if (r.market === 'US' && Array.isArray(r.series) && r.series.length) out.push({ key: r.key, name: r.key.slice(3) + ' · ' + r.name, market: 'US', currency: r.currency || 'USD', series: r.series });
+      if (r.market === 'US' && !usKeys.has(r.key) && Array.isArray(r.series) && r.series.length) out.push({ key: r.key, name: r.key.slice(3) + ' · ' + r.name, market: 'US', currency: r.currency || 'USD', series: r.series });
     }
     return out;
   }
@@ -526,19 +617,29 @@
   // ------------------------------------------------------------------ top picks to watch
   const ACTION_RANK = { 'STRONG BUY': 3, BUY: 2, ACCUMULATE: 1 };
   /** Assets you don't hold with a buy signal, best first: STRONG BUY, then BUY, then ACCUMULATE; within each by confidence. */
-  function topPicks(n) {
+  let tpTab = 'all';
+  const TP_TABS = [['all', 'All'], ['ASE', 'Amman SE'], ['US', 'Stocks & ETFs'], ['CRYPTO', 'Crypto']];
+  function topPicks(n, market = 'all') {
     const held = new Set(st.txs.filter((t) => t.asset).map((t) => (t.asset.startsWith('GOLD:') ? GOLD_GLOBAL_KEY : t.asset)));
-    return computeSignals().filter((a) => !a.insufficient && ACTION_RANK[a.action] && !held.has(a.key)
+    const rank = (x, y) => ACTION_RANK[y.action] - ACTION_RANK[x.action] || y.confidence - x.confidence || y.score - x.score;
+    const all = computeSignals().filter((a) => !a.insufficient && ACTION_RANK[a.action] && !held.has(a.key)
       && !(a.market === 'ASE' && (a.factors.liquidity < 0 || a.indicators.flatDaysPct > 50)))      // skip thinly traded ASE stocks
-      .sort((x, y) => ACTION_RANK[y.action] - ACTION_RANK[x.action] || y.confidence - x.confidence || y.score - x.score)
-      .slice(0, n);
+      .sort(rank);
+    if (market !== 'all') return all.filter((a) => a.market === market).slice(0, n);
+    // All: the best of each market first (so no market crowds the others out), then the rest by rank
+    const firsts = [];
+    for (const m of ['ASE', 'US', 'CRYPTO', 'GOLD']) { const f = all.find((a) => a.market === m); if (f) firsts.push(f); }
+    firsts.sort(rank);
+    const used = new Set(firsts.map((a) => a.key));
+    return firsts.concat(all.filter((a) => !used.has(a.key))).slice(0, n);
   }
   function topPicksCard(n, compact) {
-    const picks = topPicks(n);
-    let html = '<div class="card"><h2>Top picks to watch</h2>';
-    if (!picks.length) return html + '<div class="sub">No buy signals on assets you don\'t hold right now. Tap Refresh to update.</div></div>';
+    const picks = topPicks(n, tpTab);
+    let html = '<div class="card"><h2>Top picks to watch</h2><div class="seg" style="margin-bottom:8px">' +
+      TP_TABS.map(([k, l]) => '<button data-tptab="' + k + '" class="' + (tpTab === k ? 'on' : '') + '">' + l + '</button>').join('') + '</div>';
+    if (!picks.length) return html + '<div class="sub">No buy signals ' + (tpTab === 'all' ? '' : 'in ' + esc(MARKETS[tpTab]) + ' ') + 'on assets you don\'t hold right now. Tap Refresh to update.</div></div>';
     const strong = picks.filter((a) => a.action === 'STRONG BUY').length;
-    if (!compact) html += '<div class="sub" style="margin-bottom:6px">' + (strong ? strong + ' STRONG BUY signal' + (strong > 1 ? 's' : '') + ' — ' : 'No STRONG BUY right now; showing the best buy signals. ') + 'Assets you don\'t hold, ranked by signal then confidence. Thinly traded Amman SE stocks are left out.</div>';
+    if (!compact) html += '<div class="sub" style="margin-bottom:6px">' + (strong ? strong + ' STRONG BUY signal' + (strong > 1 ? 's' : '') + ' — ' : 'No STRONG BUY right now; showing the best buy signals. ') + (tpTab === 'all' ? 'The best pick from each market comes first, then the rest by signal and confidence. ' : 'Ranked by signal, then confidence. ') + 'Assets you don\'t hold; thinly traded Amman SE stocks are left out.</div>';
     html += picks.map((a) => '<div class="list-item"><div class="row"><div class="grow" data-sig="' + esc(a.key) + '"><b>' + esc(a.name) + '</b>' +
       '<div class="sub">' + esc(MARKETS[a.market]) + ' · ' + num(a.price) + ' ' + esc(a.currency) + ' · conf. ' + a.confidence + '% · score ' + a.score +
       (a.levels && Number.isFinite(a.levels.target) ? ' · target ' + num(a.levels.target) + ', stop ' + num(a.levels.stop) : '') + '</div></div>' +
@@ -562,6 +663,11 @@
       }).sort((x, y) => x.flat - y.flat);
       const aseKeep = new Set(ase.slice(0, 80).map((x) => x.a.key));
       list = list.filter((a) => a.market !== 'ASE' || aseKeep.has(a.key) || held.has(a.key));
+      // Crypto: top 40 by market cap; US: first 60 (S&P 100 order) plus ETFs and holdings
+      const cr = list.filter((a) => a.market === 'CRYPTO').sort((x, y) => (x.rank || 999) - (y.rank || 999)).slice(0, 40).map((a) => a.key);
+      const us = list.filter((a) => a.market === 'US' && !a.etf).slice(0, 60).map((a) => a.key);
+      const keep = new Set([...cr, ...us]);
+      list = list.filter((a) => (a.market !== 'CRYPTO' && a.market !== 'US') || keep.has(a.key) || a.etf || held.has(a.key));
       if (!list.length) throw new Error('Not enough price history yet. Tap Refresh first.');
       const res = await window.Backtest.runAll(list, (d, n) => { btProgress = 'Testing ' + d + ' of ' + n + ' assets…'; const el = $('#btProgress'); if (el) el.textContent = btProgress; });
       st.backtest = res; save(); signalsCache = null; delete st.errors.strategy;
@@ -622,10 +728,11 @@
       (st.backtest ? '' : (btRunning ? 'Running…' : 'Find which method would have made the most money')) + '</div></div><span class="sub">›</span></div></div>';
     const ok = all.filter((a) => !a.insufficient);
     const heldKeys = new Set(st.txs.filter((t) => t.asset).map((t) => t.asset));
-    const filters = [['all', 'All'], ['held', 'My holdings'], ['ASE', 'Amman SE'], ['CRYPTO', 'Crypto'], ['GOLD', 'Gold']];
+    const filters = [['all', 'All'], ['held', 'My holdings'], ['ASE', 'Amman SE'], ['US', 'Stocks'], ['CRYPTO', 'Crypto'], ['GOLD', 'Gold']];
     if ([...heldKeys].some((k) => k.startsWith('GOLD:'))) heldKeys.add(GOLD_GLOBAL_KEY);
     let list = ok.filter((a) => sigFilter === 'all' || (sigFilter === 'held' ? heldKeys.has(a.key) : a.market === sigFilter));
     list.sort((a, b) => b.score - a.score || b.confidence - a.confidence);
+    const totalSignals = list.length; list = list.slice(0, 150);
     let html = errorBlock(['signals']);
     html += '<div class="note">Rules-based signals from price history only (trend, momentum, RSI, volatility, liquidity). Company financials and news are not included. This is a screening tool, not financial advice — check before you trade.</div>';
     const rs = st.research && st.research.assets ? st.research.assets.filter((x) => x.recommendation) : [];
@@ -643,7 +750,7 @@
     if (!ok.length) html += '<div class="card empty">No signals yet. Tap Refresh to load price history.</div>';
     else {
       const counts = {}; for (const a of ok) counts[pillCls(a.action)] = (counts[pillCls(a.action)] || 0) + 1;
-      html += '<div class="card"><h2>' + list.length + ' signals · sorted by score</h2>' + (list.length ? list.map((a) =>
+      html += '<div class="card"><h2>' + totalSignals + ' signals · sorted by score' + (totalSignals > list.length ? ' · top ' + list.length + ' shown' : '') + '</h2>' + (list.length ? list.map((a) =>
         '<div class="list-item" data-sig="' + esc(a.key) + '"><div class="row"><div class="grow"><b>' + esc(a.name) + '</b>' +
         '<div class="sub">' + esc(MARKETS[a.market]) + ' · ' + num(a.price) + ' ' + esc(a.currency) + ' · ' + esc(a.asOf) + (heldKeys.has(a.key) ? ' · <span class="up">held</span>' : '') + '</div></div>' +
         '<div style="text-align:right"><span class="pill ' + pillCls(a.action) + '">' + esc(a.action) + '</span><div class="sub">score ' + a.score + ' · conf. ' + a.confidence + '%</div></div></div></div>').join('')
@@ -798,22 +905,25 @@
       '<div class="card"><h2>Backup</h2><div class="sub">Your data lives only on this phone. Uninstalling the app deletes it, so keep a backup.</div>' +
       '<div class="row" style="margin-top:10px"><button class="btn grow" data-export>Share backup</button></div>' +
       '<label>Restore: paste a backup here</label><textarea id="s_import"></textarea><button class="btn ghost" style="margin-top:8px" data-import>Restore backup</button></div>' +
-      '<div class="card"><h2>Data sources</h2><div class="sub">Gold: Roya News / Jordanian Jewelers Syndicate (bulletins during the day).<br>Amman Stock Exchange: official end-of-day file from exchange.jo.<br>Crypto: CoinGecko (about 1 minute delay).<br>Stocks: Finnhub (free plan, delayed).<br>Currencies: ECB rates via Frankfurter; JOD/USD at the Central Bank of Jordan peg (0.709).<br><br>For personal use only. This app shows data and does not give investment advice or place trades.</div></div>';
+      '<div class="card"><h2>Data sources</h2><div class="sub">Gold: Roya News / Jordanian Jewelers Syndicate (bulletins during the day).<br>Amman Stock Exchange: official end-of-day file from exchange.jo.<br>Crypto: top 100 coins from CoinGecko (live prices; daily history updated by a GitHub job).<br>US stocks & ETFs: S&P 100 and popular ETFs, end-of-day closes from Stooq/Yahoo via the daily GitHub job; your holdings and watch list also get live Finnhub prices.<br>Currencies: ECB rates via Frankfurter; JOD/USD at the Central Bank of Jordan peg (0.709).<br><br>For personal use only. This app shows data and does not give investment advice or place trades.</div></div>';
   };
 
   // ------------------------------------------------------------------ render + events
   const NAV = [['home', 'Home', 'M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z'], ['gold', 'Gold', 'M4 18h16l-3-8H7zM8 10l2-5h4l2 5'],
-    ['ase', 'Amman SE', 'M4 19V9m5 10V5m5 14v-7m5 7V8'], ['markets', 'Markets', 'M3 17l6-6 4 4 8-8M15 7h6v6'], ['signals', 'Signals', 'M12 3v4M12 17v4M3 12h4M17 12h4M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0-8 0'], ['portfolio', 'Portfolio', 'M4 7h16v12H4zM9 7V5h6v2']];
+    ['ase', 'ASE', 'M4 19V9m5 10V5m5 14v-7m5 7V8'], ['crypto', 'Crypto', 'M9 8h5a2 2 0 0 1 0 4H9zm0 4h6a2 2 0 0 1 0 4H9zM9 6v12M11 6V4m0 16v-2'], ['stocks', 'Stocks', 'M3 17l6-6 4 4 8-8M15 7h6v6'], ['signals', 'Signals', 'M12 3v4M12 17v4M3 12h4M17 12h4M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0-8 0'], ['portfolio', 'Portfolio', 'M4 7h16v12H4zM9 7V5h6v2']];
   function render() {
     $('#view').innerHTML = (routes[route] || routes.home)();
-    const navRoute = route === 'add' ? 'portfolio' : route === 'aseStock' ? 'ase' : (route === 'signal' || route === 'research' || route === 'strategy') ? 'signals' : route;
+    const navRoute = route === 'add' ? 'portfolio' : route === 'aseStock' ? 'ase' : route === 'asset' ? (assetKeyOpen && assetKeyOpen.startsWith('CRYPTO:') ? 'crypto' : 'stocks') : route === 'markets' ? 'stocks' : (route === 'signal' || route === 'research' || route === 'strategy') ? 'signals' : route;
     $('#nav').innerHTML = NAV.map(([r, l, p]) => '<button data-nav="' + r + '" class="' + (r === navRoute ? 'on' : '') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="' + p + '"/></svg>' + l + '</button>').join('');
   }
   document.addEventListener('click', (e) => {
-    const el = e.target.closest('[data-alertopen],[data-alcheck],[data-altest],[data-runbt],[data-research],[data-aselookup],[data-nav],[data-go],[data-del],[data-savetx],[data-cancel],[data-addase],[data-asestock],[data-sig],[data-sigf],[data-sigbuy],[data-savekeys],[data-export],[data-import]');
+    const el = e.target.closest('[data-tptab],[data-stktype],[data-asset],[data-alertopen],[data-alcheck],[data-altest],[data-runbt],[data-research],[data-aselookup],[data-nav],[data-go],[data-del],[data-savetx],[data-cancel],[data-addase],[data-asestock],[data-sig],[data-sigf],[data-sigbuy],[data-savekeys],[data-export],[data-import]');
     if (!el) return;
     if (el.dataset.nav) { stack = []; go(el.dataset.nav, false); }
     else if (el.dataset.go) { draft = null; if (el.dataset.market) { draft = null; routes.add(); draft.market = el.dataset.market; } go(el.dataset.go); }
+    if (el.dataset.tptab) { tpTab = el.dataset.tptab; render(); return; }
+    if (el.dataset.stktype) { stkType = el.dataset.stktype; render(); return; }
+    if (el.dataset.asset) { assetKeyOpen = el.dataset.asset; go('asset'); return; }
     if (el.dataset.alertopen) { window.openSignalFromAlert(el.dataset.alertopen); return; }
     if ('alcheck' in el.dataset) { if (nb() && nb().checkAlertsNow) { nb().checkAlertsNow(); toast('Checking your holdings in the background…'); setTimeout(render, 20000); } return; }
     if ('altest' in el.dataset) {
@@ -890,6 +1000,11 @@
   });
   document.addEventListener('input', (e) => {
     if (route === 'add' && draft && e.target.id && e.target.id.startsWith('f_')) { readDraft(); const tl = $('#totalLine'); if (tl) tl.innerHTML = totalLine(draft); }
+  });
+  document.addEventListener('input', (e) => {
+    if (e.target.id !== 'cryptoSearch' && e.target.id !== 'stockSearch') return;
+    if (e.target.id === 'cryptoSearch') cryFilter = e.target.value; else stkFilter = e.target.value;
+    const id = e.target.id, pos = e.target.selectionStart; render(); const el = $('#' + id); el.focus(); el.setSelectionRange(pos, pos);
   });
   document.addEventListener('input', (e) => { if (e.target.id === 'aseSearch') { aseFilter = e.target.value; const pos = e.target.selectionStart; render(); const s = $('#aseSearch'); s.focus(); s.setSelectionRange(pos, pos); } });
   $('#refreshBtn').addEventListener('click', () => refresh('all'));

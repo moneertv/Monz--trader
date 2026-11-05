@@ -157,3 +157,11 @@ test('stale flag', () => {
   assert.strictEqual(S.checked(q, Date.parse('2026-11-02T00:00:00Z')).status, 'stale');
   assert.strictEqual(S.checked(q, Date.parse('2026-10-31T12:00:00Z')).status, 'delayed');
 });
+
+test('series packing round-trips', () => {
+  const s = [['2026-01-01', 1.5], ['2026-01-02', 1.6], ['2026-01-05', 1.7]];
+  const p = S.packSeries(s);
+  assert.deepStrictEqual(p.d, [0, 1, 3]);
+  assert.deepStrictEqual(S.unpackSeries(p), s);
+  assert.deepStrictEqual(S.unpackSeries(S.packSeries([])), []);
+});

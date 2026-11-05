@@ -338,6 +338,35 @@
     return s;
   }
 
+  const UNIVERSE_URL = 'https://raw.githubusercontent.com/moneertv/Monz--trader/main/data/universe/';
+  async function fetchUniverse(kind) {
+    const doc = await getJson(UNIVERSE_URL + kind + '.json?t=' + Date.now(), { 'Cache-Control': 'no-cache' });
+    if (!doc || doc.schema !== 1 || !Array.isArray(doc.assets)) throw new SchemaChanged('Universe file ' + kind + ' has an unexpected format');
+    return doc;
+  }
+  /** Live prices for many coins in one request (CoinGecko /coins/markets). */
+  async function fetchCryptoMarkets(ids, apiKey) {
+    const out = {};
+    for (let i = 0; i < ids.length; i += 250) {
+      const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=250&price_change_percentage=24h&ids=' + encodeURIComponent(ids.slice(i, i + 250).join(','));
+      for (const c of await getJson(url, apiKey ? { 'x-cg-demo-api-key': apiKey } : {})) out[c.id] = { price: c.current_price, change24h: c.price_change_percentage_24h, marketCap: c.market_cap, at: c.last_updated };
+    }
+    return out;
+  }
+  /** Compact storage for long price histories: start date + day gaps + closes. */
+  function packSeries(series) {
+    if (!series || !series.length) return { s: null, d: [], c: [] };
+    const d = [], c = [];
+    let prev = Date.parse(series[0][0]);
+    for (const [day, v] of series) { const t = Date.parse(day); d.push(Math.round((t - prev) / 86400000)); prev = t; c.push(v); }
+    return { s: series[0][0], d, c };
+  }
+  function unpackSeries(p) {
+    if (!p || !p.s) return [];
+    let t = Date.parse(p.s);
+    return p.c.map((v, i) => { t += p.d[i] * 86400000; return [new Date(t).toISOString().slice(0, 10), v]; });
+  }
+
   const RESEARCH_URL = 'https://raw.githubusercontent.com/moneertv/Monz--trader/main/data/research/latest.json';
   async function fetchResearch() {
     const doc = await getJson(RESEARCH_URL + '?t=' + Date.now(), { 'Cache-Control': 'no-cache' });
@@ -345,6 +374,6 @@
     return doc;
   }
 
-  root.Sources = { cleanKey, fetchResearch, RESEARCH_URL, SchemaChanged, parseRoya, fetchGold, goldSymbol, xlDate, parseClosingPrices, closingQuotes, parseMarketSummary, discoverXlsx, fetchAse, parseCompanyHistorical, companyQuote, fetchCompanyHistory,
+  root.Sources = { cleanKey, fetchResearch, RESEARCH_URL, fetchUniverse, fetchCryptoMarkets, packSeries, unpackSeries, SchemaChanged, parseRoya, fetchGold, goldSymbol, xlDate, parseClosingPrices, closingQuotes, parseMarketSummary, discoverXlsx, fetchAse, parseCompanyHistorical, companyQuote, fetchCompanyHistory,
     parseCoinGecko, fetchCrypto, parseCoinHistory, fetchCryptoHistory, fetchStock, parseFrankfurter, fetchFxSeries, checked, nativeAvailable: () => !!root.NativeBridge };
 })(typeof window !== 'undefined' ? window : globalThis);
