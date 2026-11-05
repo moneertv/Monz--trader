@@ -11,7 +11,7 @@
  * dropped (and listed under "skipped") rather than published with bad data.
  * Usage: node scripts/universe/build.mjs [crypto|us|all]
  */
-import { writeFileSync, readFileSync, existsSync } from 'node:fs';
+import { writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -213,6 +213,7 @@ async function buildUs() {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const what = process.argv[2] || 'all';
+  mkdirSync(OUT, { recursive: true });
   for (const [kind, fn] of [['crypto', buildCrypto], ['us', buildUs]]) {
     if (what !== 'all' && what !== kind) continue;
     const file = join(OUT, kind + '.json');
