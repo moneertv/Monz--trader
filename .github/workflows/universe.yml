@@ -9,22 +9,21 @@ on:
     branches: [main]
     paths: ['scripts/universe/**', '.github/workflows/universe.yml']
   workflow_dispatch:
-    inputs:
-      what:
-        description: 'crypto, us or all'
-        default: 'all'
 
 permissions:
   contents: write
 
-concurrency:
-  group: universe
-  cancel-in-progress: false
-
 jobs:
   build:
+    strategy:
+      fail-fast: false
+      matrix:
+        kind: [crypto, us]
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 40
+    concurrency:
+      group: universe-${{ matrix.kind }}
+      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -32,22 +31,17 @@ jobs:
           node-version: 22
       - name: Test parsers
         run: node --test tests/universe.test.js
-      - name: Build universe
+      - name: Build ${{ matrix.kind }}
         env:
           COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
-        run: node scripts/universe/build.mjs "${{ github.event.inputs.what || 'all' }}"
+        run: node scripts/universe/build.mjs ${{ matrix.kind }}
         continue-on-error: true
-      - name: Summary
-        run: |
-          for f in data/universe/*.json; do
-            node -e "const d=require('./$f');console.log('::notice title=$f::'+d.assets.length+' assets, '+(d.skipped||[]).length+' skipped, generated '+d.generated_at+' — '+d.source)" || true
-          done
       - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/universe/*.json
-          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
-          git commit -m "Universe update $(date -u +%F)"
-          for i in 1 2 3; do git pull --rebase -q origin main && git push -q origin HEAD:main && exit 0; sleep 5; done
+          git add data/universe/${{ matrix.kind }}.json 2>/dev/null || true
+          if git diff --cached --quiet; then echo "::notice::no new ${{ matrix.kind }} data"; exit 0; fi
+          git commit -m "Universe update (${{ matrix.kind }}) $(date -u +%F)"
+          for i in 1 2 3 4 5; do git pull --rebase -q origin main && git push -q origin HEAD:main && exit 0; sleep $((i*5)); done
           exit 1

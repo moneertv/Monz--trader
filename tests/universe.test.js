@@ -33,3 +33,9 @@ test('history validation', async () => {
   assert.ok(validate(s.slice(0, 50)));
   const bad = s.slice(); bad[100] = [bad[100][0], 50]; assert.ok(/jump/.test(validate(bad)));
 });
+
+test('Kraken pair map', async () => {
+  const { krakenPairs } = await import('../scripts/universe/build.mjs');
+  const m = krakenPairs({ result: { XXBTZUSD: { base: 'XXBT', quote: 'ZUSD' }, SOLUSD: { base: 'SOL', quote: 'USD' }, XDGUSD: { base: 'XXDG', quote: 'ZUSD' }, SOLEUR: { base: 'SOL', quote: 'ZEUR' }, 'XXBTZUSD.d': { base: 'XXBT', quote: 'ZUSD' } } });
+  assert.strictEqual(m.BTC, 'XXBTZUSD'); assert.strictEqual(m.SOL, 'SOLUSD'); assert.strictEqual(m.DOGE, 'XDGUSD');
+});
