@@ -115,13 +115,14 @@
     if (!held.length) return finish('no holdings');
     let research = st.research || null;
     try { research = await root.Sources.fetchResearch(); } catch (e) { /* use the saved copy */ }
-    const seen = new Set(), errors = [];
+    const seen = new Set(), errors = [], prices = {};
     for (const k of held) {
       const key = k.startsWith('GOLD:') ? 'GOLD:GLOBAL' : k;
       if (seen.has(key)) continue;
       seen.add(key);
       try {
         const s = await seriesFor(st, k, research);
+        if (s && Number.isFinite(s.price) && !k.startsWith('GOLD:')) prices[k] = { price: String(s.price), currency: s.currency };
         if (!s || s.series.length < root.Signals.MIN_POINTS) continue;
         const a = root.Signals.analyze({ key: s.key, name: s.name, market: s.market, currency: s.currency, series: s.series, strategy: strategyFor(st, s.market) });
         if (a.insufficient) continue;
@@ -147,9 +148,49 @@
         if (root.NativeBridge) root.NativeBridge.notify(msg.title + ' ★', msg.body, r.key);
       }
     }
+    // Profit target: notify once when a holding's gain in JOD reaches the threshold (default +20%)
+    const pa = (st.settings && st.settings.profitAlert) || { on: true, pct: 20 };
+    if (pa.on !== false) {
+      try {
+        if (held.some((k) => k.startsWith('GOLD:'))) {
+          try {   // physical gold is valued at today's shop-buy (bid) price, like the app
+            const g = await root.Sources.fetchGold(ammanToday());
+            for (const q of g.quotes) if (q.extra && q.extra.bid) prices['GOLD:' + q.symbol] = { price: q.extra.bid.toString(), currency: 'JOD' };
+          } catch (e) { errors.push('gold price: ' + e.message); }
+        }
+        al.profit = al.profit || {};
+        for (const hit of profitHits(st, prices, pa.pct || 20, al.profit)) {
+          out.push(hit);
+          al.log.unshift({ at: new Date().toISOString(), key: hit.key, name: hit.name, action: '+' + (pa.pct || 20) + '% PROFIT', price: hit.price, currency: hit.currency, provisional: false, source: 'profit target', text: hit.body });
+          if (root.NativeBridge) root.NativeBridge.notify(hit.title, hit.body, hit.openKey);
+        }
+      } catch (e) { errors.push('profit check: ' + e.message); }
+    }
     al.log = al.log.slice(0, 100);
     return finish(errors.length ? errors.join('; ') : null);
   }
 
-  root.MonzAlerts = { run, decide, withLive, heldKeys, strategyFor, message, ALERT_KEY };
+  /** Holdings whose JOD gain newly reached `pct`. State per asset: 'above' until it falls 5 points below. */
+  function profitHits(st, prices, pct, state) {
+    const C = root.Core;
+    const fx = new C.FxService(); fx.add(C.CBJ_PEG); for (const r of st.fx || []) fx.add(r);
+    const L = new C.Ledger(fx).applyAll(st.txs || []);
+    const v = L.valuation(prices, ammanToday());
+    const hits = [];
+    for (const r of v.rows) {
+      if (r.retJod === null || r.retJod === undefined) continue;
+      const ret = r.retJod.toNumber();
+      if (ret >= pct && state[r.asset] !== 'above') {
+        state[r.asset] = 'above';
+        const sym = r.asset.split(':').slice(1).join(':');
+        const name = r.asset.startsWith('GOLD:') ? 'Gold ' + sym.replace('GOLD_', '').replace('LIRA_', 'lira ').toLowerCase().replace('k', 'K') : sym;
+        hits.push({ key: r.asset, openKey: r.asset.startsWith('GOLD:') ? 'GOLD:GLOBAL' : r.asset, name, price: r.price ? r.price.toNumber() : null, currency: r.currency,
+          title: '+' + pct + '% profit · ' + name,
+          body: 'Up ' + ret.toFixed(1) + '% (' + r.unrealizedJod.toFixed(3) + ' JOD gain). Value ' + r.valueJod.toFixed(3) + ' JOD. Decide your plan: take some profit, set a stop, or keep holding. Not financial advice.' });
+      } else if (ret < pct - 5) state[r.asset] = 'below';
+    }
+    return hits;
+  }
+
+  root.MonzAlerts = { run, decide, profitHits, withLive, heldKeys, strategyFor, message, ALERT_KEY };
 })(typeof window !== 'undefined' ? window : globalThis);

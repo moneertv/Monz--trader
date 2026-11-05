@@ -43,3 +43,14 @@ test('message says provisional and gives levels', () => {
   const m = A.message({ action: 'STRONG SELL', name: 'JOPH', price: 13.9, currency: 'JOD', levels: { stop: 14.3 }, thesis: 'The trend is negative: price below average. More.' }, true, false);
   assert.ok(/STRONG SELL/.test(m.title) && /provisional/.test(m.body) && /14\.30/.test(m.body));
 });
+
+test('profit alert fires once at the threshold and re-arms after falling back', () => {
+  const st = { txs: [{ type: 'BUY', on: '2026-01-01', asset: 'US:XOM', account: 'default', quantity: '2', price: '100', currency: 'USD', fees: '0' }] };
+  const state = {};
+  assert.strictEqual(A.profitHits(st, { 'US:XOM': { price: '115', currency: 'USD' } }, 20, state).length, 0);
+  const h = A.profitHits(st, { 'US:XOM': { price: '121', currency: 'USD' } }, 20, state);
+  assert.strictEqual(h.length, 1); assert.ok(/Up 21\.0%/.test(h[0].body), h[0].body);
+  assert.strictEqual(A.profitHits(st, { 'US:XOM': { price: '125', currency: 'USD' } }, 20, state).length, 0);   // no repeat
+  A.profitHits(st, { 'US:XOM': { price: '112', currency: 'USD' } }, 20, state);                                  // falls below 15%
+  assert.strictEqual(A.profitHits(st, { 'US:XOM': { price: '122', currency: 'USD' } }, 20, state).length, 1);   // re-armed
+});

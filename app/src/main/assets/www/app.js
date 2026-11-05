@@ -236,6 +236,7 @@
         Object.entries(byMarket).map(([m, x]) => '<span><i class="dot" style="background:' + COLORS[m] + '"></i>' + esc(MARKETS[m]) + ' ' + x.div(total).mul(100).toFixed(1) + '%</span>').join('') + '</div></div>';
     }
     html += '<div class="card"><h2>Holdings</h2>' + (v.rows.length ? v.rows.map(holdingRow).join('') : '<div class="empty">No holdings yet.<br><br><button class="btn gold" data-go="add">Add your first purchase</button></div>') + '</div>';
+    try { html += topPicksCard(3, true); } catch (e) { /* signals not ready */ }
     return html;
   };
   function label(key) {
@@ -522,6 +523,30 @@
     return out;
   }
 
+  // ------------------------------------------------------------------ top picks to watch
+  const ACTION_RANK = { 'STRONG BUY': 3, BUY: 2, ACCUMULATE: 1 };
+  /** Assets you don't hold with a buy signal, best first: STRONG BUY, then BUY, then ACCUMULATE; within each by confidence. */
+  function topPicks(n) {
+    const held = new Set(st.txs.filter((t) => t.asset).map((t) => (t.asset.startsWith('GOLD:') ? GOLD_GLOBAL_KEY : t.asset)));
+    return computeSignals().filter((a) => !a.insufficient && ACTION_RANK[a.action] && !held.has(a.key)
+      && !(a.market === 'ASE' && (a.factors.liquidity < 0 || a.indicators.flatDaysPct > 50)))      // skip thinly traded ASE stocks
+      .sort((x, y) => ACTION_RANK[y.action] - ACTION_RANK[x.action] || y.confidence - x.confidence || y.score - x.score)
+      .slice(0, n);
+  }
+  function topPicksCard(n, compact) {
+    const picks = topPicks(n);
+    let html = '<div class="card"><h2>Top picks to watch</h2>';
+    if (!picks.length) return html + '<div class="sub">No buy signals on assets you don\'t hold right now. Tap Refresh to update.</div></div>';
+    const strong = picks.filter((a) => a.action === 'STRONG BUY').length;
+    if (!compact) html += '<div class="sub" style="margin-bottom:6px">' + (strong ? strong + ' STRONG BUY signal' + (strong > 1 ? 's' : '') + ' — ' : 'No STRONG BUY right now; showing the best buy signals. ') + 'Assets you don\'t hold, ranked by signal then confidence. Thinly traded Amman SE stocks are left out.</div>';
+    html += picks.map((a) => '<div class="list-item"><div class="row"><div class="grow" data-sig="' + esc(a.key) + '"><b>' + esc(a.name) + '</b>' +
+      '<div class="sub">' + esc(MARKETS[a.market]) + ' · ' + num(a.price) + ' ' + esc(a.currency) + ' · conf. ' + a.confidence + '% · score ' + a.score +
+      (a.levels && Number.isFinite(a.levels.target) ? ' · target ' + num(a.levels.target) + ', stop ' + num(a.levels.stop) : '') + '</div></div>' +
+      '<div style="text-align:right"><span class="pill ' + pillCls(a.action) + '" data-sig="' + esc(a.key) + '">' + esc(a.action) + '</span>' +
+      (a.market === 'GOLD' ? '' : '<div><button class="btn ghost small" style="margin-top:6px" data-sigbuy="' + esc(a.key) + '">+ Add</button></div>') + '</div></div></div>').join('');
+    return html + '<div class="sub" style="margin-top:6px">"+ Add" records a purchase you made at your broker or exchange; the app never buys anything itself. Not financial advice.</div></div>';
+  }
+
   // ------------------------------------------------------------------ strategy test (backtest)
   let btRunning = false, btProgress = '';
   async function runStrategyTest() {
@@ -613,6 +638,7 @@
         '<div class="sub" style="margin-top:6px">★ = from the scheduled research run (price model + cited news and fundamentals).</div></div>';
     }
     html += stratCard;
+    if (sigFilter === 'all') html += topPicksCard(10, false);
     html += '<div class="seg">' + filters.map(([k, l]) => '<button data-sigf="' + k + '" class="' + (sigFilter === k ? 'on' : '') + '">' + l + '</button>').join('') + '</div>';
     if (!ok.length) html += '<div class="card empty">No signals yet. Tap Refresh to load price history.</div>';
     else {
@@ -733,7 +759,7 @@
     const log = (alertsState().log || []).filter((x) => Date.now() - Date.parse(x.at) < 7 * 86400000).slice(0, 4);
     if (!log.length) return '';
     return '<div class="card"><h2>Strong-signal alerts</h2>' + log.map((x) => '<div class="list-item" data-alertopen="' + esc(x.key) + '"><div class="row"><div class="grow"><b>' + esc(x.name) + '</b>' +
-      '<div class="sub">' + esc(localTime(x.at)) + ' · ' + esc(x.source) + (x.provisional ? ' · intraday' : '') + '</div></div><span class="pill ' + pillCls(x.action) + '">' + esc(x.action) + '</span></div></div>').join('') + '</div>';
+      '<div class="sub">' + esc(localTime(x.at)) + ' · ' + esc(x.source) + (x.provisional ? ' · intraday' : '') + '</div></div><span class="pill ' + (x.source === 'profit target' ? 'buy' : pillCls(x.action)) + '">' + esc(x.action) + '</span></div></div>').join('') + '</div>';
   }
   window.openSignalFromAlert = (key) => {
     const r = researchFor(key);
@@ -745,11 +771,13 @@
     const a = st.settings.alerts || { on: false, minutes: 15 }, as = alertsState();
     const allowed = nb() && nb().notificationsAllowed ? nb().notificationsAllowed() : false;
     return '<div class="card"><h2>Strong-signal alerts</h2>' +
-      '<label style="display:flex;align-items:center;gap:10px;color:var(--text);font-size:15px;margin-top:0"><input type="checkbox" id="al_on" style="width:auto"' + (a.on ? ' checked' : '') + '> Notify me when a holding turns STRONG BUY or STRONG SELL</label>' +
+      '<label style="display:flex;align-items:center;gap:10px;color:var(--text);font-size:15px;margin-top:0"><input type="checkbox" id="al_on" style="width:auto"' + (a.on ? ' checked' : '') + '> Background alerts on (checks below run only when this is on)</label><div class="sub">Notifies you when a holding turns STRONG BUY or STRONG SELL.</div>' +
       '<label>Check every</label><select id="al_min">' + [15, 30, 60].map((m) => '<option value="' + m + '"' + ((a.minutes || 15) === m ? ' selected' : '') + '>' + m + ' minutes</option>').join('') + '</select>' +
       '<div class="sub" style="margin-top:8px">' + (allowed ? 'Notifications are allowed.' : '<span class="warn">Notifications are not allowed yet for Monz Trader.</span>') +
       (as.lastCheck ? ' Last check ' + esc(ago(as.lastCheck)) + (as.lastError && as.lastError !== 'alerts are off' ? ' — ' + esc(as.lastError) : '') + '.' : ' No background check has run yet.') +
       ' Android may delay checks when the phone is idle or in battery saver.</div>' +
+      '<label style="display:flex;align-items:center;gap:10px;color:var(--text);font-size:15px;margin-top:14px"><input type="checkbox" id="pa_on" style="width:auto"' + (((st.settings.profitAlert || {}).on !== false) ? ' checked' : '') + '> Notify me when a holding reaches a profit of</label>' +
+      '<div class="row" style="gap:8px;margin-top:6px"><input id="pa_pct" inputmode="decimal" style="width:90px" value="' + esc(String((st.settings.profitAlert || {}).pct || 20)) + '"><span class="sub">% (in JOD, after the fees you entered)</span></div>' +
       '<div class="row" style="margin-top:10px;gap:8px"><button class="btn ghost small grow" data-alcheck>Check now</button><button class="btn ghost small grow" data-altest>Test notification</button></div>' +
       '<div class="sub" style="margin-top:8px">Intraday alerts use the latest price as a provisional close, so a signal can disappear by the end of the day. Amman SE prices are end of day only.</div></div>';
   }
@@ -844,6 +872,10 @@
       if (id === 'f_market') { draft.symbol = draft.market === 'GOLD' ? 'GOLD_21K' : ''; draft.currency = MARKET_CCY[draft.market]; }
       render();
     } else if (id === 's_finnhub' || id === 's_cg') { saveKeys(false);
+    } else if (id === 'pa_on' || id === 'pa_pct') {
+      const v = Number($('#pa_pct').value);
+      st.settings.profitAlert = { on: $('#pa_on').checked, pct: Number.isFinite(v) && v > 0 ? v : 20 }; save();
+      toast(st.settings.profitAlert.on ? 'Profit alert at +' + st.settings.profitAlert.pct + '%' : 'Profit alert off');
     } else if (id === 'al_on' || id === 'al_min') {
       st.settings.alerts = { on: $('#al_on').checked, minutes: Number($('#al_min').value) || 15 }; save();
       if (st.settings.alerts.on && nb() && nb().notificationsAllowed && !nb().notificationsAllowed()) nb().requestNotificationPermission();
