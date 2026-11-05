@@ -41,8 +41,8 @@
   "strategies": {
     "_note": "Signal strategy per market used by the research (trend | balanced | dip). Set from the app's strategy test.",
     "ASE": "trend",
-    "GOLD": "trend",
-    "US": "trend",
+    "GOLD": "balanced",
+    "US": "balanced",
     "CRYPTO": "trend"
   }
 }
