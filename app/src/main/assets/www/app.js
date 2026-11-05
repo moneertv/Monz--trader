@@ -299,14 +299,19 @@
     const why = m === 'US' && !a ? 'waits for daily research' : a && a.insufficient ? 'not enough history' : 'refresh for signal';
     return '<span class="pill hold" style="margin-top:4px;display:inline-block;font-weight:500">' + esc(why) + '</span>';
   }
+  /** Percentage coloured green for a gain, red for a loss (the rest of the line stays grey). */
+  function pctSpan(x) {
+    const v = d(x), cls = !v || v.isZero() ? '' : v.gt(0) ? 'pct-up' : 'pct-down';
+    return '<span class="' + cls + '">' + signed(x, 2, '%') + '</span>';
+  }
   function holdingRow(r) {
     const m = r.asset.split(':')[0], q = st.quotes[r.asset];
     const unit = m === 'GOLD' ? (r.asset.includes('LIRA') ? ' pcs' : ' g') : '';
     return '<div class="list-item"><div class="row"><i class="dot" style="background:' + COLORS[m] + '"></i><div class="grow"><b>' + esc(label(r.asset)) + '</b>' +
       '<div class="sub">' + esc(r.quantity.toString()) + unit + ' · avg ' + fmt(r.avgCost, m === 'CRYPTO' ? 4 : 3) + ' ' + esc(r.currency) + (q ? ' · ' + statusTag(q) : '') + '</div></div>' +
       '<div style="text-align:right"><div>' + (r.valueJod ? jod(r.valueJod) : '<span class="muted">no price</span>') + '</div>' +
-      '<div class="sub ' + signCls(r.unrealizedJod) + '">' + (r.retJod ? signed(r.unrealizedJod, 3) + ' (' + signed(r.retJod, 2, '%') + ')' : '') + '</div>' +
-      (r.currency !== 'JOD' && r.retNative ? '<div class="sub">in ' + esc(r.currency) + ': ' + signed(r.retNative, 2, '%') + '</div>' : '') + signalBadge(r.asset) + '</div></div></div>';
+      '<div class="sub">' + (r.retJod ? signed(r.unrealizedJod, 3) + ' (' + pctSpan(r.retJod) + ')' : '') + '</div>' +
+      (r.currency !== 'JOD' && r.retNative ? '<div class="sub">in ' + esc(r.currency) + ': ' + pctSpan(r.retNative) + '</div>' : '') + signalBadge(r.asset) + '</div></div></div>';
   }
 
   routes.gold = () => {
