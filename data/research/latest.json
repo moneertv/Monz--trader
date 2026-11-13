@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-12T12:52:32.580Z",
+  "generated_at": "2026-11-13T12:44:51.549Z",
   "generator": "Monz Trader scheduled research (trader-skill)",
   "disclaimer": "Research summary built from cited public sources and a rules-based price model. Not financial advice.",
   "assets": [
@@ -11,15 +11,15 @@
       "held": true,
       "data_gaps": [
         "No named analyst ratings or price targets",
-        "No company news found for the last two weeks",
-        "Prior-year 9M comparison not re-verified today (earlier runs: about -24% YoY)",
-        "Debt and P/B not re-verified today"
+        "No new company news found in the last two weeks",
+        "ASE closed Fri 13 Nov; latest close is 12 Nov",
+        "Debt and P/B not re-verified"
       ],
       "currency": "JOD",
       "price": {
         "value": 13.69,
         "as_of": "2026-11-12",
-        "source": "Amman Stock Exchange (exchange.jo company_historical: 12 Nov close 13.69 and Last Closing 13.73 (11 Nov) from the Performance Indicators header 12/11/2026; 20 Sep-15 Oct re-verified today on page 1); earlier closes carried from prior runs",
+        "source": "Amman Stock Exchange (exchange.jo company_historical: 12 Nov close (latest session; ASE closed Fri 13 Nov) 13.69 and Last Closing 13.73 (11 Nov) from the Performance Indicators header 12/11/2026; 20 Sep-15 Oct verified 12 Nov on page 1); earlier closes carried from prior runs",
         "url": "https://exchange.jo/en/company_historical/JOPH?page=0",
         "points": 105
       },
@@ -582,7 +582,7 @@
         "technical_action": "REDUCE",
         "changed_reason": null,
         "confidence": 80,
-        "thesis": "The price model still says REDUCE: JOPH closed at 13.69 JOD on 12 Nov, about 9% below its falling 50-day average and down nearly 8% over 20 days, though it has steadied near its 20-day average this week. The decline followed 9M 2026 results in which sharply higher sulfur and ammonia costs squeezed profit despite higher sales. The ASE shows a P/E of about 14 and a dividend figure of about 7.5, which cushions but does not reverse the downtrend.",
+        "thesis": "The price model still says REDUCE: JOPH's last close was 13.69 JOD on Thu 12 Nov (the ASE is closed Friday), about 9% below its falling 50-day average and down nearly 8% over 20 days. The slide followed 9M 2026 results in which sulfur (+166%) and ammonia (+58%) costs squeezed profit despite 8% higher sales. A P/E near 14 and a high dividend figure cushion the stock but do not reverse the downtrend.",
         "levels": {
           "entryLow": null,
           "entryHigh": null,
@@ -593,8 +593,7 @@
         },
         "risks": [
           "Further rises in sulfur/ammonia costs",
-          "Lower global phosphate and fertilizer prices",
-          "Natural-gas supply interruptions",
+          "Lower global phosphate prices",
           "no company financials are included in this score",
           "signals use past prices only; they do not predict the future"
         ],
@@ -612,13 +611,13 @@
       "data_gaps": [
         "No named analyst coverage",
         "No Q3 2026 results found",
-        "Amman-Beijing route news not re-verified today"
+        "No new company news found today"
       ],
       "currency": "JOD",
       "price": {
         "value": 0.53,
         "as_of": "2026-11-12",
-        "source": "Amman Stock Exchange (exchange.jo company_historical: 12 Nov close 0.53 from Performance Indicators header 12/11/2026; 11 Nov 0.53 and 15 Sep-12 Oct re-verified today on page 1); earlier closes carried from prior runs",
+        "source": "Amman Stock Exchange (exchange.jo company_historical: 12 Nov close (latest session; ASE closed Fri 13 Nov) 0.53 from Performance Indicators header 12/11/2026; 11 Nov 0.53 and 15 Sep-12 Oct verified 12 Nov on page 1); earlier closes carried from prior runs",
         "url": "https://exchange.jo/en/company_historical/RJAL?page=0",
         "points": 124
       },
@@ -1238,10 +1237,10 @@
       "news": [
         {
           "date": "2026-11-12",
-          "headline": "Brent falls 1.2% to $91.7, WTI $85.6 on Iran/Ukraine peace hopes, higher OPEC+ output and a 9m-barrel API crude build - lower jet fuel costs would help",
-          "source": "HDFC Sky",
-          "url": "https://hdfcsky.com/news/brent-crude-oil-price-today-november-12-2026-brent-falls-1-2percent-to-91-7-as-peace-hopes-weigh",
-          "impact": "positive"
+          "source": "CappNotes",
+          "url": "https://cappnotes.substack.com/p/closing-look-thursday-november-12",
+          "headline": "Brent rebounds 3.30% to $95.82 on 12 Nov as Middle East peace hopes fade - higher jet fuel costs weigh on airlines",
+          "impact": "negative"
         },
         {
           "date": "2026-11-03",
@@ -1257,7 +1256,7 @@
         "technical_action": "HOLD",
         "changed_reason": null,
         "confidence": 26,
-        "thesis": "The price model says HOLD with low confidence: RJAL has closed at 0.53 JOD on almost every session, right on its 20- and 50-day averages, so there is no real trend. Lower oil (Brent near $92) helps fuel costs, but H1 2026 profit was only JOD 1.4m and the stock trades very thinly on the OTC market.",
+        "thesis": "The price model says HOLD with low confidence: RJAL keeps closing at 0.53 JOD, right on its 20- and 50-day averages, so there is no trend. Oil bounced back to about $96 Brent on 12 Nov as peace hopes faded, which is a fuel-cost headwind; H1 2026 profit was only JOD 1.4m and trading on the OTC market is very thin.",
         "levels": {
           "entryLow": null,
           "entryHigh": null,
@@ -1285,23 +1284,18 @@
       "market": "GOLD",
       "held": true,
       "data_gaps": [
-        "12 Nov close not yet available",
-        "Gold ETF flows for October not found today",
-        "No named analyst forecasts collected today"
+        "13 Nov close not yet final (series ends 12 Nov)",
+        "Gold ETF flows for October not found today"
       ],
       "currency": "JOD",
       "price": {
-        "value": 90.66,
-        "as_of": "2026-11-11",
-        "source": "PAX Gold USD closes converted to JOD/g 24K (x0.709/31.1034768): 28 Oct-11 Nov from CoinLore fetched today (11 Nov close $3,977); earlier closes from prior runs (Coinranking/CoinLore/CoinGecko)",
-        "url": "https://www.coinlore.com/coin/pax-gold/historical-data",
+        "value": 88.54,
+        "as_of": "2026-11-12",
+        "source": "PAX Gold USD closes converted to JOD/g 24K (x0.709/31.1034768): 12 Nov close $3,884 and 24 Oct-11 Nov re-verified on CoinLore today; earlier closes from prior runs (Coinranking/CoinLore/CoinGecko)",
+        "url": "https://coinlore.com/coin/pax-gold/historical-data",
         "points": 261
       },
       "series": [
-        [
-          "2026-02-05",
-          107.19
-        ],
         [
           "2026-02-06",
           112.67
@@ -2337,13 +2331,17 @@
         [
           "2026-11-11",
           90.66
+        ],
+        [
+          "2026-11-12",
+          88.54
         ]
       ],
       "technical": {
         "strategy": "balanced",
         "action": "HOLD",
-        "score": 0,
-        "confidence": 62,
+        "score": 5,
+        "confidence": 63,
         "levels": {
           "entryLow": null,
           "entryHigh": null,
@@ -2353,60 +2351,61 @@
           "horizon": "3–6 weeks"
         },
         "indicators": {
-          "price": 90.66,
-          "sma20": 91.43900000000001,
-          "sma50": 93.64540000000001,
-          "sma200": 97.53539999999995,
-          "rsi14": 42.19855407399896,
-          "macd": -0.46871221345604397,
-          "macdSignal": -0.7174970902641093,
-          "macdHist": 0.24878487680806538,
-          "bbUpper": 94.33951828399503,
-          "bbLower": 88.53848171600498,
-          "bbPctB": 0.3657136546426008,
-          "change20": -1.4458093271007666,
-          "change60": -8.691711149159042,
-          "volAnnualPct": 22.84229782677606,
+          "price": 88.54,
+          "sma20": 91.30300000000001,
+          "sma50": 93.4608,
+          "sma200": 97.44539999999998,
+          "rsi14": 35.51169351573351,
+          "macd": -0.7016984440135445,
+          "macdSignal": -0.7143373577447423,
+          "macdHist": 0.012638913731197743,
+          "bbUpper": 94.48068601675067,
+          "bbLower": 88.12531398324936,
+          "bbPctB": 0.06524968397832584,
+          "change20": -2.98049528818759,
+          "change60": -10.448063113178918,
+          "volAnnualPct": 23.20058462399717,
           "support": 88.85,
           "resistance": 99.61,
-          "maxDrawdownPct": -28.288942695722362,
+          "maxDrawdownPct": -28.539144471347853,
           "flatDaysPct": 3.3333333333333335,
           "points": 261
         },
         "factors": {
-          "trend": -68.18342337817423,
-          "momentum": -8.16665960672115,
-          "meanReversion": 27.560795536446545,
-          "risk": 6.473106519671816,
+          "trend": -84.60472766379162,
+          "momentum": -32.8181073791082,
+          "meanReversion": 62.30578517196667,
+          "risk": 5.398246128008491,
           "liquidity": 30,
           "portfolio": 30
         },
         "contributions": {
-          "trend": -13.636684675634845,
-          "momentum": -1.2249989410081725,
-          "meanReversion": 9.64627843775629,
-          "risk": 0.9709659779507724,
+          "trend": -16.920945532758324,
+          "momentum": -4.92271610686623,
+          "meanReversion": 21.807024810188338,
+          "risk": 0.8097369192012737,
           "liquidity": 3,
           "portfolio": 1.5
         },
         "why": {
           "trend": [
-            "price below 50-day average by 3.2%",
+            "price below 50-day average by 5.3%",
             "below 200-day average",
             "50-day average falling"
           ],
           "momentum": [
-            "20-day change -1.4%",
-            "60-day change -8.7%",
-            "MACD above its signal line"
+            "20-day change -3.0%",
+            "60-day change -10.4%",
+            "MACD above its signal line",
+            "closed below its 60-day low (breakdown)"
           ],
           "meanReversion": [
-            "RSI 42: below the middle (a dip)",
-            "at 37% of its Bollinger band (0% = lower band)"
+            "RSI 36: below the middle (a dip)",
+            "at 7% of its Bollinger band (0% = lower band)"
           ],
           "risk": [
             "annualised volatility 23%",
-            "max drawdown -28% over the period"
+            "max drawdown -29% over the period"
           ],
           "liquidity": [
             "liquid market"
@@ -2415,7 +2414,7 @@
             "not in your portfolio yet (adds diversification)"
           ]
         },
-        "thesis": "The trend is negative: price below 50-day average by 3.2%. Also, RSI 42: below the middle (a dip). Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 23% a year; recent range 88.85–99.61 JOD.",
+        "thesis": "The trend is negative: price below 50-day average by 5.3%. Also, RSI 36: below the middle (a dip). Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 23% a year; recent range 88.85–99.61 JOD.",
         "risks": [
           "signals use past prices only; they do not predict the future"
         ],
@@ -2425,15 +2424,15 @@
       },
       "fundamentals": [
         {
-          "label": "Spot gold 11 Nov",
-          "value": "About $3,983.20/oz (-1.21%), below $4,000 as the dollar index rose ~0.7% toward 102.90",
-          "as_of": "2026-11-11",
-          "source": "Kitco",
-          "url": "https://www.kitco.com/news/article/2026-11-11/gold-falls-below-4000-dollar-surges-fed-hike-bets-rise-kitco-pm-report"
+          "label": "Spot gold 13 Nov",
+          "value": "$3,918.59/oz (+1.1% at 05:18 GMT), down 3.6% on the week; futures hit lowest since Oct 2025 on 12 Nov",
+          "as_of": "2026-11-13",
+          "source": "Business Recorder (Reuters)",
+          "url": "https://www.brecorder.com/news/40448728/gold-rises-on-bargain-hunting-but-heads-for-weekly-decline"
         },
         {
-          "label": "December Fed hike odds",
-          "value": "87.1% for 25bp, 12.9% for 50bp (futures)",
+          "label": "Spot gold 11 Nov",
+          "value": "About $3,983.20/oz (-1.21%), below $4,000 as the dollar index rose ~0.7% toward 102.90",
           "as_of": "2026-11-11",
           "source": "Kitco",
           "url": "https://www.kitco.com/news/article/2026-11-11/gold-falls-below-4000-dollar-surges-fed-hike-bets-rise-kitco-pm-report"
@@ -2448,34 +2447,56 @@
       ],
       "news": [
         {
+          "date": "2026-11-12",
+          "source": "CappNotes",
+          "url": "https://cappnotes.substack.com/p/closing-look-thursday-november-12",
+          "headline": "Gold futures fall 2.88% to $3,885.30, lowest since October 2025, as the 10-year yield climbs to 5.10%",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-11-13",
+          "source": "Business Recorder (Reuters)",
+          "url": "https://www.brecorder.com/news/40448728/gold-rises-on-bargain-hunting-but-heads-for-weekly-decline",
+          "headline": "Gold rebounds 1.1% to ~$3,919 on bargain hunting but heads for a 3.6% weekly loss",
+          "impact": "neutral"
+        },
+        {
+          "date": "2026-11-13",
+          "source": "Business Recorder (Reuters)",
+          "url": "https://www.brecorder.com/news/40448728/gold-rises-on-bargain-hunting-but-heads-for-weekly-decline",
+          "headline": "CME FedWatch: 89% chance of a 25bp December Fed hike, 11% of 50bp; NY Fed's Williams says more hikes likely",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-11-07",
+          "source": "ad-hoc-news",
+          "url": "https://www.ad-hoc-news.de/boerse/news/unternehmensnachrichten/goldman-slashes-gold-targets-as-hawkish-fed-talk-collides-with-central-bank-buying/70504075",
+          "headline": "Goldman Sachs cuts end-2026 gold target to $4,150 from $4,650 on hawkish Fed",
+          "impact": "negative"
+        },
+        {
           "date": "2026-11-11",
           "headline": "Gold falls below $4,000 as dollar surges and Fed hike bets rise after hot October CPI (+0.4% m/m)",
           "source": "Kitco",
           "url": "https://www.kitco.com/news/article/2026-11-11/gold-falls-below-4000-dollar-surges-fed-hike-bets-rise-kitco-pm-report",
           "impact": "negative"
-        },
-        {
-          "date": "2026-11-11",
-          "headline": "Fed-hike bets firm after hot October CPI: futures price ~87% odds of a 25bp December hike and ~13% of 50bp; Goolsbee called CPI \"borderline disturbing\"",
-          "source": "Kitco / CappNotes",
-          "url": "https://www.kitco.com/news/article/2026-11-11/gold-falls-below-4000-dollar-surges-fed-hike-bets-rise-kitco-pm-report",
-          "impact": "negative"
-        },
-        {
-          "date": "2026-11-11",
-          "headline": "US stocks rally: S&P 500 +1.31% to 7,619.38, Nasdaq +1.60%, tech +3.23%, PHLX semis +5.7% after CoreWeave beat",
-          "source": "CappNotes",
-          "url": "https://cappnotes.substack.com/p/closing-look-wednesday-november-11",
-          "impact": "positive"
         }
       ],
-      "analysts": [],
+      "analysts": [
+        {
+          "label": "Goldman Sachs gold target",
+          "value": "End-2026 cut to $4,150/oz (from $4,650); end-2027 $4,800 (from $5,400), citing tighter Fed policy",
+          "as_of": "2026-11-07",
+          "source": "ad-hoc-news",
+          "url": "https://www.ad-hoc-news.de/boerse/news/unternehmensnachrichten/goldman-slashes-gold-targets-as-hawkish-fed-talk-collides-with-central-bank-buying/70504075"
+        }
+      ],
       "recommendation": {
-        "action": "HOLD",
+        "action": "REDUCE",
         "technical_action": "HOLD",
-        "changed_reason": null,
-        "confidence": 62,
-        "thesis": "The price model says HOLD: gold (90.66 JOD/g on 11 Nov) sits below its falling 50- and 200-day averages with RSI near 42, so the trend is weak but not breaking down. A stronger dollar and near-certain December Fed hike are headwinds, while record-level central-bank buying (321t in Q3) keeps supporting prices.",
+        "changed_reason": "12 Nov close (88.54 JOD/g) broke below the model's 88.85 breakdown level; gold futures hit their lowest since Oct 2025 with the 10-year yield at 5.10% (CappNotes), 89% odds of a December Fed hike (Reuters via Business Recorder) and Goldman cutting its end-2026 target to $4,150 (ad-hoc-news).",
+        "confidence": 63,
+        "thesis": "The price model says HOLD, but gold closed at 88.54 JOD/g on 12 Nov, just below the 88.85 breakdown level it had flagged, after futures fell 2.9% to their lowest since October 2025 as the US 10-year yield hit 5.10%. Markets price an 89% chance of a December Fed hike and Goldman has cut its end-2026 target to $4,150, so the review trims the call to REDUCE. Record central-bank buying (321t in Q3) and a 1.1% rebound on 13 Nov are the offsets.",
         "levels": {
           "entryLow": null,
           "entryHigh": null,
@@ -2485,9 +2506,9 @@
           "horizon": "3–6 weeks"
         },
         "risks": [
-          "Fed hikes and a rising dollar",
-          "Rotation into equities",
-          "Iran peace deal reducing safe-haven demand",
+          "Fed hikes and a strong dollar",
+          "US yields above 5%",
+          "Rotation out of safe havens on an Iran deal",
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
@@ -2502,15 +2523,16 @@
       "held": true,
       "data_gaps": [
         "9 Nov US close not found (series skips that day)",
-        "Latest P/E based on 6 Nov price"
+        "Reason for the 12 Nov 2.4% fall not confirmed from a fetched article",
+        "P/E and consensus last checked 6 Nov (StockAnalysis)"
       ],
       "currency": "USD",
       "price": {
-        "value": 1534.42,
-        "as_of": "2026-11-11",
-        "source": "StockAnalysis / Yahoo Finance (prior runs; 19 Oct-6 Nov re-verified today on StockAnalysis and Yahoo); 10 Nov close 1,507.85 (previous close) and 11 Nov close 1,534.42 from Twelve Data (11 Nov also on DeBelegger); 9 Nov close not found",
-        "url": "https://twelvedata.com/markets/346040/stock/nasdaq/asml/historical-data",
-        "points": 253
+        "value": 1497.12,
+        "as_of": "2026-11-12",
+        "source": "INDmoney (12 Nov close $1,497.12, previous close $1,534.42, fetched 13 Nov); earlier closes from StockAnalysis/Yahoo/Twelve Data in prior runs; 9 Nov close not found",
+        "url": "https://www.indmoney.com/us-stocks/asml-holding-nv-share-price-asml",
+        "points": 254
       },
       "series": [
         [
@@ -3524,72 +3546,76 @@
         [
           "2026-11-11",
           1534.42
+        ],
+        [
+          "2026-11-12",
+          1497.12
         ]
       ],
       "technical": {
         "strategy": "balanced",
         "action": "REDUCE",
-        "score": -29,
-        "confidence": 69,
+        "score": -27,
+        "confidence": 68,
         "levels": {
           "entryLow": null,
           "entryHigh": null,
-          "target": 1127.5646812473428,
-          "stop": 1901.9512,
-          "riskReward": 1.1069953210847334,
+          "target": 1105.7384247147577,
+          "stop": 1885.9831,
+          "riskReward": 1.0064765087899628,
           "horizon": "3–6 weeks"
         },
         "indicators": {
-          "price": 1534.42,
-          "sma20": 1578.256,
-          "sma50": 1670.2551999999998,
-          "sma200": 1601.3493000000005,
-          "rsi14": 44.81569914341542,
-          "macd": -62.46305219781789,
-          "macdSignal": -54.0212107881622,
-          "macdHist": -8.441841409655687,
-          "bbUpper": 1751.696413842,
-          "bbLower": 1404.815586158,
-          "bbPctB": 0.37362806906141993,
-          "change20": -10.673202309985097,
-          "change60": -18.51714176473086,
-          "volAnnualPct": 51.30051983109385,
+          "price": 1497.12,
+          "sma20": 1570.612,
+          "sma50": 1666.8947999999998,
+          "sma200": 1601.5619500000007,
+          "rsi14": 42.26261727008683,
+          "macd": -60.681489563163495,
+          "macdSignal": -55.35326654316246,
+          "macdHist": -5.328223020001033,
+          "bbUpper": 1744.2145258850926,
+          "bbLower": 1397.0094741149076,
+          "bbPctB": 0.2883325728548314,
+          "change20": -9.265454545454554,
+          "change60": -16.96413715071715,
+          "volAnnualPct": 51.27661957920759,
           "support": 1356.65,
-          "resistance": 1883.12,
+          "resistance": 1867.31,
           "maxDrawdownPct": -31.807443300627313,
           "flatDaysPct": 0,
-          "points": 253
+          "points": 254
         },
         "factors": {
-          "trend": -81.51143523763295,
-          "momentum": -85,
-          "meanReversion": 20.543067997776248,
-          "risk": -78.90155949328155,
+          "trend": -91.24508326839418,
+          "momentum": -82.06181818181821,
+          "meanReversion": 32.04350245349305,
+          "risk": -78.82985873762277,
           "liquidity": 30,
           "portfolio": 30
         },
         "contributions": {
-          "trend": -16.30228704752659,
-          "momentum": -12.75,
-          "meanReversion": 7.190073799221686,
-          "risk": -11.835233923992233,
+          "trend": -18.249016653678837,
+          "momentum": -12.309272727272733,
+          "meanReversion": 11.215225858722567,
+          "risk": -11.824478810643416,
           "liquidity": 3,
           "portfolio": 1.5
         },
         "why": {
           "trend": [
-            "price below 50-day average by 8.1%",
+            "price below 50-day average by 10.2%",
             "below 200-day average",
             "50-day average falling"
           ],
           "momentum": [
-            "20-day change -10.7%",
-            "60-day change -18.5%",
+            "20-day change -9.3%",
+            "60-day change -17.0%",
             "MACD below its signal line"
           ],
           "meanReversion": [
-            "RSI 45: below the middle (a dip)",
-            "at 37% of its Bollinger band (0% = lower band)"
+            "RSI 42: below the middle (a dip)",
+            "at 29% of its Bollinger band (0% = lower band)"
           ],
           "risk": [
             "annualised volatility 51%",
@@ -3602,14 +3628,14 @@
             "not in your portfolio yet (adds diversification)"
           ]
         },
-        "thesis": "The momentum is negative: 20-day change -10.7%. Also, price below 50-day average by 8.1%. Volatility is 51% a year; recent range 1357–1883 USD.",
+        "thesis": "The trend is negative: price below 50-day average by 10.2%. Also, 20-day change -9.3%. Volatility is 51% a year; recent range 1357–1867 USD.",
         "risks": [
           "high volatility (51% a year): position size accordingly",
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close above 1902 USD",
-          "price recovering above the 50-day average (1670)"
+          "a close above 1886 USD",
+          "price recovering above the 50-day average (1667)"
         ]
       },
       "fundamentals": [
@@ -3666,17 +3692,24 @@
       "news": [
         {
           "date": "2026-11-12",
+          "source": "CappNotes",
+          "url": "https://cappnotes.substack.com/p/closing-look-thursday-november-12",
+          "headline": "US stocks dip: S&P 500 -0.35% to 7,592.40, Nasdaq -0.39%; 10-year yield +12bp to 5.10%; Nvidia -4.34% after CEO Jensen Huang resigned",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-11-13",
+          "source": "Business Recorder (Reuters)",
+          "url": "https://www.brecorder.com/news/40448728/gold-rises-on-bargain-hunting-but-heads-for-weekly-decline",
+          "headline": "CME FedWatch: 89% chance of a 25bp December Fed hike, 11% of 50bp; NY Fed's Williams says more hikes likely",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-11-12",
           "headline": "US MATCH Act folded into FY2027 defence bill; could widen limits on ASML DUV sales to China (23% of Q3 system sales)",
           "source": "ad-hoc-news",
           "url": "https://ad-hoc-news.de/boerse/news/unternehmensnachrichten/asml-s-china-exposure-hinges-on-match-act-loopholes-as-buyback-programme-rolls-on/70496231",
           "impact": "negative"
-        },
-        {
-          "date": "2026-11-11",
-          "headline": "US stocks rally: S&P 500 +1.31% to 7,619.38, Nasdaq +1.60%, tech +3.23%, PHLX semis +5.7% after CoreWeave beat",
-          "source": "CappNotes",
-          "url": "https://cappnotes.substack.com/p/closing-look-wednesday-november-11",
-          "impact": "positive"
         },
         {
           "date": "2026-11-09",
@@ -3684,13 +3717,6 @@
           "source": "ASML / GlobeNewswire",
           "url": "https://www.globenewswire.com/news-release/2026/11/09/3398321/0/en/asml-reports-transactions-under-its-current-share-buyback-program.html",
           "impact": "positive"
-        },
-        {
-          "date": "2026-11-11",
-          "headline": "Fed-hike bets firm after hot October CPI: futures price ~87% odds of a 25bp December hike and ~13% of 50bp; Goolsbee called CPI \"borderline disturbing\"",
-          "source": "Kitco / CappNotes",
-          "url": "https://www.kitco.com/news/article/2026-11-11/gold-falls-below-4000-dollar-surges-fed-hike-bets-rise-kitco-pm-report",
-          "impact": "negative"
         }
       ],
       "analysts": [
@@ -3706,14 +3732,14 @@
         "action": "REDUCE",
         "technical_action": "REDUCE",
         "changed_reason": null,
-        "confidence": 69,
-        "thesis": "The price model still says REDUCE: even after rebounding to $1,534.42 on 11 Nov, ASML is below its falling 20- and 50-day averages and down about 11% over 20 days. Fundamentals are strong (record Q3, FY sales guided to EUR 44-45bn, Strong Buy consensus, heavy buybacks), so this is a trend warning rather than a business problem; the new US MATCH Act push on China exports is the main fresh risk.",
+        "confidence": 68,
+        "thesis": "The price model still says REDUCE: ASML fell 2.4% to $1,497.12 on 12 Nov and sits about 10% below its falling 50-day average, down 9% over 20 days. The business looks strong (record Q3, FY sales guided to EUR 44-45bn, Strong Buy consensus, steady buybacks), so this is a trend warning, made worse by rising yields, Nvidia's CEO exit and the US MATCH Act push on China sales.",
         "levels": {
           "entryLow": null,
           "entryHigh": null,
-          "target": 1127.5646812473428,
-          "stop": 1901.9512,
-          "riskReward": 1.1069953210847334,
+          "target": 1105.7384247147577,
+          "stop": 1885.9831,
+          "riskReward": 1.0064765087899628,
           "horizon": "3–6 weeks"
         },
         "risks": [
@@ -3724,8 +3750,8 @@
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close above 1902 USD",
-          "price recovering above the 50-day average (1670)"
+          "a close above 1886 USD",
+          "price recovering above the 50-day average (1667)"
         ]
       }
     },
@@ -3740,11 +3766,11 @@
       ],
       "currency": "USD",
       "price": {
-        "value": 70.61,
-        "as_of": "2026-11-11",
-        "source": "Yahoo Finance via the repo universe update of 2026-11-12 (11 Nov close 70.61; its 6-10 Nov closes match prior runs) and prior runs",
+        "value": 70.48,
+        "as_of": "2026-11-12",
+        "source": "Yahoo Finance via the repo universe update of 2026-11-13 (12 Nov close 70.48) and prior runs",
         "url": "https://finance.yahoo.com/quote/HLAL/history/",
-        "points": 257
+        "points": 258
       },
       "series": [
         [
@@ -4774,6 +4800,10 @@
         [
           "2026-11-11",
           70.61
+        ],
+        [
+          "2026-11-12",
+          70.48
         ]
       ],
       "technical": {
@@ -4790,51 +4820,51 @@
           "horizon": "3–6 weeks"
         },
         "indicators": {
-          "price": 70.61,
-          "sma20": 71.99149999999999,
-          "sma50": 73.45300000000002,
-          "sma200": 68.89669999999998,
-          "rsi14": 43.96867891410443,
-          "macd": -1.2722297832055176,
-          "macdSignal": -1.0058746016134812,
-          "macdHist": -0.2663551815920364,
-          "bbUpper": 76.19492354202906,
-          "bbLower": 67.78807645797092,
-          "bbPctB": 0.3356696647165478,
-          "change20": -5.475234270414997,
-          "change60": -2.4454269135120166,
-          "volAnnualPct": 19.12791641249265,
+          "price": 70.48,
+          "sma20": 71.786,
+          "sma50": 73.40920000000001,
+          "sma200": 68.92875,
+          "rsi14": 43.50049467560333,
+          "macd": -1.1987836326692474,
+          "macdSignal": -1.0444564078246343,
+          "macdHist": -0.15432722484461303,
+          "bbUpper": 75.85422035318949,
+          "bbLower": 67.71777964681051,
+          "bbPctB": 0.3394875539403739,
+          "change20": -5.510122000268137,
+          "change60": -2.7727962477583024,
+          "volAnnualPct": 19.094052072530125,
           "support": 67.61,
           "resistance": 76.54,
           "maxDrawdownPct": -11.667102168800636,
           "flatDaysPct": 1.6666666666666667,
-          "points": 257
+          "points": 258
         },
         "factors": {
-          "trend": -26.363082953650796,
-          "momentum": -41.79179090868402,
-          "meanReversion": 24.938122831746057,
-          "risk": 17.616250762522053,
+          "trend": -29.104006570247588,
+          "momentum": -42.58608049658915,
+          "meanReversion": 25.879510074569247,
+          "risk": 17.717843782409624,
           "liquidity": 30,
           "portfolio": 30
         },
         "contributions": {
-          "trend": -5.272616590730159,
-          "momentum": -6.268768636302603,
-          "meanReversion": 8.72834299111112,
-          "risk": 2.642437614378308,
+          "trend": -5.820801314049517,
+          "momentum": -6.387912074488372,
+          "meanReversion": 9.057828526099236,
+          "risk": 2.6576765673614435,
           "liquidity": 3,
           "portfolio": 1.5
         },
         "why": {
           "trend": [
-            "price below 50-day average by 3.9%",
+            "price below 50-day average by 4.0%",
             "above 200-day average",
             "50-day average falling"
           ],
           "momentum": [
             "20-day change -5.5%",
-            "60-day change -2.4%",
+            "60-day change -2.8%",
             "MACD below its signal line"
           ],
           "meanReversion": [
@@ -4852,7 +4882,7 @@
             "not in your portfolio yet (adds diversification)"
           ]
         },
-        "thesis": "The momentum is negative: 20-day change -5.5%. Also, price below 50-day average by 3.9%. Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 19% a year; recent range 67.61–76.54 USD.",
+        "thesis": "The momentum is negative: 20-day change -5.5%. Also, price below 50-day average by 4.0%. Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 19% a year; recent range 67.61–76.54 USD.",
         "risks": [
           "signals use past prices only; they do not predict the future"
         ],
@@ -4892,18 +4922,25 @@
       ],
       "news": [
         {
+          "date": "2026-11-12",
+          "source": "CappNotes",
+          "url": "https://cappnotes.substack.com/p/closing-look-thursday-november-12",
+          "headline": "US stocks dip: S&P 500 -0.35% to 7,592.40, Nasdaq -0.39%; 10-year yield +12bp to 5.10%; Nvidia -4.34% after CEO Jensen Huang resigned",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-11-13",
+          "source": "Business Recorder (Reuters)",
+          "url": "https://www.brecorder.com/news/40448728/gold-rises-on-bargain-hunting-but-heads-for-weekly-decline",
+          "headline": "CME FedWatch: 89% chance of a 25bp December Fed hike, 11% of 50bp; NY Fed's Williams says more hikes likely",
+          "impact": "negative"
+        },
+        {
           "date": "2026-11-11",
           "headline": "US stocks rally: S&P 500 +1.31% to 7,619.38, Nasdaq +1.60%, tech +3.23%, PHLX semis +5.7% after CoreWeave beat",
           "source": "CappNotes",
           "url": "https://cappnotes.substack.com/p/closing-look-wednesday-november-11",
           "impact": "positive"
-        },
-        {
-          "date": "2026-11-11",
-          "headline": "Fed-hike bets firm after hot October CPI: futures price ~87% odds of a 25bp December hike and ~13% of 50bp; Goolsbee called CPI \"borderline disturbing\"",
-          "source": "Kitco / CappNotes",
-          "url": "https://www.kitco.com/news/article/2026-11-11/gold-falls-below-4000-dollar-surges-fed-hike-bets-rise-kitco-pm-report",
-          "impact": "negative"
         }
       ],
       "analysts": [],
@@ -4912,7 +4949,7 @@
         "technical_action": "HOLD",
         "changed_reason": null,
         "confidence": 63,
-        "thesis": "The price model says HOLD: HLAL rose to 70.61 on 11 Nov in the tech rally but is still below its falling 20- and 50-day averages while above its 200-day average. Its large tech weighting means it moves with the AI trade and with Fed-hike expectations.",
+        "thesis": "The price model says HOLD: HLAL closed at 70.48 on 12 Nov, about 4% below its 50-day average and down 5.5% over 20 days, but still above its 200-day average. Its heavy tech weighting leaves it exposed to the 5.1% 10-year yield, December Fed-hike bets and the Nvidia leadership change.",
         "levels": {
           "entryLow": null,
           "entryHigh": null,
@@ -4942,17 +4979,13 @@
       ],
       "currency": "USD",
       "price": {
-        "value": 57.74,
-        "as_of": "2026-11-11",
-        "source": "Yahoo Finance via the repo universe update of 2026-11-12 (11 Nov close 57.74); 10 Nov close 56.69 confirmed today on sp-funds.com; earlier closes from prior runs",
+        "value": 57.6,
+        "as_of": "2026-11-12",
+        "source": "Yahoo Finance via the repo universe update of 2026-11-13 (12 Nov close 57.6) and prior runs",
         "url": "https://www.sp-funds.com/spus/",
         "points": 261
       },
       "series": [
-        [
-          "2025-10-30",
-          51.66
-        ],
         [
           "2025-10-31",
           51.59
@@ -5988,6 +6021,10 @@
         [
           "2026-11-11",
           57.74
+        ],
+        [
+          "2026-11-12",
+          57.6
         ]
       ],
       "technical": {
@@ -6004,20 +6041,20 @@
           "horizon": "3–6 weeks"
         },
         "indicators": {
-          "price": 57.74,
-          "sma20": 58.436,
-          "sma50": 59.07739999999998,
-          "sma200": 55.61664999999999,
-          "rsi14": 46.42226293465039,
-          "macd": -0.7105327778928796,
-          "macdSignal": -0.5169510956233758,
-          "macdHist": -0.19358168226950379,
-          "bbUpper": 61.15343997173811,
-          "bbLower": 55.71856002826189,
-          "bbPctB": 0.37193829353389063,
-          "change20": -3.2344561756326495,
-          "change60": -1.4843883296365767,
-          "volAnnualPct": 18.561122278341983,
+          "price": 57.6,
+          "sma20": 58.33,
+          "sma50": 59.05699999999999,
+          "sma200": 55.64329999999999,
+          "rsi14": 45.75134099194862,
+          "macd": -0.6646755860735354,
+          "macdSignal": -0.5464959924060061,
+          "macdHist": -0.11817959366752928,
+          "bbUpper": 61.00155779511348,
+          "bbLower": 55.65844220488652,
+          "bbPctB": 0.3633755928216803,
+          "change20": -3.5498995311453396,
+          "change60": -1.9741320626276315,
+          "volAnnualPct": 18.55379738977624,
           "support": 55.41,
           "resistance": 61.15,
           "maxDrawdownPct": -10.751865314712084,
@@ -6025,35 +6062,35 @@
           "points": 261
         },
         "factors": {
-          "trend": -6.421556391634753,
-          "momentum": -30.90660136180375,
-          "meanReversion": 16.628045051340585,
-          "risk": 19.31663316497405,
+          "trend": -9.936562738883236,
+          "momentum": -33.14786224983662,
+          "meanReversion": 18.81911195082764,
+          "risk": 19.338607830671283,
           "liquidity": 30,
           "portfolio": 30
         },
         "contributions": {
-          "trend": -1.2843112783269506,
-          "momentum": -4.635990204270563,
-          "meanReversion": 5.819815767969206,
-          "risk": 2.8974949747461074,
+          "trend": -1.9873125477766473,
+          "momentum": -4.972179337475493,
+          "meanReversion": 6.586689182789675,
+          "risk": 2.9007911746006925,
           "liquidity": 3,
           "portfolio": 1.5
         },
         "why": {
           "trend": [
-            "price below 50-day average by 2.3%",
+            "price below 50-day average by 2.5%",
             "above 200-day average",
             "50-day average falling"
           ],
           "momentum": [
-            "20-day change -3.2%",
-            "60-day change -1.5%",
+            "20-day change -3.5%",
+            "60-day change -2.0%",
             "MACD below its signal line"
           ],
           "meanReversion": [
             "RSI 46: neutral",
-            "at 37% of its Bollinger band (0% = lower band)"
+            "at 36% of its Bollinger band (0% = lower band)"
           ],
           "risk": [
             "annualised volatility 19%",
@@ -6066,7 +6103,7 @@
             "not in your portfolio yet (adds diversification)"
           ]
         },
-        "thesis": "The momentum is negative: 20-day change -3.2%. Also, RSI 46: neutral. Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 19% a year; recent range 55.41–61.15 USD.",
+        "thesis": "The momentum is negative: 20-day change -3.5%. Also, RSI 46: neutral. Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 19% a year; recent range 55.41–61.15 USD.",
         "risks": [
           "signals use past prices only; they do not predict the future"
         ],
@@ -6120,18 +6157,25 @@
       ],
       "news": [
         {
+          "date": "2026-11-12",
+          "source": "CappNotes",
+          "url": "https://cappnotes.substack.com/p/closing-look-thursday-november-12",
+          "headline": "US stocks dip: S&P 500 -0.35% to 7,592.40, Nasdaq -0.39%; 10-year yield +12bp to 5.10%; Nvidia -4.34% after CEO Jensen Huang resigned",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-11-13",
+          "source": "Business Recorder (Reuters)",
+          "url": "https://www.brecorder.com/news/40448728/gold-rises-on-bargain-hunting-but-heads-for-weekly-decline",
+          "headline": "CME FedWatch: 89% chance of a 25bp December Fed hike, 11% of 50bp; NY Fed's Williams says more hikes likely",
+          "impact": "negative"
+        },
+        {
           "date": "2026-11-11",
           "headline": "US stocks rally: S&P 500 +1.31% to 7,619.38, Nasdaq +1.60%, tech +3.23%, PHLX semis +5.7% after CoreWeave beat",
           "source": "CappNotes",
           "url": "https://cappnotes.substack.com/p/closing-look-wednesday-november-11",
           "impact": "positive"
-        },
-        {
-          "date": "2026-11-11",
-          "headline": "Fed-hike bets firm after hot October CPI: futures price ~87% odds of a 25bp December hike and ~13% of 50bp; Goolsbee called CPI \"borderline disturbing\"",
-          "source": "Kitco / CappNotes",
-          "url": "https://www.kitco.com/news/article/2026-11-11/gold-falls-below-4000-dollar-surges-fed-hike-bets-rise-kitco-pm-report",
-          "impact": "negative"
         }
       ],
       "analysts": [],
@@ -6140,7 +6184,7 @@
         "technical_action": "HOLD",
         "changed_reason": null,
         "confidence": 63,
-        "thesis": "The price model says HOLD: SPUS gained to 57.74 on 11 Nov but remains slightly below its 20- and 50-day averages and above its 200-day average, with RSI 46. The long-term uptrend is intact; short-term direction depends on tech earnings and the Fed.",
+        "thesis": "The price model says HOLD: SPUS closed at 57.60 on 12 Nov, a little below its short-term averages and above its 200-day average, with RSI 46. The long-term uptrend is intact; near-term direction depends on yields, the Fed and big-tech stocks such as Nvidia (about 11% of the fund).",
         "levels": {
           "entryLow": null,
           "entryHigh": null,
@@ -6165,22 +6209,18 @@
       "market": "US",
       "held": true,
       "data_gaps": [
-        "Analyst consensus not re-verified today (MarketBeat unreachable)",
+        "Analyst consensus not re-verified today",
         "Current P/E not reliably dated"
       ],
       "currency": "USD",
       "price": {
-        "value": 166.71,
-        "as_of": "2026-11-11",
-        "source": "Yahoo Finance via the repo universe update of 2026-11-12 (11 Nov close 166.71; its 6-10 Nov closes match prior runs) and prior runs",
+        "value": 169.78,
+        "as_of": "2026-11-12",
+        "source": "Yahoo Finance via the repo universe update of 2026-11-13 (12 Nov close 169.78) and prior runs",
         "url": "https://finance.yahoo.com/quote/XOM/history/",
         "points": 261
       },
       "series": [
-        [
-          "2025-10-30",
-          114.69
-        ],
         [
           "2025-10-31",
           114.36
@@ -7216,36 +7256,40 @@
         [
           "2026-11-11",
           166.71
+        ],
+        [
+          "2026-11-12",
+          169.78
         ]
       ],
       "technical": {
         "strategy": "balanced",
         "action": "ACCUMULATE",
-        "score": 18,
+        "score": 16,
         "confidence": 66,
         "levels": {
-          "entryLow": 159.31452139762743,
-          "entryHigh": 166.71,
-          "target": 196.29191440949035,
+          "entryLow": 162.10215646428495,
+          "entryHigh": 169.78,
+          "target": 200.4913741428602,
           "stop": 154.8756,
-          "riskReward": 2.4996547699494944,
+          "riskReward": 2.0605575630592425,
           "horizon": "3–6 weeks"
         },
         "indicators": {
-          "price": 166.71,
-          "sma20": 175.991,
-          "sma50": 169.09839999999997,
-          "sma200": 156.04954999999995,
-          "rsi14": 41.88669305957338,
-          "macd": -1.0202577757131621,
-          "macdSignal": 1.3386169861982107,
-          "macdHist": -2.358874761911373,
-          "bbUpper": 190.56588235936997,
-          "bbLower": 161.41611764063006,
-          "bbPctB": 0.18160978005996029,
-          "change20": -5.818880289249185,
-          "change60": 0.694612225175173,
-          "volAnnualPct": 26.473887675700812,
+          "price": 169.78,
+          "sma20": 175.746,
+          "sma50": 169.21099999999998,
+          "sma200": 156.21054999999996,
+          "rsi14": 46.948528711145705,
+          "macd": -1.0405147306026379,
+          "macdSignal": 0.8627906428149915,
+          "macdHist": -1.9033053734176293,
+          "bbUpper": 190.5761718057976,
+          "bbLower": 160.91582819420242,
+          "bbPctB": 0.29885600523967953,
+          "change20": -2.8051293794366883,
+          "change60": 3.0406020513442877,
+          "volAnnualPct": 26.593398491290287,
           "support": 156.44,
           "resistance": 187.25,
           "maxDrawdownPct": -20.65084271301102,
@@ -7253,38 +7297,38 @@
           "points": 261
         },
         "factors": {
-          "trend": 28.778403795394027,
-          "momentum": -36.88629670664639,
-          "meanReversion": 39.38668054746893,
-          "risk": -4.421663027102436,
+          "trend": 43.873378962033776,
+          "momentum": -20.139313415058176,
+          "meanReversion": 19.697317907754964,
+          "risk": -4.780195473870862,
           "liquidity": 30,
           "portfolio": 30
         },
         "contributions": {
-          "trend": 5.755680759078805,
-          "momentum": -5.532944505996959,
-          "meanReversion": 13.785338191614123,
-          "risk": -0.6632494540653654,
+          "trend": 8.774675792406756,
+          "momentum": -3.0208970122587266,
+          "meanReversion": 6.894061267714237,
+          "risk": -0.7170293210806292,
           "liquidity": 3,
           "portfolio": 1.5
         },
         "why": {
           "trend": [
-            "price below 50-day average by 1.4%",
+            "price above 50-day average by 0.3%",
             "above 200-day average",
             "50-day average rising"
           ],
           "momentum": [
-            "20-day change -5.8%",
-            "60-day change +0.7%",
+            "20-day change -2.8%",
+            "60-day change +3.0%",
             "MACD below its signal line"
           ],
           "meanReversion": [
-            "RSI 42: below the middle (a dip)",
-            "at 18% of its Bollinger band (0% = lower band)"
+            "RSI 47: neutral",
+            "at 30% of its Bollinger band (0% = lower band)"
           ],
           "risk": [
-            "annualised volatility 26%",
+            "annualised volatility 27%",
             "max drawdown -21% over the period"
           ],
           "liquidity": [
@@ -7294,13 +7338,13 @@
             "not in your portfolio yet (adds diversification)"
           ]
         },
-        "thesis": "The overbought/oversold reading is supportive: RSI 42: below the middle (a dip). Also, 20-day change -5.8%. Volatility is 26% a year; recent range 156.44–187.25 USD.",
+        "thesis": "The trend is supportive: price above 50-day average by 0.3%. Also, 20-day change -2.8%. Volatility is 27% a year; recent range 156.44–187.25 USD.",
         "risks": [
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
           "a close below 154.88 USD",
-          "price falling back below the 50-day average (169.10)",
+          "price falling back below the 50-day average (169.21)",
           "RSI rising above 75"
         ]
       },
@@ -7351,17 +7395,24 @@
       "news": [
         {
           "date": "2026-11-12",
+          "source": "CappNotes",
+          "url": "https://cappnotes.substack.com/p/closing-look-thursday-november-12",
+          "headline": "Brent +3.30% to $95.82, WTI +2.55% to $88.74; energy (+1.51%) the only S&P sector higher",
+          "impact": "positive"
+        },
+        {
+          "date": "2026-11-12",
+          "source": "CappNotes",
+          "url": "https://cappnotes.substack.com/p/closing-look-thursday-november-12",
+          "headline": "US stocks dip: S&P 500 -0.35% to 7,592.40, Nasdaq -0.39%; 10-year yield +12bp to 5.10%; Nvidia -4.34% after CEO Jensen Huang resigned",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-11-12",
           "headline": "Brent falls 1.2% to $91.7, WTI $85.6 on Iran/Ukraine peace hopes, higher OPEC+ output and a 9m-barrel API crude build",
           "source": "HDFC Sky",
           "url": "https://hdfcsky.com/news/brent-crude-oil-price-today-november-12-2026-brent-falls-1-2percent-to-91-7-as-peace-hopes-weigh",
           "impact": "negative"
-        },
-        {
-          "date": "2026-11-11",
-          "headline": "Brent rises 1.39% to $92.76, WTI $86.53 after Iran said its enriched nuclear material \"will not leave the country\"",
-          "source": "CappNotes",
-          "url": "https://cappnotes.substack.com/p/closing-look-wednesday-november-11",
-          "impact": "neutral"
         },
         {
           "date": "2026-11-05",
@@ -7369,13 +7420,6 @@
           "source": "Trefis",
           "url": "https://www.trefis.com/stock/xom/articles/622914/is-exxon-mobil-stock-still-worth-owning-after-its-quarter/2026-11-05",
           "impact": "neutral"
-        },
-        {
-          "date": "2026-11-11",
-          "headline": "Energy sector +1.86% as the broad market rallies",
-          "source": "CappNotes",
-          "url": "https://cappnotes.substack.com/p/closing-look-wednesday-november-11",
-          "impact": "positive"
         }
       ],
       "analysts": [],
@@ -7384,13 +7428,13 @@
         "technical_action": "ACCUMULATE",
         "changed_reason": null,
         "confidence": 66,
-        "thesis": "The price model says ACCUMULATE: XOM (166.71 on 11 Nov) is near the bottom of its Bollinger band with a rising 50-day average and well above its 200-day average, so it reads as a dip in an uptrend. The main caution is oil, which has swung on Iran peace hopes (Brent ~$92); strong Q3 cash flow, a $1.07 dividend and a $20bn 2027 buyback support the stock.",
+        "thesis": "The price model says ACCUMULATE: XOM rose to 169.78 on 12 Nov, back above its rising 50-day average and well above its 200-day average, reading as a dip being bought in an uptrend. Brent jumped 3.3% to about $96 as Middle East peace hopes faded and energy was the only sector up; strong Q3 cash flow, the $1.07 dividend (record 16 Nov) and a $20bn 2027 buyback support it. The main risk is an oil drop if an Iran deal is reached.",
         "levels": {
-          "entryLow": 159.31452139762743,
-          "entryHigh": 166.71,
-          "target": 196.29191440949035,
+          "entryLow": 162.10215646428495,
+          "entryHigh": 169.78,
+          "target": 200.4913741428602,
           "stop": 154.8756,
-          "riskReward": 2.4996547699494944,
+          "riskReward": 2.0605575630592425,
           "horizon": "3–6 weeks"
         },
         "risks": [
@@ -7400,7 +7444,7 @@
         ],
         "invalidation": [
           "a close below 154.88 USD",
-          "price falling back below the 50-day average (169.10)",
+          "price falling back below the 50-day average (169.21)",
           "RSI rising above 75"
         ]
       }
