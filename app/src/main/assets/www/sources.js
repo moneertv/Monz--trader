@@ -375,5 +375,5 @@
   }
 
   root.Sources = { cleanKey, fetchResearch, RESEARCH_URL, fetchUniverse, fetchCryptoMarkets, packSeries, unpackSeries, SchemaChanged, parseRoya, fetchGold, goldSymbol, xlDate, parseClosingPrices, closingQuotes, parseMarketSummary, discoverXlsx, fetchAse, parseCompanyHistorical, companyQuote, fetchCompanyHistory,
-    parseCoinGecko, fetchCrypto, parseCoinHistory, fetchCryptoHistory, fetchStock, parseFrankfurter, fetchFxSeries, checked, nativeAvailable: () => !!root.NativeBridge };
+    parseCoinGecko, fetchCrypto, parseCoinHistory, fetchCryptoHistory, fetchStock, parseFrankfurter, fetchFxSeries, checked, nativeCall, nativeAvailable: () => !!root.NativeBridge };
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -7,7 +7,7 @@ on:
     - cron: '17 22 * * *'      # 22:17 UTC = 01:17 Amman, after the US close
   push:                         # also rebuild when the builder itself changes
     branches: [main]
-    paths: ['scripts/universe/**', '.github/workflows/universe.yml']
+    paths: ['scripts/universe/**', 'scripts/push/**', '.github/workflows/universe.yml']
   workflow_dispatch:
 
 permissions:
@@ -45,3 +45,33 @@ jobs:
           git commit -m "Universe update (${{ matrix.kind }}) $(date -u +%F)"
           for i in 1 2 3 4 5; do git pull --rebase -q origin main && git push -q origin HEAD:main && exit 0; sleep $((i*5)); done
           exit 1
+
+  # After both data files are published: push STRONG BUY / STRONG SELL on holdings via Firebase
+  push-alerts:
+    needs: build
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: universe-push
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Check holdings and push alerts
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: node scripts/push/holdings-alerts.mjs
+      - name: Save push state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/push-state.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Push state $(date -u +%F)"
+          for i in 1 2 3 4 5; do git pull --rebase -q origin main && git push -q origin HEAD:main && exit 0; sleep $((i*5)); done
+          exit 1
+

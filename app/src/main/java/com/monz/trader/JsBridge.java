@@ -83,4 +83,34 @@ class JsBridge {
 
     @JavascriptInterface
     public void done() { if (onDone != null) main.post(onDone); }
+
+    // ---------------------------------------------------------------- Firebase
+    private FirebaseFeatures.Callback cb(final String id) { return (ok, payload) -> resolve(id, ok, payload); }
+
+    @JavascriptInterface
+    public void setPush(String id, boolean on) { FirebaseFeatures.setPush(on, cb(id)); }
+
+    @JavascriptInterface
+    public void reportError(String message) { FirebaseFeatures.recordJsError(message); }
+
+    @JavascriptInterface
+    public void logEvent(String name, String paramsJson) { FirebaseFeatures.logEvent(ctx, name, paramsJson); }
+
+    @JavascriptInterface
+    public void setCollection(boolean analytics, boolean crashes) { FirebaseFeatures.setCollection(ctx, analytics, crashes); }
+
+    @JavascriptInterface
+    public String authStatus() { return FirebaseFeatures.authStatus(); }
+
+    @JavascriptInterface
+    public void signIn(String id, String email, String password, boolean create) { FirebaseFeatures.signIn(email, password, create, cb(id)); }
+
+    @JavascriptInterface
+    public void signOut() { FirebaseFeatures.signOut(); }
+
+    @JavascriptInterface
+    public void cloudSave(String id, String json) { main.post(() -> FirebaseFeatures.cloudSave(json, cb(id))); }
+
+    @JavascriptInterface
+    public void cloudLoad(String id) { main.post(() -> FirebaseFeatures.cloudLoad(cb(id))); }
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "254760945926",
+    "project_id": "fir-burger-bacad",
+    "storage_bucket": "fir-burger-bacad.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:254760945926:android:8979e08ebb43e2f7f1b687",
+        "android_client_info": {
+          "package_name": "com.monz.trader"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFhMXhUj7WLNH1eszDZ2nc59VK3uCpajs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

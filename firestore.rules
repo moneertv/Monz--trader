@@ -1,0 +1,16 @@
+rules_version = '2';
+// Monz Trader cloud backup: each signed-in user can read and write only their own backup.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{uid}/backups/{doc} {
+      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow write: if request.auth != null && request.auth.uid == uid
+                   && request.resource.data.keys().hasOnly(['data', 'savedAt', 'bytes'])
+                   && request.resource.data.data is string
+                   && request.resource.data.data.size() < 900000;
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

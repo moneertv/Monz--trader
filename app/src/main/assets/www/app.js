@@ -558,6 +558,7 @@
       buildLedgerWith(st.txs.concat([tx]));   // validate before saving (e.g. selling more than held)
     } catch (e) { errEl.innerHTML = '<div class="err">' + esc(e.message) + '</div>'; return; }
     st.txs.push(tx); save(); draft = null; signalsCache = null; toast('Saved'); stack = []; go('portfolio', false);
+    txChanged(); track('add_transaction', { type: tx.type, market: tx.asset ? tx.asset.split(':')[0] : 'CASH' });
     if (tx.asset && tx.asset.startsWith('ASE:') && !st.quotes[tx.asset]) {
       const sym = tx.asset.slice(4);
       loadCompany(sym).then(() => { st.aseExtra = [...new Set((st.aseExtra || []).concat([sym]))]; save(); signalsCache = null; render(); }).catch((err) => toast(err.message));
@@ -894,6 +895,81 @@
       '<div class="sub" style="margin-top:8px">Intraday alerts use the latest price as a provisional close, so a signal can disappear by the end of the day. Amman SE prices are end of day only.</div></div>';
   }
 
+  // ------------------------------------------------------------------ Firebase: push, crash reports, analytics, cloud backup
+  const fb = () => (window.NativeBridge && window.NativeBridge.authStatus ? window.NativeBridge : null);
+  const fbSettings = () => (st.settings.firebase = Object.assign({ push: true, crashes: true, analytics: true, autoBackup: true }, st.settings.firebase || {}));
+  function track(name, params) { if (fb() && fbSettings().analytics) fb().logEvent(name, JSON.stringify(params || {})); }   // never amounts or prices
+  function backupJson() {
+    return JSON.stringify({ app: 'monz-trader', version: 1, exported: new Date().toISOString(), txs: st.txs, settings: { methods: st.settings.methods, strategy: st.settings.strategy, alerts: st.settings.alerts, profitAlert: st.settings.profitAlert }, watch: st.watch, goldHistory: st.goldHistory });
+  }
+  function restoreBackup(text) {
+    const b = JSON.parse(text);
+    if (b.app !== 'monz-trader' || !Array.isArray(b.txs)) throw new Error('Not a Monz Trader backup');
+    buildLedgerWith(b.txs);
+    if (!confirm('Replace your ' + st.txs.length + ' transactions with ' + b.txs.length + ' from the backup (saved ' + localTime(b.exported) + ')?')) return false;
+    st.txs = b.txs;
+    if (b.settings) for (const k of ['methods', 'strategy', 'alerts', 'profitAlert']) if (b.settings[k]) st.settings[k] = b.settings[k];
+    if (b.watch) st.watch = b.watch;
+    if (Array.isArray(b.goldHistory)) st.goldHistory = b.goldHistory;
+    signalsCache = null; save(); render(); return true;
+  }
+  let backupTimer = null;
+  async function cloudBackup(manual) {
+    if (!fb() || !fb().authStatus()) { if (manual) toast('Sign in first'); return; }
+    try {
+      await S.nativeCall('cloudSave', backupJson());
+      st.lastCloudBackup = new Date().toISOString(); st.lastBackup = st.lastCloudBackup; save();
+      if (manual) toast('Backed up to your Firebase account');
+      if (route === 'settings') render();
+    } catch (e) { if (manual) toast('Cloud backup failed: ' + e.message); else st.errors.cloud = { msg: e.message, at: new Date().toISOString() }; }
+  }
+  function txChanged() {
+    if (!fb() || !fbSettings().autoBackup || !fb().authStatus()) return;
+    clearTimeout(backupTimer); backupTimer = setTimeout(() => cloudBackup(false), 3000);
+  }
+  function firebaseCard() {
+    if (!fb()) return '';
+    const f = fbSettings(), who = fb().authStatus();
+    const chk = (id, on, label) => '<label style="display:flex;align-items:center;gap:10px;color:var(--text);font-size:15px;margin-top:10px"><input type="checkbox" id="' + id + '" style="width:auto"' + (on ? ' checked' : '') + '> ' + label + '</label>';
+    let html = '<div class="card"><h2>Firebase</h2>' +
+      chk('fb_push', f.push, 'Push alerts from the daily job') + '<div class="sub">STRONG BUY / STRONG SELL on your holdings, sent by the nightly GitHub job even if Android delays the app\'s own checks.</div>' +
+      chk('fb_crash', f.crashes, 'Send crash reports') + chk('fb_an', f.analytics, 'Send usage analytics (screens and actions only, never amounts or prices)') + '</div>';
+    html += '<div class="card"><h2>Cloud backup</h2>';
+    if (who) {
+      html += '<div class="sub">Signed in as <b>' + esc(who) + '</b>. ' + (st.lastCloudBackup ? 'Last cloud backup ' + esc(ago(st.lastCloudBackup)) + '.' : 'No cloud backup yet.') + '</div>' +
+        chk('fb_auto', f.autoBackup, 'Back up automatically after each change') +
+        '<div class="row" style="margin-top:12px;gap:8px"><button class="btn grow" data-cloudsave>Back up now</button><button class="btn ghost grow" data-cloudload>Restore</button></div>' +
+        '<button class="btn ghost small" style="margin-top:10px" data-signout>Sign out</button>';
+    } else {
+      html += '<div class="sub">Sign in to keep a copy of your transactions in your own Firebase project. Only your account can read it.</div>' +
+        '<label>Email</label><input id="fb_email" type="email" autocapitalize="none" autocomplete="email">' +
+        '<label>Password (at least 6 characters)</label><input id="fb_pw" type="password" autocomplete="current-password">' +
+        '<div class="row" style="margin-top:12px;gap:8px"><button class="btn grow" data-signin>Sign in</button><button class="btn ghost grow" data-signup>Create account</button></div><div id="fbMsg"></div>';
+    }
+    return html + '</div>';
+  }
+  async function doSignIn(create) {
+    const email = ($('#fb_email').value || '').trim(), pw = $('#fb_pw').value || '';
+    const msg = $('#fbMsg');
+    if (!email || pw.length < 6) { msg.innerHTML = '<div class="err" style="margin-top:10px">Enter your email and a password of at least 6 characters.</div>'; return; }
+    msg.innerHTML = '<div class="sub" style="margin-top:10px">' + (create ? 'Creating account…' : 'Signing in…') + '</div>';
+    try {
+      await S.nativeCall('signIn', email, pw, create);
+      track(create ? 'sign_up' : 'login', { method: 'email' });
+      render(); toast('Signed in');
+      if (create || !st.lastCloudBackup) cloudBackup(false);
+    } catch (e) { const m = $('#fbMsg'); if (m) m.innerHTML = '<div class="err" style="margin-top:10px">' + esc(e.message) + '</div>'; }
+  }
+  function applyFirebase() {
+    if (!fb()) return;
+    const f = fbSettings();
+    fb().setCollection(f.analytics, f.crashes);
+    S.nativeCall('setPush', f.push).catch(() => {});
+  }
+  // JavaScript errors go to Crashlytics (message and location only)
+  window.addEventListener('error', (e) => { if (fb() && fbSettings().crashes) fb().reportError(String(e.message) + ' @ ' + (e.filename || '').split('/').pop() + ':' + e.lineno); });
+  window.addEventListener('unhandledrejection', (e) => { if (fb() && fbSettings().crashes) fb().reportError('Unhandled: ' + String(e.reason && e.reason.message || e.reason)); });
+
   routes.settings = () => {
     const m = st.settings.methods;
     const sel = (mk) => '<select data-method="' + mk + '">' + ['FIFO', 'AVERAGE'].map((x) => '<option' + (m[mk] === x ? ' selected' : '') + '>' + x + '</option>').join('') + '</select>';
@@ -901,7 +977,7 @@
       '<label>Finnhub API key — free at finnhub.io, needed for stocks/ETFs</label><input id="s_finnhub" value="' + esc(st.settings.finnhubKey) + '" autocapitalize="none">' +
       '<label>CoinGecko Demo key — optional, free at coingecko.com</label><input id="s_cg" value="' + esc(st.settings.coingeckoKey) + '" autocapitalize="none">' +
       '<button class="btn" style="margin-top:12px" data-savekeys>Save keys</button></div>' +
-      alertsSettingsCard() +
+      alertsSettingsCard() + firebaseCard() +
       '<div class="card"><h2>Signal strategy</h2><div class="sub">Auto uses whichever method did best in the strategy test for that market.</div>' + ['ASE', 'GOLD', 'US', 'CRYPTO'].map((mk) => {
         const cur = (st.settings.strategy || {})[mk] || 'auto';
         return '<label>' + esc(MARKETS[mk]) + '</label><select data-strategy="' + mk + '">' + [['auto', 'Auto (strategy test)'], ['trend', 'Trend'], ['balanced', 'Balanced'], ['dip', 'Dip-buying']].map(([v, l]) => '<option value="' + v + '"' + (cur === v ? ' selected' : '') + '>' + l + '</option>').join('') + '</select>';
@@ -916,16 +992,26 @@
   // ------------------------------------------------------------------ render + events
   const NAV = [['home', 'Home', 'M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z'], ['gold', 'Gold', 'M4 18h16l-3-8H7zM8 10l2-5h4l2 5'],
     ['ase', 'ASE', 'M4 19V9m5 10V5m5 14v-7m5 7V8'], ['crypto', 'Crypto', 'M9 8h5a2 2 0 0 1 0 4H9zm0 4h6a2 2 0 0 1 0 4H9zM9 6v12M11 6V4m0 16v-2'], ['stocks', 'Stocks', 'M3 17l6-6 4 4 8-8M15 7h6v6'], ['signals', 'Signals', 'M12 3v4M12 17v4M3 12h4M17 12h4M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0-8 0'], ['portfolio', 'Portfolio', 'M4 7h16v12H4zM9 7V5h6v2']];
+  let lastTracked = null;
   function render() {
     $('#view').innerHTML = (routes[route] || routes.home)();
+    if (route !== lastTracked) { lastTracked = route; track('screen_view', { screen_name: route, screen_class: 'MonzTrader' }); }
     const navRoute = route === 'add' ? 'portfolio' : route === 'aseStock' ? 'ase' : route === 'asset' ? (assetKeyOpen && assetKeyOpen.startsWith('CRYPTO:') ? 'crypto' : 'stocks') : route === 'markets' ? 'stocks' : (route === 'signal' || route === 'research' || route === 'strategy') ? 'signals' : route;
     $('#nav').innerHTML = NAV.map(([r, l, p]) => '<button data-nav="' + r + '" class="' + (r === navRoute ? 'on' : '') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="' + p + '"/></svg>' + l + '</button>').join('');
   }
   document.addEventListener('click', (e) => {
-    const el = e.target.closest('[data-tptab],[data-stktype],[data-asset],[data-alertopen],[data-alcheck],[data-altest],[data-runbt],[data-research],[data-aselookup],[data-nav],[data-go],[data-del],[data-savetx],[data-cancel],[data-addase],[data-asestock],[data-sig],[data-sigf],[data-sigbuy],[data-savekeys],[data-export],[data-import]');
+    const el = e.target.closest('[data-cloudsave],[data-cloudload],[data-signin],[data-signup],[data-signout],[data-tptab],[data-stktype],[data-asset],[data-alertopen],[data-alcheck],[data-altest],[data-runbt],[data-research],[data-aselookup],[data-nav],[data-go],[data-del],[data-savetx],[data-cancel],[data-addase],[data-asestock],[data-sig],[data-sigf],[data-sigbuy],[data-savekeys],[data-export],[data-import]');
     if (!el) return;
     if (el.dataset.nav) { stack = []; go(el.dataset.nav, false); }
     else if (el.dataset.go) { draft = null; if (el.dataset.market) { draft = null; routes.add(); draft.market = el.dataset.market; } go(el.dataset.go); }
+    if ('cloudsave' in el.dataset) { cloudBackup(true); return; }
+    if ('cloudload' in el.dataset) {
+      S.nativeCall('cloudLoad').then((text) => { if (restoreBackup(text)) toast('Restored from your cloud backup'); }).catch((err) => toast('Restore failed: ' + err.message));
+      return;
+    }
+    if ('signin' in el.dataset) { doSignIn(false); return; }
+    if ('signup' in el.dataset) { doSignIn(true); return; }
+    if ('signout' in el.dataset) { if (confirm('Sign out? Your data stays on this phone.')) { fb().signOut(); render(); } return; }
     if (el.dataset.tptab) { tpTab = el.dataset.tptab; render(); return; }
     if (el.dataset.stktype) { stkType = el.dataset.stktype; render(); return; }
     if (el.dataset.asset) { assetKeyOpen = el.dataset.asset; go('asset'); return; }
@@ -955,25 +1041,19 @@
       if (confirm('Delete this ' + st.txs[i].type + ' transaction?')) {
         const rest = st.txs.filter((_, j) => j !== i);
         try { buildLedgerWith(rest); } catch (err) { toast('Cannot delete: ' + err.message); return; }
-        st.txs = rest; save(); render();
+        st.txs = rest; save(); render(); txChanged();
       }
     } else if ('savetx' in el.dataset) saveDraft();
     else if ('cancel' in el.dataset) { draft = null; window.appBack() || go('portfolio', false); }
     else if ('savekeys' in el.dataset) { saveKeys(true); }
     else if ('export' in el.dataset) {
-      const data = JSON.stringify({ app: 'monz-trader', version: 1, exported: new Date().toISOString(), txs: st.txs, settings: { methods: st.settings.methods }, watch: st.watch, goldHistory: st.goldHistory });
+      const data = backupJson();
       st.lastBackup = new Date().toISOString(); save();
       if (window.NativeBridge) window.NativeBridge.share('Monz Trader backup ' + today(), data);
       else { $('#s_import').value = data; toast('Backup placed in the box below'); }
     } else if ('import' in el.dataset) {
       try {
-        const b = JSON.parse($('#s_import').value);
-        if (b.app !== 'monz-trader' || !Array.isArray(b.txs)) throw new Error('Not a Monz Trader backup');
-        buildLedgerWith(b.txs);
-        if (!confirm('Replace your ' + st.txs.length + ' transactions with ' + b.txs.length + ' from the backup?')) return;
-        st.txs = b.txs; if (b.settings && b.settings.methods) st.settings.methods = b.settings.methods; if (b.watch) st.watch = b.watch;
-        if (Array.isArray(b.goldHistory)) st.goldHistory = b.goldHistory;
-        save(); toast('Backup restored'); render();
+        if (restoreBackup($('#s_import').value)) toast('Backup restored');
       } catch (err) { toast('Restore failed: ' + err.message); }
     }
   });
@@ -987,6 +1067,11 @@
       if (id === 'f_market') { draft.symbol = draft.market === 'GOLD' ? 'GOLD_21K' : ''; draft.currency = MARKET_CCY[draft.market]; }
       render();
     } else if (id === 's_finnhub' || id === 's_cg') { saveKeys(false);
+    } else if (['fb_push', 'fb_crash', 'fb_an', 'fb_auto'].includes(id)) {
+      const f = fbSettings();
+      f.push = $('#fb_push').checked; f.crashes = $('#fb_crash').checked; f.analytics = $('#fb_an').checked;
+      if ($('#fb_auto')) f.autoBackup = $('#fb_auto').checked;
+      save(); applyFirebase(); toast('Saved');
     } else if (id === 'pa_on' || id === 'pa_pct') {
       const v = Number($('#pa_pct').value);
       st.settings.profitAlert = { on: $('#pa_on').checked, pct: Number.isFinite(v) && v > 0 ? v : 20 }; save();
@@ -1019,6 +1104,7 @@
     if (nb() && nb().notificationsAllowed && !nb().notificationsAllowed()) nb().requestNotificationPermission();
   }
   applyAlertSchedule();
+  applyFirebase();
   render();
   if (!st.lastRefresh || Date.now() - Date.parse(st.lastRefresh) > 30 * 60000) refresh('all');
 })();

@@ -33,3 +33,14 @@ Every push to `main` builds the app on GitHub. Open the repo's **Releases** page
 
 Not yet included: fundamentals/news in signals, risk analytics, optimizer, alerts (see roadmap).
 Data is for personal use; this app does not give investment advice or place trades.
+
+## Firebase
+`app/google-services.json` connects the app to Firebase project `fir-burger-bacad`:
+- **Push notifications (FCM):** the app subscribes to the topic `monz-alerts`. After the nightly
+  data job, `scripts/push/holdings-alerts.mjs` pushes STRONG BUY / STRONG SELL changes on the
+  holdings in `data/watchlist.json`. Needs the repo secret `FIREBASE_SERVICE_ACCOUNT`.
+- **Crashlytics:** native crashes plus JavaScript errors (message and location only).
+- **Analytics:** screen views and actions such as "add_transaction" (type and market only, never
+  amounts or prices). Both can be switched off in Settings.
+- **Cloud backup:** email/password sign-in; the backup is stored at `users/{uid}/backups/latest`
+  in Firestore and protected by `firestore.rules` (only the signed-in user can read it).
