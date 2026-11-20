@@ -1,9 +1,9 @@
 {
-  "ASE:JOPH": "SELL",
+  "ASE:JOPH": "REDUCE",
   "ASE:RJAL": "REDUCE",
   "GOLD:GLOBAL": "HOLD",
   "US:ASML": "REDUCE",
   "US:HLAL": "HOLD",
   "US:SPUS": "HOLD",
-  "US:XOM": "ACCUMULATE"
+  "US:XOM": "HOLD"
 }
