@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-20T12:46:53.683Z",
+  "generated_at": "2026-11-21T12:46:05.252Z",
   "generator": "Monz Trader scheduled research (trader-skill)",
   "disclaimer": "Research summary built from cited public sources and a rules-based price model. Not financial advice.",
   "assets": [
@@ -11,8 +11,7 @@
       "held": true,
       "data_gaps": [
         "no named analyst coverage",
-        "no new ASE disclosure checked on 20 Nov (disclosures page not reachable)",
-        "ASE closed Friday; latest close is 19 Nov"
+        "ASE closed Fri/Sat; latest close is 19 Nov (carried from the prior run, exchange.jo not re-fetched today)"
       ],
       "currency": "JOD",
       "price": {
@@ -629,7 +628,7 @@
         "technical_action": "REDUCE",
         "changed_reason": null,
         "confidence": 81,
-        "thesis": "JOPH closed the week at 13.18 JOD on 19 Nov (ASE is shut Friday), still about 11% below a falling 50-day average, so the price model keeps REDUCE. Nine-month profit of JOD 315m is solid but down roughly a quarter from JOD 416m a year earlier as sulfur and ammonia costs jumped. The only new item is a Social Security fund plan for a new phosphate company, which does not name JPMC.",
+        "thesis": "JOPH closed the week at 13.18 JOD on 19 Nov (ASE is shut Friday and Saturday), still about 11% below a falling 50-day average, so the price model keeps REDUCE. Nine-month profit of JOD 315m is solid but down roughly a quarter from JOD 416m a year earlier as sulfur and ammonia costs jumped. No new company news since the Social Security fund plan for a new phosphate company, which does not name JPMC.",
         "levels": {
           "entryLow": null,
           "entryHigh": null,
@@ -656,10 +655,9 @@
       "market": "ASE",
       "held": true,
       "data_gaps": [
-        "19 Nov close not re-verified today (exchange.jo page unreachable); carried from the 19 Nov run",
         "Q3/9M 2026 results not found",
         "no analyst coverage",
-        "ASE closed Friday"
+        "ASE closed Fri/Sat; 19 Nov close carried from the prior run"
       ],
       "currency": "JOD",
       "price": {
@@ -1339,7 +1337,7 @@
         "technical_action": "REDUCE",
         "changed_reason": null,
         "confidence": 66,
-        "thesis": "RJAL is flat at 0.52 JOD, just under its 50-day average with weak momentum, so the model keeps REDUCE. H1 profit fell to JOD 1.4m on a 37% rise in fuel costs; oil sliding to about $92 helps a little, but Gulf route suspensions (Riyadh, Dammam) and a delayed Belgrade launch weigh on traffic. Trading is very thin, with most sessions closing unchanged.",
+        "thesis": "RJAL is flat at 0.52 JOD (19 Nov; ASE shut Friday and Saturday), just under its 50-day average with weak momentum, so the model keeps REDUCE. H1 profit fell to JOD 1.4m on a 37% rise in fuel costs; a third weekly fall in oil helps a little, but Gulf route suspensions (Riyadh, Dammam) and a delayed Belgrade launch weigh on traffic. Trading is very thin, with most sessions closing unchanged.",
         "levels": {
           "entryLow": null,
           "entryHigh": null,
@@ -1367,8 +1365,7 @@
       "market": "GOLD",
       "held": true,
       "data_gaps": [
-        "CoinGecko and CoinCodex unreachable; 19 Nov PAXG close from Bitget",
-        "20 Nov close not yet available",
+        "PAX Gold 20 Nov daily close not yet published on Bitget/Coinranking/CoinGecko (CoinGecko unreachable); latest close used is 19 Nov",
         "no named ETF flow figures"
       ],
       "currency": "JOD",
@@ -1377,7 +1374,7 @@
         "as_of": "2026-11-19",
         "source": "PAX Gold daily close USD (UTC): 19 Nov $3,594.77 from Bitget (18 Nov $3,730.94 there, matching the prior run), converted to JOD per gram 24K (x0.709/31.1034768); earlier from CoinCodex/Coinranking/CoinGecko in prior runs",
         "url": "https://www.bitget.com/price/pax-gold/historical-data",
-        "points": 261
+        "points": 260
       },
       "series": [
         [
@@ -2439,10 +2436,10 @@
           "sma20": 89.615,
           "sma50": 92.09700000000002,
           "sma200": 96.79949999999997,
-          "rsi14": 25.182660078451235,
-          "macd": -2.0257366512441024,
-          "macdSignal": -1.341444252197952,
-          "macdHist": -0.6842923990461505,
+          "rsi14": 25.1826599613336,
+          "macd": -2.0257366533393792,
+          "macdSignal": -1.3414442552792356,
+          "macdHist": -0.6842923980601436,
           "bbUpper": 95.63226463471655,
           "bbLower": 83.59773536528344,
           "bbPctB": -0.13774825156593198,
@@ -2453,7 +2450,7 @@
           "resistance": 99.49,
           "maxDrawdownPct": -33.866020984665056,
           "flatDaysPct": 3.3333333333333335,
-          "points": 261
+          "points": 260
         },
         "factors": {
           "trend": -89.94858020933954,
@@ -2539,6 +2536,13 @@
       "news": [
         {
           "date": "2026-11-20",
+          "headline": "Gold slides to $3,557.96 (-1.88%) for its worst week since March; CME FedWatch prices a 99.3% chance of a December 25bp hike after Philadelphia Fed President Paulson signals more tightening",
+          "source": "USAGOLD",
+          "url": "https://www.usagold.com/daily-precious-metals-market-report-november-20-2026/",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-11-20",
           "headline": "Spot gold falls another 2.7% to $3,525, lowest since Sep 2025, heading for a ~9% weekly drop, its worst since March, on a firm dollar and December hike bets",
           "source": "IndexBox (QNA)",
           "url": "https://www.indexbox.io/blog/gold-prices-set-for-sharpest-weekly-drop-in-eight-months/",
@@ -2553,23 +2557,9 @@
         },
         {
           "date": "2026-11-19",
-          "headline": "Investors sell gold ETFs and futures to raise cash after tech-stock losses",
-          "source": "ad-hoc-news (Handelsblatt/FT)",
-          "url": "https://www.ad-hoc-news.de/boerse/news/unternehmensnachrichten/gold-slips-as-investors-raid-bullion-etfs-for-cash-to-cover-tech-losses/70537325",
-          "impact": "negative"
-        },
-        {
-          "date": "2026-11-19",
           "headline": "Gold touches $3,693 overnight; FOMC minutes say almost all officials see further hikes as likely",
           "source": "USAGold",
           "url": "https://www.usagold.com/daily-precious-metals-market-report-november-19-2026/",
-          "impact": "negative"
-        },
-        {
-          "date": "2026-11-18",
-          "headline": "Gold drops 2% to $3,773, over one-year low, on hawkish Fed comments and a dollar near a 19-month high",
-          "source": "New Straits Times",
-          "url": "https://www.nst.com.my/amp/business/economy/2026/11/1580594/gold-drops-2pct-over-one-year-low-hawkish-fed-signals-boost-dollar",
           "impact": "negative"
         }
       ],
@@ -2577,9 +2567,9 @@
       "recommendation": {
         "action": "REDUCE",
         "technical_action": "HOLD",
-        "changed_reason": "After the 19 Nov close the model uses, spot gold fell another 2.7% to $3,525 on 20 Nov (IndexBox/QNA), Fed Governor Waller floated a 50bp December hike (Seoul Economic Daily) and investors are selling gold ETFs for cash (ad-hoc-news); the oversold reading behind HOLD has not stopped the slide.",
+        "changed_reason": "After the 19 Nov close the model uses, spot gold fell another 1.9% to $3,557.96 on 20 Nov for its worst week since March, and CME FedWatch now prices a 99.3% chance of a December hike (USAGOLD); the oversold reading behind HOLD has not stopped the slide.",
         "confidence": 64,
-        "thesis": "Gold closed 19 Nov at about 81.9 JOD per gram, below the 85.05 stop and under its 20-, 50- and 200-day averages. The model scores HOLD only because it is deeply oversold (RSI 25, below the lower Bollinger band), but the sell-off deepened on 20 Nov to about $3,525/oz as the Fed leans toward bigger hikes and the dollar stays strong, so the review lowers it one step to REDUCE. Central-bank buying (321 t in Q3) is the main long-term support.",
+        "thesis": "Gold closed 19 Nov at about 81.9 JOD per gram, below the 85.05 stop and under its 20-, 50- and 200-day averages. The model scores HOLD only because it is deeply oversold, but the sell-off continued on 20 Nov to about $3,558/oz as markets price a near-certain December Fed hike and investors sell gold for cash amid the AI rout, so the review keeps it one step lower at REDUCE. Central-bank buying (321 t in Q3) is the main long-term support.",
         "levels": {
           "entryLow": null,
           "entryHigh": null,
@@ -2604,16 +2594,15 @@
       "market": "US",
       "held": true,
       "data_gaps": [
-        "20 Nov US close not yet available",
-        "no named rating change dated 18-20 Nov"
+        "no named rating change dated 20 Nov"
       ],
       "currency": "USD",
       "price": {
-        "value": 1356.2,
-        "as_of": "2026-11-19",
-        "source": "Nasdaq closes: 17 Nov 1,383.11 and 18 Nov 1,395.27 from TipRanks history; 19 Nov 1,356.20 from FinancialContent 4:00 PM EST quote (matches MarketScreener); earlier from StockAnalysis/Yahoo in prior runs",
-        "url": "https://www.tipranks.com/stocks/asml/historical-prices",
-        "points": 259
+        "value": 1266.22,
+        "as_of": "2026-11-20",
+        "source": "TheStreet close 20 Nov 1,266.22 (-6.63%, implying 19 Nov 1,356.20 as held); earlier closes from prior runs (Nasdaq closes: 17 Nov 1,383.11 and 18 Nov 1,395.27 from TipRanks history; 19 Nov 1,356.20 from FinancialContent 4:00 PM )",
+        "url": "https://pro.thestreet.com/quote/ASML",
+        "points": 260
       },
       "series": [
         [
@@ -3651,77 +3640,81 @@
         [
           "2026-11-19",
           1356.2
+        ],
+        [
+          "2026-11-20",
+          1266.22
         ]
       ],
       "technical": {
         "strategy": "balanced",
         "action": "REDUCE",
-        "score": -20,
-        "confidence": 67,
+        "score": -14,
+        "confidence": 65,
         "levels": {
           "entryLow": null,
           "entryHigh": null,
-          "target": 989.2222917252292,
-          "stop": 1723.1777082747708,
-          "riskReward": 1.0000000000000002,
+          "target": 925.4803956185594,
+          "stop": 1606.9596043814406,
+          "riskReward": 1,
           "horizon": "3–6 weeks"
         },
         "indicators": {
-          "price": 1356.2,
-          "sma20": 1509.7579999999998,
-          "sma50": 1636.8706,
-          "sma200": 1601.0528500000007,
-          "rsi14": 34.00382167231652,
-          "macd": -74.73587848253965,
-          "macdSignal": -64.51156578594141,
-          "macdHist": -10.224312696598233,
-          "bbUpper": 1704.5291423129584,
-          "bbLower": 1314.9868576870413,
-          "bbPctB": 0.10579889254522483,
-          "change20": -19.114445723419358,
-          "change60": -22.243372167691035,
-          "volAnnualPct": 51.9737756295919,
-          "support": 1356.65,
+          "price": 1266.22,
+          "sma20": 1495.042,
+          "sma50": 1628.4463999999998,
+          "sma200": 1600.6883000000005,
+          "rsi14": 29.241574556308805,
+          "macd": -84.19070850526919,
+          "macdSignal": -68.44739432980697,
+          "macdHist": -15.743314175462217,
+          "bbUpper": 1716.3280842867155,
+          "bbLower": 1273.7559157132844,
+          "bbPctB": -0.017027540926433084,
+          "change20": -18.86013815730452,
+          "change60": -27.46385279897344,
+          "volAnnualPct": 52.80630747003542,
+          "support": 1356.2,
           "resistance": 1867.31,
-          "maxDrawdownPct": -31.830062731220842,
+          "maxDrawdownPct": -36.35294354190124,
           "flatDaysPct": 0,
-          "points": 259
+          "points": 260
         },
         "factors": {
           "trend": -100,
           "momentum": -100,
-          "meanReversion": 63.64251226649521,
-          "risk": -80.9213268887757,
+          "meanReversion": 82.91771606481397,
+          "risk": -83.41892241010626,
           "liquidity": 30,
           "portfolio": 30
         },
         "contributions": {
           "trend": -20,
           "momentum": -15,
-          "meanReversion": 22.274879293273326,
-          "risk": -12.138199033316354,
+          "meanReversion": 29.02120062268489,
+          "risk": -12.51283836151594,
           "liquidity": 3,
           "portfolio": 1.5
         },
         "why": {
           "trend": [
-            "price below 50-day average by 17.1%",
+            "price below 50-day average by 22.2%",
             "below 200-day average",
             "50-day average falling"
           ],
           "momentum": [
-            "20-day change -19.1%",
-            "60-day change -22.2%",
+            "20-day change -18.9%",
+            "60-day change -27.5%",
             "MACD below its signal line",
             "closed below its 60-day low (breakdown)"
           ],
           "meanReversion": [
-            "RSI 34: below the middle (a dip)",
-            "at 11% of its Bollinger band (0% = lower band)"
+            "RSI 29: oversold",
+            "at -2% of its Bollinger band (0% = lower band)"
           ],
           "risk": [
-            "annualised volatility 52%",
-            "max drawdown -32% over the period"
+            "annualised volatility 53%",
+            "max drawdown -36% over the period"
           ],
           "liquidity": [
             "liquid market"
@@ -3730,14 +3723,14 @@
             "not in your portfolio yet (adds diversification)"
           ]
         },
-        "thesis": "The trend is negative: price below 50-day average by 17.1%. Also, 20-day change -19.1%. Volatility is 52% a year; recent range 1357–1867 USD.",
+        "thesis": "The trend is negative: price below 50-day average by 22.2%. Also, 20-day change -18.9%. Volatility is 53% a year; recent range 1356–1867 USD.",
         "risks": [
-          "high volatility (52% a year): position size accordingly",
+          "high volatility (53% a year): position size accordingly",
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close above 1723 USD",
-          "price recovering above the 50-day average (1637)"
+          "a close above 1607 USD",
+          "price recovering above the 50-day average (1628)"
         ]
       },
       "fundamentals": [
@@ -3780,6 +3773,13 @@
       "news": [
         {
           "date": "2026-11-20",
+          "headline": "ASML US shares close -6.63% at $1,266.22 as chip stocks lead the AI sell-off (Nvidia -14%, Micron -14%, TSMC -9.5%)",
+          "source": "StockTitan / TheStreet",
+          "url": "https://www.stocktitan.net/articles/stock-market-today-live-november-20-2026",
+          "impact": "negative"
+        },
+        {
+          "date": "2026-11-20",
           "headline": "ASML, Europe's most valuable stock, falls more than 5% early Friday as the AI sell-off deepens; Nasdaq futures -1.15%",
           "source": "MarketScreener (Dow Jones)",
           "url": "https://marketscreener.com/news/nasdaq-set-for-fresh-decline-as-ai-selloff-intensifies-ce785ed3d98bf320",
@@ -3804,13 +3804,6 @@
           "headline": "ASML (Nasdaq) moves down 3.02% on 17 Nov on chip-equipment trade-policy scrutiny and slower fab build-outs at some chipmakers",
           "source": "TradingKey",
           "url": "https://www.tradingkey.com/news/market-movers/262309416-market-movers-asml-20261117",
-          "impact": "negative"
-        },
-        {
-          "date": "2026-11-16",
-          "headline": "ASML shares down about 6% intraday, trading near $1,405 (low $1,404.06) vs $1,495.16 prior close",
-          "source": "The Stock Observer",
-          "url": "https://www.thestockobserver.com/2026/11/16/asml-nasdaqasml-shares-down-6-time-to-sell.html",
           "impact": "negative"
         }
       ],
@@ -3848,26 +3841,25 @@
         "action": "REDUCE",
         "technical_action": "REDUCE",
         "changed_reason": null,
-        "confidence": 67,
-        "thesis": "ASML closed $1,356.20 on 19 Nov, about 17% under a falling 50-day average and below the 200-day after breaking its 60-day low, so the model reads REDUCE. The AI-chip sell-off widened on 19-20 Nov (Nasdaq -2.25%, ASML down over 5% in Europe on Friday) alongside new US chip-licence rules. Analysts still see about $2,100-2,200 on average and fundamentals are strong, but the trend is clearly down.",
+        "confidence": 65,
+        "thesis": "ASML fell 6.6% to $1,266.22 on Friday 20 Nov, about 22% under a falling 50-day average and below its 200-day after breaking its 60-day low, so the model stays at REDUCE. Chip stocks led a sharp AI sell-off (Nvidia -14%, Micron -14%) and the Fed is leaning toward a December hike. Analysts still average roughly $2,100-2,200 and the business is strong, but the trend is clearly down; the model is oversold (RSI 29), so bounces are possible.",
         "levels": {
           "entryLow": null,
           "entryHigh": null,
-          "target": 989.2222917252292,
-          "stop": 1723.1777082747708,
-          "riskReward": 1.0000000000000002,
+          "target": 925.4803956185594,
+          "stop": 1606.9596043814406,
+          "riskReward": 1,
           "horizon": "3–6 weeks"
         },
         "risks": [
           "US export-control changes",
           "AI capex sentiment swings",
-          "High volatility (about 52% annualised)",
-          "high volatility (52% a year): position size accordingly",
+          "high volatility (53% a year): position size accordingly",
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close above 1723 USD",
-          "price recovering above the 50-day average (1637)"
+          "a close above 1607 USD",
+          "price recovering above the 50-day average (1628)"
         ]
       }
     },
@@ -3877,22 +3869,17 @@
       "market": "US",
       "held": true,
       "data_gaps": [
-        "20 Nov close not yet available",
-        "fund-level holdings weights not refreshed"
+        "20 Nov close from an Investing.com quote snapshot (no history table); fund-level holdings weights not refreshed"
       ],
       "currency": "USD",
       "price": {
-        "value": 66.19,
-        "as_of": "2026-11-19",
-        "source": "MarketScreener 5-day quotes (19 Nov close 66.19; 13-18 Nov match prior data); earlier Yahoo Finance daily closes (adjusted) via repo universe update",
-        "url": "https://uk.marketscreener.com/quote/etf/WAHED-FTSE-USA-SHARIAH-ET-63216307/quotes/",
+        "value": 62.94,
+        "as_of": "2026-11-20",
+        "source": "Investing.com quote \"Closed 20/11\" 62.94 (-3.25 from 66.19, matching the 19 Nov close held; eToro shows the same); earlier closes from prior runs (MarketScreener 5-day quotes (19 Nov close 66.19; 13-18 Nov match prior data); earlier Yahoo Finance daily closes (adjust)",
+        "url": "https://investing.com/etfs/wahed-ftse-usa-shariah",
         "points": 261
       },
       "series": [
-        [
-          "2025-11-07",
-          60.0453
-        ],
         [
           "2025-11-10",
           60.9815
@@ -4928,77 +4915,81 @@
         [
           "2026-11-19",
           66.19
+        ],
+        [
+          "2026-11-20",
+          62.94
         ]
       ],
       "technical": {
         "strategy": "balanced",
         "action": "HOLD",
-        "score": 8,
+        "score": 10,
         "confidence": 64,
         "levels": {
           "entryLow": null,
           "entryHigh": null,
           "target": 76.54,
-          "stop": 67.55,
+          "stop": 66.19,
           "riskReward": null,
           "horizon": "3–6 weeks"
         },
         "indicators": {
-          "price": 66.19,
-          "sma20": 70.36560000000001,
-          "sma50": 72.88496800000001,
-          "sma200": 68.94859399999997,
-          "rsi14": 30.19888015004736,
-          "macd": -1.6120622390721593,
-          "macdSignal": -1.2974882934309786,
-          "macdHist": -0.3145739456411807,
-          "bbUpper": 75.0219012382204,
-          "bbLower": 65.70929876177964,
-          "bbPctB": 0.05161835689179814,
-          "change20": -8.967129693302155,
-          "change60": -7.9131526006638975,
-          "volAnnualPct": 19.519162468558832,
-          "support": 67.55,
+          "price": 62.94,
+          "sma20": 69.8871,
+          "sma50": 72.68464,
+          "sma200": 68.95217799999998,
+          "rsi14": 23.447059284874385,
+          "macd": -1.9735881644074027,
+          "macdSignal": -1.4327082678123342,
+          "macdHist": -0.5408798965950685,
+          "bbUpper": 75.48686051743569,
+          "bbLower": 64.28733948256432,
+          "bbPctB": -0.12030331282643077,
+          "change20": -13.198179561439815,
+          "change60": -13.752821121377757,
+          "volAnnualPct": 20.710616012881363,
+          "support": 66.19,
           "resistance": 76.54,
-          "maxDrawdownPct": -13.522341259472181,
+          "maxDrawdownPct": -17.768487065586637,
           "flatDaysPct": 1.6666666666666667,
           "points": 261
         },
         "factors": {
-          "trend": -66.66356648867274,
-          "momentum": -81.69482397453642,
-          "meanReversion": 76.40569821137372,
-          "risk": 16.442512594323503,
+          "trend": -82.08195031823401,
+          "momentum": -97.50564224275551,
+          "meanReversion": 100,
+          "risk": 12.86815196135591,
           "liquidity": 30,
           "portfolio": 30
         },
         "contributions": {
-          "trend": -13.33271329773455,
-          "momentum": -12.254223596180463,
-          "meanReversion": 26.741994373980802,
-          "risk": 2.466376889148526,
+          "trend": -16.4163900636468,
+          "momentum": -14.625846336413327,
+          "meanReversion": 35,
+          "risk": 1.9302227942033863,
           "liquidity": 3,
           "portfolio": 1.5
         },
         "why": {
           "trend": [
-            "price below 50-day average by 9.2%",
+            "price below 50-day average by 13.4%",
             "below 200-day average",
             "50-day average falling"
           ],
           "momentum": [
-            "20-day change -9.0%",
-            "60-day change -7.9%",
+            "20-day change -13.2%",
+            "60-day change -13.8%",
             "MACD below its signal line",
             "closed below its 60-day low (breakdown)"
           ],
           "meanReversion": [
-            "RSI 30: below the middle (a dip)",
-            "at 5% of its Bollinger band (0% = lower band)"
+            "RSI 23: oversold",
+            "at -12% of its Bollinger band (0% = lower band)"
           ],
           "risk": [
-            "annualised volatility 20%",
-            "max drawdown -14% over the period"
+            "annualised volatility 21%",
+            "max drawdown -18% over the period"
           ],
           "liquidity": [
             "liquid market"
@@ -5007,12 +4998,12 @@
             "not in your portfolio yet (adds diversification)"
           ]
         },
-        "thesis": "The momentum is negative: 20-day change -9.0%. Also, RSI 30: below the middle (a dip). Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 20% a year; recent range 67.55–76.54 USD.",
+        "thesis": "The overbought/oversold reading is supportive: RSI 23: oversold. Also, 20-day change -13.2%. Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 21% a year; recent range 66.19–76.54 USD.",
         "risks": [
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close above 76.54 (breakout) or below 67.55 (breakdown)"
+          "a close above 76.54 (breakout) or below 66.19 (breakdown)"
         ]
       },
       "fundamentals": [
@@ -5047,6 +5038,13 @@
       ],
       "news": [
         {
+          "date": "2026-11-20",
+          "headline": "AI sell-off deepens: SPY -3.64% and QQQ -5.67% at the close, SPY and DIA now in a correction; Nvidia -14%, AMD -13%; Fed Governor Cook warns waiting on hikes risks falling behind the curve",
+          "source": "StockTitan",
+          "url": "https://www.stocktitan.net/articles/stock-market-today-live-november-20-2026",
+          "impact": "negative"
+        },
+        {
           "date": "2026-11-19",
           "headline": "Sharp sell-off: Dow -2.19%, S&P 500 about -2.0%, Nasdaq -2.25%; Anthropic IPO draws money from other AI stocks, AMD falls on a short report",
           "source": "Yahoo Finance",
@@ -5073,27 +5071,20 @@
           "source": "AP via La Nacion",
           "url": "https://www.lanacion.com.ar/usa/how-major-us-stock-indexes-fared-wednesday-11182026-nid18112026/",
           "impact": "negative"
-        },
-        {
-          "date": "2026-11-18",
-          "headline": "Nvidia Q3 revenue $115.8bn beats ~$108.8bn consensus and guides Q4 to $130bn, but the stock closed down 2.9% on 18 Nov on China-related demand worries",
-          "source": "Kiplinger",
-          "url": "https://www.kiplinger.com/news/live/nvidia-earnings-live-updates-and-commentary-november-2026",
-          "impact": "neutral"
         }
       ],
       "analysts": [],
       "recommendation": {
-        "action": "HOLD",
+        "action": "REDUCE",
         "technical_action": "HOLD",
-        "changed_reason": null,
+        "changed_reason": "On 20 Nov the AI sell-off pushed the S&P 500 fund SPY into a correction (-3.64% on the day, about 11.5% off its record; StockTitan) and markets now price a near-certain December Fed hike (99.3%, USAGOLD/CME). HLAL closed 62.94, about 5% below the 66.19 stop, so the oversold reading behind HOLD is not holding.",
         "confidence": 64,
-        "thesis": "HLAL fell to $66.19 on 19 Nov in a broad 2% market sell-off, below the $67.55 stop level, its 60-day low and its 200-day average, and about 9% under its 50-day average. The model still scores HOLD because it is oversold (RSI 30, near the lower Bollinger band), but futures pointed lower again on 20 Nov and the Fed is leaning toward more hikes. A rebound back above $67.55 would ease the warning.",
+        "thesis": "HLAL fell 4.9% to $62.94 on Friday, well below its 66.19 stop, its 200-day average and about 13% under its 50-day average. The model scores HOLD only because it is deeply oversold (RSI 23), but the sell-off is broad, led by its big tech and chip weights, and the Fed is set to hike again, so the review lowers it one step to REDUCE. A close back above 66.19 would ease the warning.",
         "levels": {
           "entryLow": null,
           "entryHigh": null,
           "target": 76.54,
-          "stop": 67.55,
+          "stop": 66.19,
           "riskReward": null,
           "horizon": "3–6 weeks"
         },
@@ -5103,7 +5094,7 @@
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close above 76.54 (breakout) or below 67.55 (breakdown)"
+          "a close above 76.54 (breakout) or below 66.19 (breakdown)"
         ]
       }
     },
@@ -5113,22 +5104,17 @@
       "market": "US",
       "held": true,
       "data_gaps": [
-        "20 Nov close not yet available",
         "fund-level holdings weights not refreshed"
       ],
       "currency": "USD",
       "price": {
-        "value": 54.11,
-        "as_of": "2026-11-19",
-        "source": "MarketScreener 5-day quotes (19 Nov close 54.11; 16-18 Nov match prior data); earlier Yahoo Finance daily closes (adjusted) via repo universe update",
-        "url": "https://ca.marketscreener.com/quote/etf/SP-FUNDS-S-P-500-SHARIA-I-87179465/quotes/",
+        "value": 51.62,
+        "as_of": "2026-11-20",
+        "source": "TheStreet close 20 Nov 51.62 (-2.49, implying 19 Nov 54.11 as held; SoFi matches); earlier closes from prior runs (MarketScreener 5-day quotes (19 Nov close 54.11; 16-18 Nov match prior data); earlier Yahoo Finance daily closes (adjust)",
+        "url": "https://pro.thestreet.com/quote/SPUS",
         "points": 261
       },
       "series": [
-        [
-          "2025-11-07",
-          49.9179
-        ],
         [
           "2025-11-10",
           50.9521
@@ -6164,77 +6150,81 @@
         [
           "2026-11-19",
           54.11
+        ],
+        [
+          "2026-11-20",
+          51.62
         ]
       ],
       "technical": {
         "strategy": "balanced",
         "action": "HOLD",
-        "score": 10,
-        "confidence": 64,
+        "score": 12,
+        "confidence": 65,
         "levels": {
           "entryLow": null,
           "entryHigh": null,
           "target": 61.1232,
-          "stop": 55.27,
+          "stop": 54.11,
           "riskReward": null,
           "horizon": "3–6 weeks"
         },
         "indicators": {
-          "price": 54.11,
-          "sma20": 57.408415000000005,
-          "sma50": 58.716262,
-          "sma200": 55.64233949999998,
-          "rsi14": 31.54805052436795,
-          "macd": -1.0678860804201946,
-          "macdSignal": -0.7781151528304032,
-          "macdHist": -0.2897709275897914,
-          "bbUpper": 60.8724605887817,
-          "bbLower": 53.94436941121831,
-          "bbPctB": 0.023907102914303865,
-          "change20": -7.9514563437114045,
-          "change60": -7.05815263693077,
-          "volAnnualPct": 18.943431816843653,
-          "support": 55.27,
+          "price": 51.62,
+          "sma20": 57.05769999999999,
+          "sma50": 58.57948199999999,
+          "sma200": 55.65134399999999,
+          "rsi14": 24.726705538212173,
+          "macd": -1.3640845684522773,
+          "macdSignal": -0.8953090363699241,
+          "macdHist": -0.46877553208235323,
+          "bbUpper": 61.32609277529733,
+          "bbLower": 52.78930722470265,
+          "bbPctB": -0.13697277713871983,
+          "change20": -11.962793109152848,
+          "change60": -12.845864483930015,
+          "volAnnualPct": 20.030524484508764,
+          "support": 54.11,
           "resistance": 61.1232,
-          "maxDrawdownPct": -11.473875713313431,
+          "maxDrawdownPct": -15.54761530809905,
           "flatDaysPct": 0,
           "points": 261
         },
         "factors": {
-          "trend": -59.25101639736451,
-          "momentum": -75.92213064870717,
-          "meanReversion": 74.69544751422188,
-          "risk": 18.169704549469042,
+          "trend": -78.34733387498981,
+          "momentum": -95.69172896786003,
+          "meanReversion": 100,
+          "risk": 14.90842654647371,
           "liquidity": 30,
           "portfolio": 30
         },
         "contributions": {
-          "trend": -11.850203279472902,
-          "momentum": -11.388319597306074,
-          "meanReversion": 26.143406629977658,
-          "risk": 2.7254556824203564,
+          "trend": -15.669466774997964,
+          "momentum": -14.353759345179006,
+          "meanReversion": 35,
+          "risk": 2.236263981971056,
           "liquidity": 3,
           "portfolio": 1.5
         },
         "why": {
           "trend": [
-            "price below 50-day average by 7.8%",
+            "price below 50-day average by 11.9%",
             "below 200-day average",
             "50-day average falling"
           ],
           "momentum": [
-            "20-day change -8.0%",
-            "60-day change -7.1%",
+            "20-day change -12.0%",
+            "60-day change -12.8%",
             "MACD below its signal line",
             "closed below its 60-day low (breakdown)"
           ],
           "meanReversion": [
-            "RSI 32: below the middle (a dip)",
-            "at 2% of its Bollinger band (0% = lower band)"
+            "RSI 25: oversold",
+            "at -14% of its Bollinger band (0% = lower band)"
           ],
           "risk": [
-            "annualised volatility 19%",
-            "max drawdown -11% over the period"
+            "annualised volatility 20%",
+            "max drawdown -16% over the period"
           ],
           "liquidity": [
             "liquid market"
@@ -6243,12 +6233,12 @@
             "not in your portfolio yet (adds diversification)"
           ]
         },
-        "thesis": "The momentum is negative: 20-day change -8.0%. Also, RSI 32: below the middle (a dip). Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 19% a year; recent range 55.27–61.12 USD.",
+        "thesis": "The overbought/oversold reading is supportive: RSI 25: oversold. Also, 20-day change -12.0%. Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 20% a year; recent range 54.11–61.12 USD.",
         "risks": [
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close above 61.12 (breakout) or below 55.27 (breakdown)"
+          "a close above 61.12 (breakout) or below 54.11 (breakdown)"
         ]
       },
       "fundamentals": [
@@ -6283,6 +6273,13 @@
       ],
       "news": [
         {
+          "date": "2026-11-20",
+          "headline": "AI sell-off deepens: SPY -3.64% and QQQ -5.67% at the close, SPY and DIA now in a correction; Nvidia -14%, AMD -13%; Fed Governor Cook warns waiting on hikes risks falling behind the curve",
+          "source": "StockTitan",
+          "url": "https://www.stocktitan.net/articles/stock-market-today-live-november-20-2026",
+          "impact": "negative"
+        },
+        {
           "date": "2026-11-19",
           "headline": "Sharp sell-off: Dow -2.19%, S&P 500 about -2.0%, Nasdaq -2.25%; Anthropic IPO draws money from other AI stocks, AMD falls on a short report",
           "source": "Yahoo Finance",
@@ -6309,27 +6306,20 @@
           "source": "AP via La Nacion",
           "url": "https://www.lanacion.com.ar/usa/how-major-us-stock-indexes-fared-wednesday-11182026-nid18112026/",
           "impact": "negative"
-        },
-        {
-          "date": "2026-11-18",
-          "headline": "Nvidia Q3 revenue $115.8bn beats ~$108.8bn consensus and guides Q4 to $130bn, but the stock closed down 2.9% on 18 Nov on China-related demand worries",
-          "source": "Kiplinger",
-          "url": "https://www.kiplinger.com/news/live/nvidia-earnings-live-updates-and-commentary-november-2026",
-          "impact": "neutral"
         }
       ],
       "analysts": [],
       "recommendation": {
-        "action": "HOLD",
+        "action": "REDUCE",
         "technical_action": "HOLD",
-        "changed_reason": null,
-        "confidence": 64,
-        "thesis": "SPUS dropped to $54.11 on 19 Nov, below the $55.27 stop level, its 60-day low and its 200-day average, about 8% under its 50-day average. The model keeps HOLD on oversold readings (RSI 32, at the lower Bollinger band), but the AI-led sell-off continued in futures on 20 Nov. Heavy weights in Nvidia, Apple and Microsoft keep it tied to tech sentiment.",
+        "changed_reason": "On 20 Nov SPY and DIA closed in a correction (SPY -3.64%, QQQ -5.67%; StockTitan) and markets price a 99.3% chance of a December Fed hike (USAGOLD/CME). SPUS closed 51.62, about 4.6% below its 54.11 stop, so the oversold reading behind HOLD has not stopped the slide.",
+        "confidence": 65,
+        "thesis": "SPUS dropped 4.6% to $51.62 on Friday, below its 54.11 stop, its 200-day average and about 12% under its 50-day average. The model holds at HOLD on oversold readings (RSI 25), but heavy weights in Nvidia, Apple and Microsoft keep it tied to an AI sell-off that deepened on Friday, so the review lowers it one step to REDUCE. A close back above 54.11 would ease the warning.",
         "levels": {
           "entryLow": null,
           "entryHigh": null,
           "target": 61.1232,
-          "stop": 55.27,
+          "stop": 54.11,
           "riskReward": null,
           "horizon": "3–6 weeks"
         },
@@ -6339,7 +6329,7 @@
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close above 61.12 (breakout) or below 55.27 (breakdown)"
+          "a close above 61.12 (breakout) or below 54.11 (breakdown)"
         ]
       }
     },
@@ -6349,22 +6339,17 @@
       "market": "US",
       "held": true,
       "data_gaps": [
-        "20 Nov close not yet available",
-        "consensus target not refreshed from an opened page"
+        "Brent Friday settlement not read from an opened page"
       ],
       "currency": "USD",
       "price": {
-        "value": 158.93,
-        "as_of": "2026-11-19",
-        "source": "FinancialContent official closing price 19 Nov 158.93 (MarketScreener 5-day table matches); earlier Yahoo Finance daily closes (adjusted) via repo universe update",
-        "url": "https://markets.financialcontent.com/ibtimes/quote?Symbol=ny%3Axom",
+        "value": 159.99,
+        "as_of": "2026-11-20",
+        "source": "TheStreet close 20 Nov 159.99 (+1.06, implying 19 Nov 158.93 as held); earlier closes from prior runs (FinancialContent official closing price 19 Nov 158.93 (MarketScreener 5-day table matches); earlier Yahoo Finance daily )",
+        "url": "https://pro.thestreet.com/quote/XOM",
         "points": 261
       },
       "series": [
-        [
-          "2025-11-07",
-          113.2
-        ],
         [
           "2025-11-10",
           114.17
@@ -7400,13 +7385,17 @@
         [
           "2026-11-19",
           158.93
+        ],
+        [
+          "2026-11-20",
+          159.99
         ]
       ],
       "technical": {
         "strategy": "balanced",
         "action": "HOLD",
-        "score": 12,
-        "confidence": 65,
+        "score": 10,
+        "confidence": 64,
         "levels": {
           "entryLow": null,
           "entryHigh": null,
@@ -7416,20 +7405,20 @@
           "horizon": "3–6 weeks"
         },
         "indicators": {
-          "price": 158.93,
-          "sma20": 171.50699999999995,
-          "sma50": 168.47740000000002,
-          "sma200": 154.79520000000002,
-          "rsi14": 34.998435597793005,
-          "macd": -2.3432042940694373,
-          "macdSignal": -0.8159716813418766,
-          "macdHist": -1.5272326127275608,
-          "bbUpper": 188.6065895303151,
-          "bbLower": 154.4074104696848,
-          "bbPctB": 0.13224263431286742,
-          "change20": -10.264807181977309,
-          "change60": 1.1005089058524264,
-          "volAnnualPct": 26.559015426027656,
+          "price": 159.99,
+          "sma20": 170.40349999999995,
+          "sma50": 168.3782,
+          "sma200": 154.88360000000003,
+          "rsi14": 37.05071473325269,
+          "macd": -2.674175733667539,
+          "macdSignal": -1.1876124937964203,
+          "macdHist": -1.4865632398711188,
+          "bbUpper": 187.48412648302542,
+          "bbLower": 153.32287351697448,
+          "bbPctB": 0.19516633332071387,
+          "change20": -12.122377238273096,
+          "change60": 2.9139328444615975,
+          "volAnnualPct": 26.57274354532205,
           "support": 155.46,
           "resistance": 186.08,
           "maxDrawdownPct": -20.111798287345383,
@@ -7437,35 +7426,35 @@
           "points": 261
         },
         "factors": {
-          "trend": -23.945978250217745,
-          "momentum": -52.79898218829515,
-          "meanReversion": 59.56935294674544,
-          "risk": -4.677046278082969,
+          "trend": -23.01126757210512,
+          "momentum": -49.1721343110768,
+          "meanReversion": 50.66323316762544,
+          "risk": -4.7182306359661546,
           "liquidity": 30,
           "portfolio": 30
         },
         "contributions": {
-          "trend": -4.789195650043549,
-          "momentum": -7.9198473282442725,
-          "meanReversion": 20.849273531360904,
-          "risk": -0.7015569417124453,
+          "trend": -4.602253514421023,
+          "momentum": -7.375820146661521,
+          "meanReversion": 17.732131608668904,
+          "risk": -0.7077345953949232,
           "liquidity": 3,
           "portfolio": 1.5
         },
         "why": {
           "trend": [
-            "price below 50-day average by 5.7%",
+            "price below 50-day average by 5.0%",
             "above 200-day average",
             "50-day average rising"
           ],
           "momentum": [
-            "20-day change -10.3%",
-            "60-day change +1.1%",
+            "20-day change -12.1%",
+            "60-day change +2.9%",
             "MACD below its signal line"
           ],
           "meanReversion": [
-            "RSI 35: below the middle (a dip)",
-            "at 13% of its Bollinger band (0% = lower band)"
+            "RSI 37: below the middle (a dip)",
+            "at 20% of its Bollinger band (0% = lower band)"
           ],
           "risk": [
             "annualised volatility 27%",
@@ -7478,7 +7467,7 @@
             "not in your portfolio yet (adds diversification)"
           ]
         },
-        "thesis": "The overbought/oversold reading is supportive: RSI 35: below the middle (a dip). Also, 20-day change -10.3%. Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 27% a year; recent range 155.46–186.08 USD.",
+        "thesis": "The overbought/oversold reading is supportive: RSI 37: below the middle (a dip). Also, 20-day change -12.1%. Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 27% a year; recent range 155.46–186.08 USD.",
         "risks": [
           "signals use past prices only; they do not predict the future"
         ],
@@ -7540,6 +7529,13 @@
       "news": [
         {
           "date": "2026-11-20",
+          "headline": "XOM closes up 0.67% at $159.99 while the broad market falls (SPY -3.64%), as energy holds up in the AI-led sell-off",
+          "source": "TheStreet / StockTitan",
+          "url": "https://pro.thestreet.com/quote/XOM",
+          "impact": "neutral"
+        },
+        {
+          "date": "2026-11-20",
           "headline": "Brent around $92.2, heading for a third straight weekly loss (~3.5%); Hormuz flows near pre-war levels; OPEC+ meets 29 Nov; IEA sees Q4 surplus ~1.7m b/d",
           "source": "FinanceFeeds",
           "url": "https://financefeeds.com/brent-crude-oil-price-92-22-friday-third-weekly-drop-before-opec-plus-bull-96-bear-88/",
@@ -7565,13 +7561,6 @@
           "source": "Stocktwits",
           "url": "https://stocktwits.com/news-articles/markets/equity/xom-cvx-cop-this-analyst-trims-price-targets-warns-oil-stocks-may-struggle-to-appreciate/cNbbN7xR9Oa",
           "impact": "negative"
-        },
-        {
-          "date": "2026-11-10",
-          "headline": "Venezuela signs memorandum with ExxonMobil paving the way for its return after leaving in 2007; no investment amount disclosed",
-          "source": "MercoPress",
-          "url": "https://en.mercopress.com/2026/11/10/venezuela-signs-a-memorandum-with-exxonmobil-for-the-oil-major-s-return-after-leaving-in-2007",
-          "impact": "positive"
         }
       ],
       "analysts": [
@@ -7601,8 +7590,8 @@
         "action": "HOLD",
         "technical_action": "HOLD",
         "changed_reason": null,
-        "confidence": 65,
-        "thesis": "XOM slipped to $158.93 on 19 Nov, about 6% under its 50-day average but still above a rising 200-day; with momentum weakening the model eases from ACCUMULATE to HOLD, stop about $155.5. Oil is heading for a third weekly loss on US inventory builds and surplus forecasts, ahead of the 29 Nov OPEC+ meeting. Q3 was strong ($4.23 adjusted EPS, $19.1bn free cash flow, $20bn buybacks planned for 2027) and analysts remain mostly positive.",
+        "confidence": 64,
+        "thesis": "XOM rose 0.7% to $159.99 on Friday while the broad market fell sharply, and it stays above a rising 200-day average though about 5% under its 50-day, so the model keeps HOLD with a stop near $155.5. Oil is down for a third straight week on inventory builds and surplus forecasts ahead of the 29 Nov OPEC+ meeting. Q3 was strong ($4.23 adjusted EPS, $19.1bn free cash flow) and analysts remain mostly positive.",
         "levels": {
           "entryLow": null,
           "entryHigh": null,
