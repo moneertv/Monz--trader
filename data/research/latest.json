@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-21T12:46:05.252Z",
+  "generated_at": "2026-11-23T12:43:52.864Z",
   "generator": "Monz Trader scheduled research (trader-skill)",
   "disclaimer": "Research summary built from cited public sources and a rules-based price model. Not financial advice.",
   "assets": [
@@ -11,15 +11,15 @@
       "held": true,
       "data_gaps": [
         "no named analyst coverage",
-        "ASE closed Fri/Sat; latest close is 19 Nov (carried from the prior run, exchange.jo not re-fetched today)"
+        "22 Nov close taken from the 'Last Closing' field of the ASE 23 Nov performance indicators; the ASE daily table on the page was stale (Sept 2025)"
       ],
       "currency": "JOD",
       "price": {
-        "value": 13.18,
-        "as_of": "2026-11-19",
-        "source": "Amman Stock Exchange company_historical (19/11/2026 close 13.18, 18/11 13.12 re-confirmed 20 Nov; ASE closed Fri); earlier closes from ASE/Investing.com in prior runs",
+        "value": 13.15,
+        "as_of": "2026-11-23",
+        "source": "Amman Stock Exchange company_historical Performance Indicators 23/11/2026 (Closing Price 13.15, Last Closing 13.10 for 22 Nov); earlier closes from ASE/Investing.com in prior runs",
         "url": "https://exchange.jo/en/company_historical/JOPH",
-        "points": 110
+        "points": 112
       },
       "series": [
         [
@@ -461,6 +461,14 @@
         [
           "2026-11-19",
           13.18
+        ],
+        [
+          "2026-11-22",
+          13.1
+        ],
+        [
+          "2026-11-23",
+          13.15
         ]
       ],
       "technical": {
@@ -471,61 +479,61 @@
         "levels": {
           "entryLow": null,
           "entryHigh": null,
-          "target": 11.057648148521661,
-          "stop": 15.302351851478338,
+          "target": 11.244400805613841,
+          "stop": 15.05559919438616,
           "riskReward": 1,
           "horizon": "3–6 weeks"
         },
         "indicators": {
-          "price": 13.18,
-          "sma20": 13.463,
-          "sma50": 14.737399999999996,
+          "price": 13.15,
+          "sma20": 13.405499999999998,
+          "sma50": 14.626199999999997,
           "sma200": null,
-          "rsi14": 36.49755332850053,
-          "macd": -0.39145948195844404,
-          "macdSignal": -0.41948518981428135,
-          "macdHist": 0.0280257078558373,
-          "bbUpper": 14.236593120309037,
-          "bbLower": 12.689406879690962,
-          "bbPctB": 0.31708730819183983,
-          "change20": -5.857142857142861,
-          "change60": -15.890236119974476,
-          "volAnnualPct": 27.114812887841772,
+          "rsi14": 36.68961870321252,
+          "macd": -0.3778775886994161,
+          "macdSignal": -0.406216171998404,
+          "macdHist": 0.028338583298987863,
+          "bbUpper": 14.175174572380053,
+          "bbLower": 12.635825427619944,
+          "bbPctB": 0.3340207607418295,
+          "change20": -5.39568345323741,
+          "change60": -15.325177076625884,
+          "volAnnualPct": 26.888353630461186,
           "support": 12.75,
           "resistance": 16.3,
           "maxDrawdownPct": -25.438596491228072,
           "flatDaysPct": 3.3333333333333335,
-          "points": 110
+          "points": 112
         },
         "factors": {
           "trend": -85,
-          "momentum": -38.428571428571445,
+          "momentum": -36.58273381294964,
           "meanReversion": 0,
-          "risk": -6.344438663525317,
+          "risk": -5.665060891383558,
           "liquidity": 53.333333333333336,
           "portfolio": 30
         },
         "contributions": {
           "trend": -25.5,
-          "momentum": -9.607142857142861,
+          "momentum": -9.14568345323741,
           "meanReversion": 0,
-          "risk": -0.9516657995287975,
+          "risk": -0.8497591337075336,
           "liquidity": 5.333333333333334,
           "portfolio": 1.5
         },
         "why": {
           "trend": [
-            "price below 50-day average by 10.6%",
+            "price below 50-day average by 10.1%",
             "20-day average below 50-day",
             "50-day average falling"
           ],
           "momentum": [
-            "20-day change -5.9%",
-            "60-day change -15.9%",
+            "20-day change -5.4%",
+            "60-day change -15.3%",
             "MACD above its signal line"
           ],
           "meanReversion": [
-            "RSI 36: neutral"
+            "RSI 37: neutral"
           ],
           "risk": [
             "annualised volatility 27%",
@@ -538,14 +546,14 @@
             "not in your portfolio yet (adds diversification)"
           ]
         },
-        "thesis": "The trend is negative: price below 50-day average by 10.6%. Also, 20-day change -5.9%. Volatility is 27% a year; recent range 12.75–16.30 JOD.",
+        "thesis": "The trend is negative: price below 50-day average by 10.1%. Also, 20-day change -5.4%. Volatility is 27% a year; recent range 12.75–16.30 JOD.",
         "risks": [
           "no company financials are included in this score",
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close above 15.30 JOD",
-          "price recovering above the 50-day average (14.74)"
+          "a close above 15.06 JOD",
+          "price recovering above the 50-day average (14.63)"
         ]
       },
       "fundamentals": [
@@ -628,12 +636,12 @@
         "technical_action": "REDUCE",
         "changed_reason": null,
         "confidence": 81,
-        "thesis": "JOPH closed the week at 13.18 JOD on 19 Nov (ASE is shut Friday and Saturday), still about 11% below a falling 50-day average, so the price model keeps REDUCE. Nine-month profit of JOD 315m is solid but down roughly a quarter from JOD 416m a year earlier as sulfur and ammonia costs jumped. No new company news since the Social Security fund plan for a new phosphate company, which does not name JPMC.",
+        "thesis": "JOPH closed 13.15 JOD on 23 Nov (13.10 on 22 Nov), still well below a falling 50-day average, so the price model keeps REDUCE. Nine-month profit of JOD 315m is solid but down roughly a quarter from JOD 416m a year earlier as sulfur and ammonia costs jumped. No new company news since the Social Security fund plan for a new phosphate company, which does not name JPMC.",
         "levels": {
           "entryLow": null,
           "entryHigh": null,
-          "target": 11.057648148521661,
-          "stop": 15.302351851478338,
+          "target": 11.244400805613841,
+          "stop": 15.05559919438616,
           "riskReward": 1,
           "horizon": "3–6 weeks"
         },
@@ -644,8 +652,8 @@
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close above 15.30 JOD",
-          "price recovering above the 50-day average (14.74)"
+          "a close above 15.06 JOD",
+          "price recovering above the 50-day average (14.63)"
         ]
       }
     },
@@ -657,15 +665,15 @@
       "data_gaps": [
         "Q3/9M 2026 results not found",
         "no analyst coverage",
-        "ASE closed Fri/Sat; 19 Nov close carried from the prior run"
+        "only the 23 Nov close was added (OTC; the ASE daily table on the page was stale), no separate 22 Nov close recorded"
       ],
       "currency": "JOD",
       "price": {
         "value": 0.52,
-        "as_of": "2026-11-19",
-        "source": "Amman Stock Exchange (19/11/2026 close 0.52 from the 19 Nov run; page could not be re-fetched 20 Nov; ASE closed Fri); earlier closes from ASE in prior runs",
+        "as_of": "2026-11-23",
+        "source": "Amman Stock Exchange company_historical Performance Indicators 23/11/2026 (OTC market, Closing Price 0.52); earlier closes from ASE in prior runs",
         "url": "https://exchange.jo/en/company_historical/RJAL",
-        "points": 129
+        "points": 130
       },
       "series": [
         [
@@ -1183,6 +1191,10 @@
         [
           "2026-11-19",
           0.52
+        ],
+        [
+          "2026-11-23",
+          0.52
         ]
       ],
       "technical": {
@@ -1200,39 +1212,39 @@
         },
         "indicators": {
           "price": 0.52,
-          "sma20": 0.527,
+          "sma20": 0.5265000000000001,
           "sma50": 0.5292000000000001,
           "sma200": null,
           "rsi14": 36.39635629225964,
-          "macd": -0.002190331689815639,
-          "macdSignal": -0.0009317098973022442,
-          "macdHist": -0.0012586217925133947,
-          "bbUpper": 0.5364032469196326,
-          "bbLower": 0.5175967530803675,
-          "bbPctB": 0.1277881427645459,
+          "macd": -0.0023703006803491578,
+          "macdSignal": -0.001219428053911627,
+          "macdHist": -0.0011508726264375308,
+          "bbUpper": 0.5362872096985919,
+          "bbLower": 0.5167127903014083,
+          "bbPctB": 0.16793395665491365,
           "change20": -1.8867924528301883,
-          "change60": 1.9607843137254832,
+          "change60": 4.0000000000000036,
           "volAnnualPct": 23.58981744708056,
           "support": 0.5,
           "resistance": 0.57,
           "maxDrawdownPct": -8.771929824561397,
-          "flatDaysPct": 71.66666666666667,
-          "points": 129
+          "flatDaysPct": 73.33333333333333,
+          "points": 130
         },
         "factors": {
-          "trend": -23.588636400187035,
-          "momentum": -18.625601183869787,
+          "trend": -24.733212281328953,
+          "momentum": -14.547169811320746,
           "meanReversion": 0,
           "risk": 4.230547658758322,
-          "liquidity": -83.33333333333334,
+          "liquidity": -86.66666666666666,
           "portfolio": 30
         },
         "contributions": {
-          "trend": -7.07659092005611,
-          "momentum": -4.656400295967447,
+          "trend": -7.419963684398685,
+          "momentum": -3.6367924528301865,
           "meanReversion": 0,
           "risk": 0.6345821488137483,
-          "liquidity": -8.333333333333336,
+          "liquidity": -8.666666666666664,
           "portfolio": 1.5
         },
         "why": {
@@ -1243,7 +1255,7 @@
           ],
           "momentum": [
             "20-day change -1.9%",
-            "60-day change +2.0%",
+            "60-day change +4.0%",
             "MACD below its signal line"
           ],
           "meanReversion": [
@@ -1254,7 +1266,7 @@
             "max drawdown -9% over the period"
           ],
           "liquidity": [
-            "72% of the last 60 sessions closed unchanged"
+            "73% of the last 60 sessions closed unchanged"
           ],
           "portfolio": [
             "not in your portfolio yet (adds diversification)"
@@ -1337,7 +1349,7 @@
         "technical_action": "REDUCE",
         "changed_reason": null,
         "confidence": 66,
-        "thesis": "RJAL is flat at 0.52 JOD (19 Nov; ASE shut Friday and Saturday), just under its 50-day average with weak momentum, so the model keeps REDUCE. H1 profit fell to JOD 1.4m on a 37% rise in fuel costs; a third weekly fall in oil helps a little, but Gulf route suspensions (Riyadh, Dammam) and a delayed Belgrade launch weigh on traffic. Trading is very thin, with most sessions closing unchanged.",
+        "thesis": "RJAL is flat at 0.52 JOD on 23 Nov on the ASE OTC market, just under its 50-day average with weak momentum, so the model keeps REDUCE. H1 profit fell to JOD 1.4m on a 37% rise in fuel costs; Gulf route suspensions (Riyadh, Dammam) and a delayed Belgrade launch weigh on traffic. Trading is very thin, with most sessions closing unchanged.",
         "levels": {
           "entryLow": null,
           "entryHigh": null,
@@ -1365,26 +1377,18 @@
       "market": "GOLD",
       "held": true,
       "data_gaps": [
-        "PAX Gold 20 Nov daily close not yet published on Bitget/Coinranking/CoinGecko (CoinGecko unreachable); latest close used is 19 Nov",
+        "22 Nov PAX Gold daily close not yet in Bitget's table; latest close used is 21 Nov",
         "no named ETF flow figures"
       ],
       "currency": "JOD",
       "price": {
-        "value": 81.94,
-        "as_of": "2026-11-19",
-        "source": "PAX Gold daily close USD (UTC): 19 Nov $3,594.77 from Bitget (18 Nov $3,730.94 there, matching the prior run), converted to JOD per gram 24K (x0.709/31.1034768); earlier from CoinCodex/Coinranking/CoinGecko in prior runs",
+        "value": 80.87,
+        "as_of": "2026-11-21",
+        "source": "PAX Gold daily close USD (UTC) from Bitget: 20 Nov $3,530.84, 21 Nov $3,547.62 (19 Nov $3,594.77 matches prior run), converted to JOD per gram 24K (x0.709/31.1034768); earlier from CoinCodex/Coinranking/CoinGecko in prior runs",
         "url": "https://www.bitget.com/price/pax-gold/historical-data",
-        "points": 260
+        "points": 262
       },
       "series": [
-        [
-          "2026-02-13",
-          115
-        ],
-        [
-          "2026-02-14",
-          114.5
-        ],
         [
           "2026-02-15",
           114.56
@@ -2416,77 +2420,84 @@
         [
           "2026-11-19",
           81.94
+        ],
+        [
+          "2026-11-20",
+          80.49
+        ],
+        [
+          "2026-11-21",
+          80.87
         ]
       ],
       "technical": {
         "strategy": "balanced",
         "action": "HOLD",
-        "score": 8,
-        "confidence": 64,
+        "score": 6,
+        "confidence": 63,
         "levels": {
           "entryLow": null,
           "entryHigh": null,
-          "target": 99.49,
-          "stop": 85.05,
+          "target": 99.37,
+          "stop": 80.49,
           "riskReward": null,
           "horizon": "3–6 weeks"
         },
         "indicators": {
-          "price": 81.94,
-          "sma20": 89.615,
-          "sma50": 92.09700000000002,
-          "sma200": 96.79949999999997,
-          "rsi14": 25.1826599613336,
-          "macd": -2.0257366533393792,
-          "macdSignal": -1.3414442552792356,
-          "macdHist": -0.6842923980601436,
-          "bbUpper": 95.63226463471655,
-          "bbLower": 83.59773536528344,
-          "bbPctB": -0.13774825156593198,
-          "change20": -7.839388145315485,
-          "change60": -17.61512165694752,
-          "volAnnualPct": 24.648238585952974,
-          "support": 85.05,
-          "resistance": 99.49,
-          "maxDrawdownPct": -33.866020984665056,
+          "price": 80.87,
+          "sma20": 88.7805,
+          "sma50": 91.51979999999999,
+          "sma200": 96.56919999999998,
+          "rsi14": 24.848733344731457,
+          "macd": -2.718611789495654,
+          "macdSignal": -1.7937451553051857,
+          "macdHist": -0.9248666341904681,
+          "bbUpper": 96.9502889555941,
+          "bbLower": 80.6107110444059,
+          "bbPctB": 0.015868767051599196,
+          "change20": -9.33856502242152,
+          "change60": -18.61728892019724,
+          "volAnnualPct": 24.6273326519514,
+          "support": 80.49,
+          "resistance": 99.37,
+          "maxDrawdownPct": -35.0363196125908,
           "flatDaysPct": 3.3333333333333335,
-          "points": 260
+          "points": 262
         },
         "factors": {
-          "trend": -89.94858020933954,
-          "momentum": -91.35755258126194,
-          "meanReversion": 100,
-          "risk": 1.0552842421410773,
+          "trend": -92.69839201925583,
+          "momentum": -82.35426008968608,
+          "meanReversion": 91.92604061507541,
+          "risk": 1.118002044145804,
           "liquidity": 30,
           "portfolio": 30
         },
         "contributions": {
-          "trend": -17.989716041867908,
-          "momentum": -13.703632887189292,
-          "meanReversion": 35,
-          "risk": 0.15829263632116158,
+          "trend": -18.539678403851166,
+          "momentum": -12.353139013452912,
+          "meanReversion": 32.1741142152764,
+          "risk": 0.1677003066218706,
           "liquidity": 3,
           "portfolio": 1.5
         },
         "why": {
           "trend": [
-            "price below 50-day average by 11.0%",
+            "price below 50-day average by 11.6%",
             "below 200-day average",
             "50-day average falling"
           ],
           "momentum": [
-            "20-day change -7.8%",
-            "60-day change -17.6%",
-            "MACD below its signal line",
-            "closed below its 60-day low (breakdown)"
+            "20-day change -9.3%",
+            "60-day change -18.6%",
+            "MACD below its signal line"
           ],
           "meanReversion": [
             "RSI 25: oversold",
-            "at -14% of its Bollinger band (0% = lower band)"
+            "at 2% of its Bollinger band (0% = lower band)"
           ],
           "risk": [
             "annualised volatility 25%",
-            "max drawdown -34% over the period"
+            "max drawdown -35% over the period"
           ],
           "liquidity": [
             "liquid market"
@@ -2495,12 +2506,12 @@
             "not in your portfolio yet (adds diversification)"
           ]
         },
-        "thesis": "The overbought/oversold reading is supportive: RSI 25: oversold. Also, 20-day change -7.8%. Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 25% a year; recent range 85.05–99.49 JOD.",
+        "thesis": "The trend is negative: price below 50-day average by 11.6%. Also, RSI 25: oversold. Signals are mixed, so the rules suggest waiting for a clearer move. Volatility is 25% a year; recent range 80.49–99.37 JOD.",
         "risks": [
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close above 99.49 (breakout) or below 85.05 (breakdown)"
+          "a close above 99.37 (breakout) or below 80.49 (breakdown)"
         ]
       },
       "fundamentals": [
@@ -2567,14 +2578,14 @@
       "recommendation": {
         "action": "REDUCE",
         "technical_action": "HOLD",
-        "changed_reason": "After the 19 Nov close the model uses, spot gold fell another 1.9% to $3,557.96 on 20 Nov for its worst week since March, and CME FedWatch now prices a 99.3% chance of a December hike (USAGOLD); the oversold reading behind HOLD has not stopped the slide.",
-        "confidence": 64,
-        "thesis": "Gold closed 19 Nov at about 81.9 JOD per gram, below the 85.05 stop and under its 20-, 50- and 200-day averages. The model scores HOLD only because it is deeply oversold, but the sell-off continued on 20 Nov to about $3,558/oz as markets price a near-certain December Fed hike and investors sell gold for cash amid the AI rout, so the review keeps it one step lower at REDUCE. Central-bank buying (321 t in Q3) is the main long-term support.",
+        "changed_reason": "The 21 Nov bounce was only +0.5% after the 20 Nov drop to a 14-month low, and CME FedWatch prices a 99.3% chance of a December Fed hike (USAGOLD, 20 Nov); the oversold reading behind HOLD has not yet turned the trend.",
+        "confidence": 63,
+        "thesis": "Gold (PAX Gold) closed 21 Nov at about 80.9 JOD per gram after falling to 80.5 on 20 Nov, sitting right on the model's stop and under its 20-, 50- and 200-day averages. The model scores HOLD only because it is deeply oversold (RSI about 25); with markets pricing a near-certain December Fed hike and a dollar near a 19-month high, the review keeps it one step lower at REDUCE. Central-bank buying (321 t in Q3) is the main long-term support.",
         "levels": {
           "entryLow": null,
           "entryHigh": null,
-          "target": 99.49,
-          "stop": 85.05,
+          "target": 99.37,
+          "stop": 80.49,
           "riskReward": null,
           "horizon": "3–6 weeks"
         },
@@ -2584,7 +2595,7 @@
           "signals use past prices only; they do not predict the future"
         ],
         "invalidation": [
-          "a close above 99.49 (breakout) or below 85.05 (breakdown)"
+          "a close above 99.37 (breakout) or below 80.49 (breakdown)"
         ]
       }
     },
@@ -2594,7 +2605,8 @@
       "market": "US",
       "held": true,
       "data_gaps": [
-        "no named rating change dated 20 Nov"
+        "no named rating change dated 20 Nov",
+        "US market closed for the weekend; latest close is Fri 20 Nov (Monday 23 Nov session not finished at run time)"
       ],
       "currency": "USD",
       "price": {
@@ -3869,7 +3881,8 @@
       "market": "US",
       "held": true,
       "data_gaps": [
-        "20 Nov close from an Investing.com quote snapshot (no history table); fund-level holdings weights not refreshed"
+        "20 Nov close from an Investing.com quote snapshot (no history table); fund-level holdings weights not refreshed",
+        "US market closed for the weekend; latest close is Fri 20 Nov (Monday 23 Nov session not finished at run time)"
       ],
       "currency": "USD",
       "price": {
@@ -3877,7 +3890,7 @@
         "as_of": "2026-11-20",
         "source": "Investing.com quote \"Closed 20/11\" 62.94 (-3.25 from 66.19, matching the 19 Nov close held; eToro shows the same); earlier closes from prior runs (MarketScreener 5-day quotes (19 Nov close 66.19; 13-18 Nov match prior data); earlier Yahoo Finance daily closes (adjust)",
         "url": "https://investing.com/etfs/wahed-ftse-usa-shariah",
-        "points": 261
+        "points": 260
       },
       "series": [
         [
@@ -4939,10 +4952,10 @@
           "sma20": 69.8871,
           "sma50": 72.68464,
           "sma200": 68.95217799999998,
-          "rsi14": 23.447059284874385,
-          "macd": -1.9735881644074027,
-          "macdSignal": -1.4327082678123342,
-          "macdHist": -0.5408798965950685,
+          "rsi14": 23.44705923981016,
+          "macd": -1.9735881648201428,
+          "macdSignal": -1.4327082684193175,
+          "macdHist": -0.5408798964008252,
           "bbUpper": 75.48686051743569,
           "bbLower": 64.28733948256432,
           "bbPctB": -0.12030331282643077,
@@ -4953,7 +4966,7 @@
           "resistance": 76.54,
           "maxDrawdownPct": -17.768487065586637,
           "flatDaysPct": 1.6666666666666667,
-          "points": 261
+          "points": 260
         },
         "factors": {
           "trend": -82.08195031823401,
@@ -5104,7 +5117,8 @@
       "market": "US",
       "held": true,
       "data_gaps": [
-        "fund-level holdings weights not refreshed"
+        "fund-level holdings weights not refreshed",
+        "US market closed for the weekend; latest close is Fri 20 Nov (Monday 23 Nov session not finished at run time)"
       ],
       "currency": "USD",
       "price": {
@@ -5112,7 +5126,7 @@
         "as_of": "2026-11-20",
         "source": "TheStreet close 20 Nov 51.62 (-2.49, implying 19 Nov 54.11 as held; SoFi matches); earlier closes from prior runs (MarketScreener 5-day quotes (19 Nov close 54.11; 16-18 Nov match prior data); earlier Yahoo Finance daily closes (adjust)",
         "url": "https://pro.thestreet.com/quote/SPUS",
-        "points": 261
+        "points": 260
       },
       "series": [
         [
@@ -6174,10 +6188,10 @@
           "sma20": 57.05769999999999,
           "sma50": 58.57948199999999,
           "sma200": 55.65134399999999,
-          "rsi14": 24.726705538212173,
-          "macd": -1.3640845684522773,
-          "macdSignal": -0.8953090363699241,
-          "macdHist": -0.46877553208235323,
+          "rsi14": 24.72670546830946,
+          "macd": -1.3640845689252288,
+          "macdSignal": -0.8953090370654315,
+          "macdHist": -0.46877553185979726,
           "bbUpper": 61.32609277529733,
           "bbLower": 52.78930722470265,
           "bbPctB": -0.13697277713871983,
@@ -6188,7 +6202,7 @@
           "resistance": 61.1232,
           "maxDrawdownPct": -15.54761530809905,
           "flatDaysPct": 0,
-          "points": 261
+          "points": 260
         },
         "factors": {
           "trend": -78.34733387498981,
@@ -6339,7 +6353,8 @@
       "market": "US",
       "held": true,
       "data_gaps": [
-        "Brent Friday settlement not read from an opened page"
+        "Brent Friday settlement not read from an opened page",
+        "US market closed for the weekend; latest close is Fri 20 Nov (Monday 23 Nov session not finished at run time)"
       ],
       "currency": "USD",
       "price": {
@@ -6347,7 +6362,7 @@
         "as_of": "2026-11-20",
         "source": "TheStreet close 20 Nov 159.99 (+1.06, implying 19 Nov 158.93 as held); earlier closes from prior runs (FinancialContent official closing price 19 Nov 158.93 (MarketScreener 5-day table matches); earlier Yahoo Finance daily )",
         "url": "https://pro.thestreet.com/quote/XOM",
-        "points": 261
+        "points": 260
       },
       "series": [
         [
@@ -7409,10 +7424,10 @@
           "sma20": 170.40349999999995,
           "sma50": 168.3782,
           "sma200": 154.88360000000003,
-          "rsi14": 37.05071473325269,
-          "macd": -2.674175733667539,
-          "macdSignal": -1.1876124937964203,
-          "macdHist": -1.4865632398711188,
+          "rsi14": 37.050714714584046,
+          "macd": -2.674175735628239,
+          "macdSignal": -1.1876124966797859,
+          "macdHist": -1.4865632389484533,
           "bbUpper": 187.48412648302542,
           "bbLower": 153.32287351697448,
           "bbPctB": 0.19516633332071387,
@@ -7423,12 +7438,12 @@
           "resistance": 186.08,
           "maxDrawdownPct": -20.111798287345383,
           "flatDaysPct": 0,
-          "points": 261
+          "points": 260
         },
         "factors": {
           "trend": -23.01126757210512,
           "momentum": -49.1721343110768,
-          "meanReversion": 50.66323316762544,
+          "meanReversion": 50.66323321429705,
           "risk": -4.7182306359661546,
           "liquidity": 30,
           "portfolio": 30
@@ -7436,7 +7451,7 @@
         "contributions": {
           "trend": -4.602253514421023,
           "momentum": -7.375820146661521,
-          "meanReversion": 17.732131608668904,
+          "meanReversion": 17.732131625003966,
           "risk": -0.7077345953949232,
           "liquidity": 3,
           "portfolio": 1.5
